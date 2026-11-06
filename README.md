@@ -56,7 +56,7 @@ Follow or construct an evidence decision path for:
 - Privileges
 - Confrontation Clause (against the accused? → testimonial? → cross-examined at trial? → unavailable + prior cross? → forfeiture or other exception)
 
-Click-through mode gives immediate route feedback. Build mode lets you arrange decision blocks, choose each branch, and compare your conclusion with the correct path.
+Answer your way down the analysis one decision at a time. After each answer, pick the rule or reason that supports it. A wrong answer stops you at that step, explains the correct answer with its rule, and continues down the correct branch, so you always finish the full analysis. Where the order of steps is the lesson (801(d) before 803/804, 804(a) before 804(b), 403 after admissibility, Confrontation after hearsay in criminal cases), a short “What should you check next?” question appears. The map builds itself as you go, and the completed map highlights any missed steps for review.
 
 ### Quick Review
 
