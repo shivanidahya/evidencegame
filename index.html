@@ -1,5 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Evidence Locker</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><title>Evidence Locker</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -349,15 +348,15 @@ o:[["That there is evidence sufficient to support a finding that Kenneth knew of
 a:["Conditional relevance: the evidence is probative only if a further fact (knowledge) exists.","104(b): proof must be introduced “sufficient to support a finding” that the condition is fulfilled. The court may admit it conditionally.","Same logic as the Cox problem: new charges supply a motive only if Cox knew about them."],
 r:["FRE 104(b)","FRE 401"],src:"Fitzhugh / Cox (course problems)"},
 
-{id:"rel5",t:["rel","op"],lv:3,title:"The Math Professor",
+{id:"rel5",t:["rel"],lv:3,title:"The Math Instructor",
 facts:"In a robbery case, a witness saw a woman with a blond ponytail and a man with a beard flee in a yellow car. The prosecutor calls a math instructor. He assigns probabilities he admits are “illustrative” (yellow car 1/10, ponytail 1/10, bearded man 1/10, interracial couple 1/1000), multiplies them, and tells the jury there is a 1-in-12-million chance someone other than the defendants did it.",
-q:"Best objection(s)?",
-o:[["403 (the jury will be misled by the false precision) and 702 (the inputs are not sufficient facts or data, and multiplying assumes the traits are independent without justification).",true,"Collins: the probabilities were guesswork and the factors weren’t shown to be independent. The figure invites the jury to replace reasonable doubt with a number."],
-["Mathematical evidence is never admissible in a criminal trial.",false,"Your notes say math is fine when it’s based on facts, logically sound, and well explained. The flaw is the foundation."],
-["Hearsay, because the professor relies on unspecified sources.",false,"The problem isn’t an out-of-court statement. It’s invented inputs and flawed reasoning, which are a 702 reliability issue and a 403 issue."],
-["Goes only to weight, so cross-examination is the remedy.",false,"Since the 2023 amendment, 702 makes clear the proponent must show by a preponderance that the basis and application are reliable. Here they are not."]],
-a:["Relevance: in theory, probability bears on identity.","702(b)–(d): no sufficient facts or data and no reliable application.","403: misleading the jury, plus the aura of mathematical certainty.","Collins reversed. Using math is fine; this math was bad."],
-r:["FRE 403","FRE 702"],src:"People v. Collins"},
+q:"Best objection?",
+o:[["403: the figure rests on guesswork and on treating the traits as independent without any proof, so its probative value is low and the risk of misleading the jury with false precision is high.",true,"Collins: the probabilities were invented and never shown to be independent, and the number invited the jury to swap reasonable doubt for arithmetic."],
+["Mathematical evidence is never admissible in a criminal trial.",false,"Your notes say math is fine when it’s based on facts, logically sound, and well explained. The flaw here is the foundation."],
+["Hearsay, because the instructor relies on unspecified sources.",false,"The problem isn’t an out-of-court statement. It’s invented inputs and flawed reasoning, which make the number misleading."],
+["Irrelevant under 401, because probability can never prove identity.",false,"Probability evidence can have “any tendency” to bear on identity. The fight is over weight and 403."]],
+a:["Relevance: in theory, probability bears on identity, so 401 is met.","403: misleading the jury and the aura of mathematical certainty substantially outweigh a figure built on guesses.","Collins reversed: using math is fine; this math was bad."],
+r:["FRE 403","FRE 401"],src:"People v. Collins"},
 
 {id:"rel6",t:["rel"],lv:1,title:"Damaging Is Not Unfair",
 facts:"In a negligence suit after a crash, the plaintiff offers the defendant’s text sent 30 seconds before impact: “late again lol flooring it.” The defense objects under 403: “This is extremely prejudicial to my client.”",
@@ -632,55 +631,14 @@ o:[["State law. 501 says that in a civil case, state law governs privilege for a
 a:["501: federal common law generally applies.","Exception: civil cases where state law supplies the rule of decision on the claim or defense.","Mixed federal and state claims → courts usually apply federal privilege law."],
 r:["FRE 501"]},
 
-/* ---------- OPINION 701–706 (lighter) ---------- */
-{id:"op1",t:["op"],lv:1,title:"“He Looked Drunk”",
-facts:"A bartender testifies the defendant driver “was drunk when he left. He was slurring, stumbling, and knocked over two stools.”",
-q:"Admissible?",
-o:[["Yes. It is lay opinion rationally based on the witness’s perception, helpful, and not based on specialized knowledge.",true,"Intoxication is a classic everyday lay opinion under 701."],
-["No. Only an expert can testify to intoxication.",false,"Ordinary people regularly recognize drunkenness. No 702 expertise is needed."],
-["No. It’s an opinion on the ultimate issue.",false,"704(a): an opinion isn’t objectionable just because it embraces an ultimate issue."],
-["Only if the bartender gives the defendant’s blood-alcohol level.",false,"That would require scientific knowledge. The bartender testifies to what she saw."]],
-a:["701(a): rationally based on perception. (b) helpful. (c) not based on specialized knowledge.","704(a): ultimate-issue opinions are allowed (except 704(b))."],
-r:["FRE 701","FRE 704(a)"]},
-
-{id:"op2",t:["op"],lv:2,title:"The Officer’s Code Words",
-facts:"A narcotics detective, not disclosed or qualified as an expert, testifies as a lay witness that “zip,” “eight-ball,” and “girl” in the defendant’s texts are drug-trade code for an ounce, an eighth, and cocaine. He says he learned this through years of training and investigations.",
-q:"Ruling?",
-o:[["Excluded as lay opinion. Under 701(c), testimony based on specialized knowledge must meet 702 (and the expert-disclosure rules).",true,"701(c) was added to stop parties from evading 702 by presenting experts in lay clothing."],
-["Admissible lay opinion, because the detective saw the texts.",false,"His interpretation depends on specialized training, not ordinary perception."],
-["Admissible, because police officers are experts by definition.",false,"Expertise must be shown and the witness disclosed. The badge doesn’t qualify him."],
-["Excluded as hearsay.",false,"The issue is the opinion rule. (The texts themselves would be party statements.)"]],
-a:["701(c) draws the line between lay and expert.","Proper route: qualify under 702 and meet (a)–(d).","Dual-role witnesses (fact plus expert) need careful jury instructions."],
-r:["FRE 701(c)","FRE 702"]},
-
-{id:"op3",t:["op"],lv:2,title:"“Goes to Weight”",
-facts:"A defendant challenges a plaintiff’s toxicology expert, arguing the expert extrapolated from animal studies at doses 1,000× higher than the plaintiff’s exposure. The judge rules: “Questions about the sufficiency of his basis go to weight, not admissibility. Cross-examine him.”",
-q:"Is that ruling correct under current 702?",
-o:[["No. Under the 2023 amendment, the proponent must show the court that it is more likely than not that the testimony rests on sufficient facts or data and reflects a reliable application of the methods. Those are admissibility questions under 104(a).",true,"The 2023 amendment was aimed at exactly this “goes to weight” shortcut."],
-["Yes. All attacks on an expert go to weight.",false,"Daubert and amended 702 make the judge a gatekeeper on reliability."],
-["Yes, because the expert is qualified.",false,"Qualification is only the threshold. (b)–(d) must also be shown."],
-["No, because animal studies are never admissible.",false,"No per se rule exists. The question is fit and reliable application."]],
-a:["702 elements: qualified + (a) helpful, (b) sufficient facts or data, (c) reliable methods, (d) reliable application.","Standard: the proponent must show “more likely than not” (2023).","Daubert/Kumho: gatekeeping applies to all expert testimony."],
-r:["FRE 702","FRE 104(a)"],src:"Daubert v. Merrell Dow"},
-
-{id:"op4",t:["op"],lv:3,title:"The Insanity Question",
-facts:"Charged with assault, Kim raises an insanity defense. Defense counsel asks the defense psychiatrist: “Doctor, at the time of the offense, was Kim unable to appreciate the wrongfulness of her acts?”",
-q:"Proper?",
-o:[["No. Under 704(b), an expert in a criminal case may not state an opinion on whether the defendant had the mental state or condition that is an element of the crime or defense. The doctor can describe the diagnosis and its characteristics.",true,"That is the ultimate question for the jury."],
-["Yes. 704(a) permits ultimate-issue opinions.",false,"704(b) is the criminal mental-state exception to 704(a)."],
-["Yes, because the defense, not the prosecution, is asking.",false,"704(b) applies to both sides."],
-["No, because psychiatrists may not testify about defendants.",false,"They can testify about diagnosis, symptoms, and how the illness typically affects perception."]],
-a:["704(a): the general rule allows ultimate-issue opinions.","704(b): no expert opinion on the criminal defendant’s required mental state.","Ask: “Describe the illness’s effect on perception.” Don’t ask: “Did she appreciate wrongfulness?”"],
-r:["FRE 704(b)"]},
-
-/* ---------- HEARSAY 801–807 + CONFRONTATION ---------- */
+/* ---------- HEARSAY 801–807 ---------- */
 {id:"hs1",t:["hs"],lv:1,title:"“I Accept”",
 facts:"In a contract dispute, the plaintiff testifies that the defendant called her and said, “I accept your offer at $40,000.”",
 q:"Hearsay?",
 o:[["Not hearsay. The words are a verbal act, legally operative language that forms the contract. They aren’t offered for the truth of any assertion. (They would also be an opposing party’s statement.)",true,"Contract formation turns on the words being spoken, not on whether they are true."],
 ["Hearsay, but admissible under 803(1).",false,"There’s nothing to except, because no truth-of-the-matter use is involved."],
 ["Hearsay with no exception.",false,"Operative words aren’t offered for their truth."],
-["Inadmissible under 1002, since the contract must be in writing.",false,"The Best Evidence Rule applies to proving the contents of a writing. This is an oral acceptance."]],
+["Not hearsay, but excluded under 403 as unfairly prejudicial.",false,"The words are the heart of the contract claim. Highly probative evidence isn’t unfairly prejudicial."]],
 a:["Ask “Offered for what?” before anything else.","Verbal acts (offer, acceptance, defamatory words, threats as elements) → not hearsay.","Backup: 801(d)(2)(A)."],
 r:["FRE 801(c)","FRE 801(d)(2)(A)"]},
 
@@ -724,7 +682,7 @@ o:[["803(1) present sense impression. It describes an event while the declarant 
 a:["803(1): describing or explaining an event, while or immediately after perceiving it.","803(2): relating to a startling event, under the stress of excitement.","Civil case → no Confrontation analysis."],
 r:["FRE 803(1)","FRE 803(2)"]},
 
-{id:"hs6",t:["hs"],lv:2,title:"“I’m Going to Meet Dan”",
+{id:"hs6",t:["hs","conf"],lv:2,title:"“I’m Going to Meet Dan”",
 facts:"Rita is found dead. The prosecution offers her friend’s testimony that on the afternoon Rita disappeared, Rita said: “I’m going to meet Dan at the boathouse tonight.” Dan is on trial.",
 q:"Best route, and is there a Confrontation problem?",
 o:[["803(3): a statement of the declarant’s then-existing intent (plan) is admissible to show she acted on it (Hillmon). Using it to prove Dan’s conduct is debated and may call for a limiting instruction. It’s a casual remark to a friend, so it’s nontestimonial and raises no Confrontation problem.",true,"Forward-looking intent fits 803(3). The Confrontation analysis turns on the statement being nontestimonial."],
@@ -765,14 +723,14 @@ a:["Layer 1: report → 803(8)(A)(ii) (civil) or 803(6).","Layer 2: pedestrian�
 r:["FRE 803(6)","FRE 803(8)","FRE 805"],src:"Johnson v. Lutz"},
 
 {id:"hs10",t:["hs"],lv:1,title:"Bank Statements",
-facts:"In a fraud case brought by a private plaintiff, the plaintiff offers a bank’s monthly account statements. They are supported by a written certification from the bank’s records custodian that meets 902(11). No custodian testifies.",
+facts:"In a fraud case brought by a private plaintiff, the plaintiff offers a bank’s monthly account statements. The bank’s records custodian testifies about how the statements are prepared and kept.",
 q:"Admissible?",
-o:[["Yes. Business records under 803(6) (made at or near the time by someone with knowledge, kept in the regular course, as a regular practice), with the foundation supplied by a 902(11) certification.",true,"803(6)(D) allows a certification under 902(11) or (12) instead of live testimony, with notice to the adverse party."],
-["No. A custodian must testify in person.",false,"803(6)(D) and 902(11) allow certification."],
+o:[["Yes. Business records under 803(6): made at or near the time by someone with knowledge, kept in the regular course, as a regular practice, with the custodian laying the foundation.",true,"803(6)(D): the custodian or another qualified witness testifies to the conditions. The custodian needn’t have made the records personally."],
+["No. The employees who entered each transaction must testify.",false,"803(6)(D) lets the custodian or another qualified witness lay the foundation. The makers need not testify."],
 ["Yes, under 803(8) as public records.",false,"Banks aren’t public offices."],
 ["No, because computer records are inherently untrustworthy.",false,"The opponent bears the burden of showing untrustworthiness (803(6)(E))."]],
-a:["803(6) (A)–(E): timing, knowledge, regular course, regular practice, foundation; the opponent can show lack of trustworthiness.","902(11): certified domestic business records → self-authenticating; give notice.","Your notes list business records as a final exam topic."],
-r:["FRE 803(6)","FRE 902(11)"]},
+a:["803(6) (A)–(E): timing, knowledge, regular course, regular practice, foundation; the opponent can show lack of trustworthiness.","The foundation witness needs familiarity with the record-keeping system, not personal knowledge of each entry.","Your notes list business records as a final exam topic."],
+r:["FRE 803(6)"]},
 
 {id:"hs11",t:["hs"],lv:2,title:"Proving the Battery with the Conviction",
 facts:"Sam sues Jake for battery. Jake was previously convicted after a jury trial of felony aggravated battery (punishable by up to 5 years) for the same punch. Sam offers the judgment of conviction to prove Jake struck him.",
@@ -784,7 +742,7 @@ o:[["Yes, under 803(22). It is a final judgment after a trial, for a crime punis
 a:["803(22): (A) after a trial or a guilty plea (not nolo); (B) punishable by death or more than 1 year; (C) to prove a fact essential to the judgment; (D) prosecutors may use it only against the accused for non-impeachment purposes.","A pending appeal may be shown but doesn’t affect admissibility.","Your notes flag “criminal convictions” as a hearsay exception topic on the final."],
 r:["FRE 803(22)"]},
 
-{id:"hs12",t:["hs"],lv:2,title:"The Coconspirator’s Phone Call",
+{id:"hs12",t:["hs","conf"],lv:2,title:"The Coconspirator’s Phone Call",
 facts:"An FBI informant arranges a cocaine sale with Lonardo. On a recorded call, Lonardo tells the informant: “My friend will be the buyer — he has questions about quality.” Bourjaily shows up at the parking lot and takes the cocaine. Lonardo doesn’t testify. The prosecution offers his statements against Bourjaily.",
 q:"Admissible?",
 o:[["Yes. 801(d)(2)(E): the judge finds by a preponderance (104(a)) that a conspiracy existed, that Bourjaily was in it, and that the statement was made during and in furtherance of it, considering the statement itself plus independent evidence. A statement to an unwitting informant is nontestimonial, so Crawford doesn’t apply.",true,"Bourjaily lets the judge consider the statement itself (bootstrapping). The rule now requires more than the statement alone."],
@@ -794,7 +752,7 @@ o:[["Yes. 801(d)(2)(E): the judge finds by a preponderance (104(a)) that a consp
 a:["801(d)(2)(E): coconspirator + during + in furtherance.","104(a): preponderance; the judge may consider the statement itself (Bourjaily) plus independent evidence (closing paragraph).","Confrontation: statements made in furtherance of a conspiracy are typically nontestimonial."],
 r:["FRE 801(d)(2)(E)","FRE 104(a)"],src:"Bourjaily v. United States"},
 
-{id:"hs13",t:["hs"],lv:3,title:"The Station-House Recording",
+{id:"hs13",t:["conf","hs"],lv:3,title:"The Station-House Recording",
 facts:"Michael is charged with assault for stabbing Kenneth and claims self-defense. His wife Sylvia, who saw the fight, gave a recorded statement at the police station after receiving Miranda warnings as a possible suspect. Her account undercuts the self-defense claim. At trial, Sylvia invokes the marital privilege and doesn’t testify. The prosecution offers her recording under 804(b)(3).",
 q:"Ruling?",
 o:[["Excluded under the Confrontation Clause. The statement is testimonial (structured police questioning), Sylvia doesn’t testify, and Michael never had a chance to cross-examine her. A hearsay exception can’t cure that.",true,"Crawford: for testimonial statements, the only reliability test the Clause accepts is confrontation."],
@@ -804,7 +762,7 @@ o:[["Excluded under the Confrontation Clause. The statement is testimonial (stru
 a:["Hearsay: 804(a)(1) unavailable (privilege) → 804(b)(3)?","Confrontation (criminal case): declarant isn’t the defendant and doesn’t testify → testimonial? Yes → prior opportunity to cross? No → forfeiture? No → barred.","Notes check: a testimonial statement triggers the Clause. It doesn’t exempt the statement from it."],
 r:["Sixth Amendment","FRE 804(b)(3)","FRE 804(a)(1)"],src:"Crawford v. Washington"},
 
-{id:"hs14",t:["hs"],lv:2,title:"The Emergency Call",
+{id:"hs14",t:["conf","hs"],lv:2,title:"The Emergency Call",
 facts:"Michelle calls 911 and says: “He’s here jumpin’ on me again… he’s usin’ his fists.” When asked who, she answers “Adrian Davis.” Davis is charged with violating a protective order. Michelle doesn’t appear at trial.",
 q:"Ruling?",
 o:[["Admissible. It is an excited utterance (803(2)), and it is nontestimonial because its primary purpose was to get help with an ongoing emergency, so the Confrontation Clause isn’t triggered.",true,"Davis v. Washington: the primary-purpose test. She was describing what was happening, not what had happened."],
@@ -814,7 +772,7 @@ o:[["Admissible. It is an excited utterance (803(2)), and it is nontestimonial b
 a:["Hearsay → 803(2) (or 803(1)).","Confrontation: primary purpose = an ongoing emergency → nontestimonial.","Compare Hammon: statements to officers after the emergency ended were testimonial."],
 r:["FRE 803(2)","Sixth Amendment"],src:"Davis v. Washington"},
 
-{id:"hs15",t:["hs","imp"],lv:3,title:"Remembering the Identification",
+{id:"hs15",t:["hs","imp","conf"],lv:3,title:"Remembering the Identification",
 facts:"Foster, a prison counselor, was beaten and suffered memory loss. Weeks later, in the hospital, he identified Owens from a photo array. At trial, Foster testifies that he remembers making the identification but can’t remember seeing his attacker. Owens argues he can’t meaningfully cross-examine Foster.",
 q:"Ruling?",
 o:[["Admissible. 801(d)(1)(C) covers a prior identification by a declarant who testifies and is subject to cross, and memory loss doesn’t defeat that. The Confrontation Clause is satisfied because the declarant testifies.",true,"Owens: the Clause guarantees an opportunity for effective cross-examination, not a successful one."],
@@ -824,7 +782,7 @@ o:[["Admissible. 801(d)(1)(C) covers a prior identification by a declarant who t
 a:["801(d)(1)(C): identification of a person the declarant perceived earlier.","“Subject to cross” = he takes the stand and answers willingly.","Confrontation: declarant testifies → no problem."],
 r:["FRE 801(d)(1)(C)","Sixth Amendment"],src:"United States v. Owens"},
 
-{id:"hs16",t:["hs"],lv:3,title:"The Courier’s Confession",
+{id:"hs16",t:["hs","conf"],lv:3,title:"The Courier’s Confession",
 facts:"Harris is stopped with 19 kg of cocaine. In custody, he tells a DEA agent: “Yes, I was carrying it, but it belongs to Williamson — I’m just the driver.” At Williamson’s trial, Harris invokes the Fifth. The prosecution offers Harris’s entire statement against Williamson under 804(b)(3).",
 q:"Ruling?",
 o:[["Excluded. Only individually self-inculpatory remarks qualify under 804(b)(3), and blaming Williamson is collateral and self-serving (Williamson). Independently, a custodial statement to an agent is testimonial and was never cross-examined (Crawford).",true,"The rule fails at two levels: hearsay and the Constitution."],
@@ -834,7 +792,7 @@ o:[["Excluded. Only individually self-inculpatory remarks qualify under 804(b)(3
 a:["804(a)(1): the Fifth Amendment privilege → unavailable.","804(b)(3): sort remark by remark (Williamson). Shifting blame → not against interest.","Criminal case: corroborating circumstances are needed if offered to show criminal exposure.","Confrontation: custodial → testimonial → barred."],
 r:["FRE 804(b)(3)","Sixth Amendment"],src:"Williamson v. United States"},
 
-{id:"hs17",t:["hs"],lv:2,title:"The Preliminary Hearing Witness",
+{id:"hs17",t:["hs","conf"],lv:2,title:"The Preliminary Hearing Witness",
 facts:"At a preliminary hearing, a robbery victim testified under oath and was cross-examined by the defendant’s lawyer. Before trial, the victim died of unrelated causes. The prosecution offers the transcript.",
 q:"Ruling?",
 o:[["Admissible. Under 804(b)(1), it is former testimony offered against a party who had an opportunity and similar motive to examine. The Confrontation Clause is satisfied because the declarant is unavailable and the defendant had a prior opportunity to cross.",true,"This is the standard way to satisfy Crawford for a testimonial statement."],
@@ -844,7 +802,7 @@ o:[["Admissible. Under 804(b)(1), it is former testimony offered against a party
 a:["804(a)(4): death → unavailable.","804(b)(1): former testimony + opportunity + similar motive.","Confrontation: testimonial, but unavailable + prior opportunity → satisfied."],
 r:["FRE 804(b)(1)","FRE 804(a)(4)","Sixth Amendment"]},
 
-{id:"hs18",t:["hs"],lv:3,title:"The Killing That Silenced Her",
+{id:"hs18",t:["conf","hs"],lv:3,title:"The Killing That Silenced Her",
 facts:"Giles shot his ex-girlfriend Brenda. He claims self-defense. Three weeks earlier, Brenda had told a police officer responding to a domestic-violence report that Giles choked her and threatened to kill her. The prosecution offers her statement, arguing that Giles forfeited his confrontation rights by killing her.",
 q:"Ruling?",
 o:[["Forfeiture applies only if Giles killed her intending to prevent her from testifying. The killing alone isn’t enough. Without that intent, her testimonial statement to police is barred.",true,"Giles v. California: forfeiture by wrongdoing requires intent to keep the witness from testifying. That matches 804(b)(6)’s “intended that result.”"],
@@ -874,100 +832,8 @@ o:[["803(5) recorded recollection: the guard lacks present memory, made the reco
 a:["612: refresh first; the writing isn’t evidence.","803(5): (A) once knew, now can’t recall; (B) made or adopted while fresh; (C) accurately reflects knowledge.","Read into evidence only."],
 r:["FRE 803(5)","FRE 612"]},
 
-/* ---------- AUTHENTICATION 901–902 ---------- */
-{id:"au1",t:["auth"],lv:1,title:"The Bag of Powder",
-facts:"An officer seized a bag of white powder from the defendant’s glovebox, sealed and labeled it, and logged it into the evidence room. The lab tested it and reported cocaine. The defense notes the evidence log is missing one signature for a 2-hour transfer.",
-q:"Is the bag authenticated?",
-o:[["Yes, probably. 901(a) requires only evidence sufficient to support a finding that the bag is what it’s claimed to be. A minor chain-of-custody gap goes to weight, not admissibility.",true,"For fungible items, chain of custody is the usual method. Perfection isn’t required."],
-["No. Any break in the chain requires exclusion.",false,"The standard is sufficiency, under 104(b)."],
-["Yes, because drugs are self-authenticating under 902.",false,"902 covers documents such as certified public records and newspapers, not physical exhibits."],
-["The judge must find authenticity beyond a reasonable doubt.",false,"Authentication is a low, conditional-relevance-type threshold."]],
-a:["901(a): sufficient to support a finding.","Fungible items → chain of custody. Unique items → identification by a witness with knowledge.","Gaps → argued to the jury as weight."],
-r:["FRE 901(a)","FRE 104(b)"]},
-
-{id:"au2",t:["auth"],lv:2,title:"Who Was on the Phone?",
-facts:"A detective will identify the voice on a recorded ransom call as the defendant’s. He first heard the defendant speak at an interview after the arrest, months after the call.",
-q:"Can the detective authenticate the voice?",
-o:[["Yes. 901(b)(5) allows voice identification based on hearing the voice “at any time” under circumstances that connect it with the alleged speaker, including familiarity acquired after the fact.",true,"Contrast handwriting under 901(b)(2), where a non-expert’s familiarity must not have been acquired for the litigation."],
-["No. Familiarity acquired for litigation is not allowed.",false,"That restriction applies to non-expert handwriting identification, not voices."],
-["No. Only an expert spectrographer can identify voices.",false,"Lay voice identification is expressly permitted."],
-["Yes, but only if the defendant admits it was his voice.",false,"That isn’t required."]],
-a:["901(b)(5): voice ID, “at any time.”","901(b)(2): handwriting, familiarity not acquired for the current litigation.","901(b)(3): comparison by an expert or the trier of fact."],
-r:["FRE 901(b)(5)","FRE 901(b)(2)"]},
-
-{id:"au3",t:["auth"],lv:1,title:"What Needs a Witness?",
-facts:"A party offers four items with no sponsoring witness: (a) a certified copy of a deed from the county recorder; (b) a copy of the Wall Street Journal; (c) a soda can bearing the manufacturer’s label; (d) a printout of an internal company email.",
-q:"Which item is NOT self-authenticating as offered?",
-o:[["(d) The internal email printout. It needs a witness with knowledge, distinctive characteristics, or a 902(11) or 902(13) certification.",true,"Certified public records (902(4)), newspapers (902(6)), and trade inscriptions (902(7)) are self-authenticating."],
-["(a) The certified deed.",false,"902(4): certified copies of public records."],
-["(b) The newspaper.",false,"902(6): newspapers and periodicals."],
-["(c) The labeled can.",false,"902(7): trade inscriptions indicating origin, ownership, or control."]],
-a:["902 list: public documents (1)–(4), official publications (5), newspapers (6), trade inscriptions (7), notarized documents (8), commercial paper (9), certified business records (11)–(12), certified electronic records (13)–(14).","Self-authentication removes only the authentication requirement. Hearsay and BER still apply."],
-r:["FRE 902","FRE 901"]},
-
-{id:"au4",t:["auth"],lv:2,title:"The Facebook Threat",
-facts:"The prosecution offers a Facebook post that says “snitches get stitches, J.” It was posted on an account in the defendant’s name, with his photo. Version A: that’s all the evidence. Version B: the post also mentions the witness’s new apartment number, which only a few people knew, and the subscriber records show it was posted from the defendant’s home IP address.",
-q:"Which version is better supported as authenticated?",
-o:[["Version B. The name and photo alone are thin, because anyone can create an account. Distinctive content plus account and IP evidence is sufficient to support a finding under 901(a) and 901(b)(4).",true,"Courts are wary of authenticating social-media posts by the profile alone. Circumstantial corroboration carries the burden."],
-["Both are equally authenticated, because the post is in his name.",false,"Many courts (for example, Griffin v. State) want more than the name and photo."],
-["Neither. Social media can never be authenticated without the platform’s certification.",false,"Circumstantial evidence under 901(b)(4) can be enough."],
-["Version A, because a photo is more reliable than IP data.",false,"Photos are easy to copy."]],
-a:["901(a): a low threshold, but it needs a real link to the author.","901(b)(4): appearance, contents, substance, internal patterns, distinctive characteristics.","Then: hearsay (a threat can be a verbal act, or a statement of the defendant under 801(d)(2)(A))."],
-r:["FRE 901(a)","FRE 901(b)(4)"]},
-
-{id:"au5",t:["auth","rel"],lv:3,title:"The Crash Animation",
-facts:"The prosecution wants to play a computer animation reconstructing the fatal crash. The defense contests its accuracy. The animation’s creator is an accident reconstructionist who used measured skid marks and vehicle data.",
-q:"What must the prosecution show?",
-o:[["Authentication (a fair and accurate representation of the expert’s reconstruction), relevance, and that it survives 403. If it’s used only to illustrate testimony, 107 governs, it isn’t evidence, and the jury gets a limiting instruction.",true,"Serge: animations are admissible as demonstrative evidence when authenticated, relevant, and not unfairly prejudicial. Since 2024, 107 addresses illustrative aids directly."],
-["Nothing. Animations are just argument.",false,"They need a foundation and are tested under 403."],
-["It is inadmissible per se because it is computer-generated.",false,"Serge rejected a per se ban."],
-["Only that the expert is licensed in the state.",false,"Licensure isn’t the test. Accuracy, relevance, and 403 are."]],
-a:["Serge factors: authenticated, relevant, 403.","107 (2024): an illustrative aid is allowed if its utility isn’t substantially outweighed by unfair prejudice, confusion, or similar dangers. It isn’t evidence and doesn’t go to the jury room without consent.","Underlying reconstruction → 702."],
-r:["FRE 901(a)","FRE 403","FRE 107"],src:"Commonwealth v. Serge"},
-
-/* ---------- BEST EVIDENCE 1001–1008 (lighter) ---------- */
-{id:"be1",t:["be"],lv:1,title:"What the Lease Said",
-facts:"In a landlord-tenant dispute, the tenant testifies from memory that “the lease said rent was capped at $1,200.” The signed lease is in the tenant’s filing cabinet at home.",
-q:"Objection?",
-o:[["Sustained under 1002. To prove the content of a writing, the original is required unless an exception applies, and no excuse is offered here.",true,"The tenant is proving what the writing says, and the writing is available."],
-["Overruled, because the tenant has personal knowledge.",false,"Personal knowledge of a document’s terms doesn’t replace the document when its content is the issue."],
-["Sustained as hearsay.",false,"The lease is a verbal act (contract terms). The objection is the best evidence rule."],
-["Overruled under 1004.",false,"1004 requires that the original be lost, unobtainable, in the opponent’s control, or collateral. None of those apply."]],
-a:["Trigger: proving the content of a writing, recording, or photograph.","1002: original required → 1003 duplicates OK → 1004 excuses.","Fix: bring the lease."],
-r:["FRE 1002","FRE 1004"]},
-
-{id:"be2",t:["be"],lv:1,title:"The Eyewitness and the Video",
-facts:"A store robbery was captured on surveillance video. The clerk testifies from her own memory about what the robber did. The defense objects: “The video is the best evidence.”",
-q:"Ruling?",
-o:[["Overruled. The clerk isn’t proving the content of the recording. She is testifying from personal knowledge of the event.",true,"The BER applies only when a party seeks to prove the content of a writing, recording, or photograph."],
-["Sustained. When a recording exists, it must be used.",false,"There is no general “best evidence” principle. The rule is narrow."],
-["Sustained under 403.",false,"Nothing unfairly prejudicial here."],
-["Overruled only if the video was destroyed.",false,"1004 doesn’t matter, because the rule isn’t triggered at all."]],
-a:["The BER isn’t triggered by independent knowledge of the event.","It would be triggered if the witness testified, “The video shows him grabbing the cash.”"],
-r:["FRE 1002"]},
-
-{id:"be3",t:["be","auth"],lv:2,title:"The Photocopied Contract",
-facts:"A plaintiff offers a photocopy of a signed contract. The defendant doesn’t dispute the signature or the terms. He objects only that “it’s not the original.”",
-q:"Ruling?",
-o:[["Overruled. 1003 makes a duplicate admissible to the same extent as the original unless there is a genuine question about the original’s authenticity or admitting it would be unfair.",true,"No genuine authenticity dispute, so the duplicate comes in."],
-["Sustained. Only originals satisfy 1002.",false,"1003 expressly lets duplicates in."],
-["Sustained unless the plaintiff explains why the original is missing.",false,"No explanation is needed for a duplicate under 1003. That’s a 1004 concept."],
-["Overruled, but only if it was notarized.",false,"Notarization relates to self-authentication (902(8)), not to the BER."]],
-a:["1001(e): a duplicate is a counterpart produced by a mechanical or electronic process that accurately reproduces the original.","1003: admissible unless there’s a genuine question of authenticity or unfairness.","Still authenticate it under 901."],
-r:["FRE 1003","FRE 1001(e)"]},
-
-{id:"be4",t:["be"],lv:3,title:"Five Years of Invoices",
-facts:"In a billing-fraud suit, the plaintiff offers a chart summarizing 48,000 invoices that show overcharges. The invoices were made available to the defendant for inspection months ago. They aren’t themselves in evidence.",
-q:"Admissible?",
-o:[["Yes. Under 1006, the court may admit a summary to prove the content of voluminous records that can’t conveniently be examined in court, whether or not the underlying records are admitted, if they were made available to the other side.",true,"The 2024 amendment clarified that 1006 summaries are evidence and that the underlying records need not be admitted (although they must be admissible)."],
-["No. The invoices themselves must be introduced.",false,"1006 exists to avoid that. The 2024 amendment makes clear the underlying records need not be admitted."],
-["Only as an illustrative aid under 107, which isn’t evidence.",false,"A 1006 summary is substantive evidence. 107 governs aids that illustrate other evidence."],
-["Yes, even if the defendant never had access to the invoices.",false,"The proponent must make the originals or duplicates available for examination or copying."]],
-a:["1006: voluminous + can’t conveniently be examined + made available + the underlying records are admissible.","Distinguish 107 illustrative aids (not evidence).","The underlying invoices → 803(6) business records."],
-r:["FRE 1006","FRE 107"]},
-
 /* ---------- MULTI-ISSUE EXAM PATTERNS ---------- */
-{id:"mx1",t:["imp","hs","char"],lv:3,title:"The Pharmacy Robbery",
+{id:"mx1",t:["imp","hs","char","conf"],lv:3,title:"The Pharmacy Robbery",
 facts:"Devon is charged with robbing a pharmacy at gunpoint. Defense: alibi. (1) Right after the robbery, the pharmacist called 911 and said, while crying: “He just ran out — tall guy, red Bulls jacket, scar on his chin!” The pharmacist has since moved abroad and won’t return. (2) Devon testifies. The prosecutor impeaches him with his 2021 felony fraud conviction. (3) The prosecutor then offers evidence that Devon robbed a gas station in 2023 “to show he does this kind of thing.”",
 q:"Which set of rulings is correct?",
 o:[["(1) Admissible: 803(2), and nontestimonial because it was made during an ongoing emergency. (2) Must be admitted under 609(a)(2). (3) Excluded under 404(b)(1) as propensity.",true,"Each step follows the analysis order in your notes."],
@@ -977,35 +843,140 @@ o:[["(1) Admissible: 803(2), and nontestimonial because it was made during an on
 a:["Charges: armed robbery. Defense: alibi (identity).","(1) Hearsay → 803(2) → Confrontation: primary purpose = emergency → nontestimonial → 403.","(2) Impeachment of the accused → 609(a)(2) (fraud) → no balancing.","(3) 404(b)(1) bars propensity. Identity would need a distinctive signature, plus 403 and notice."],
 r:["FRE 803(2)","FRE 609(a)(2)","FRE 404(b)"]},
 
-{id:"mx2",t:["auth","be","hs"],lv:3,title:"The Dockside Texts",
-facts:"The prosecution offers screenshots of texts taken from the defendant’s seized phone, sent from his number: “meet at dock 4 at 10. bring the cash.” An agent testifies she took the screenshots herself during a forensic extraction. The defense objects: authentication, best evidence, and hearsay.",
-q:"Correct rulings?",
-o:[["All overruled. Authentication: the agent’s knowledge plus distinctive characteristics (901(b)(1), (b)(4)). BER: an accurate printout or screenshot of electronically stored information counts as an “original” (1001(d)) or a duplicate (1003). Hearsay: the defendant’s own statements offered against him (801(d)(2)(A)).",true,"Each objection has a clean answer."],
-["BER sustained. The phone itself must be offered.",false,"1001(d): for electronically stored information, any printout or other output readable by sight that accurately reflects the information is an original."],
-["Hearsay sustained, because texts are written assertions.",false,"They are statements, but they are the opposing party’s own."],
-["Authentication sustained, because only a phone-company custodian can authenticate texts.",false,"901(b)(1) and (b)(4) and circumstantial evidence are enough. 902(14) certification is an option, not a requirement."]],
-a:["Exhibit pathway: authenticate → BER → hearsay → 403.","1001(d): ESI printout = original.","801(d)(2)(A): the defendant’s own words. The informant’s replies (if any) are offered for context, not for their truth."],
-r:["FRE 901(b)(4)","FRE 1001(d)","FRE 801(d)(2)(A)"]}
+/* ---------- CONFRONTATION CLAUSE (Sixth Amendment) — final topic ---------- */
+{id:"cf1",t:["conf"],lv:1,title:"His Own Words",
+facts:"Lamar is charged with burglary. A detective testifies that after Miranda warnings, Lamar said in a recorded interview, “I went in through the back window.” Lamar does not testify. Defense counsel objects: “Confrontation Clause — my client can’t cross-examine this statement.”",
+q:"Ruling on the Confrontation objection?",
+o:[["Overruled. The Clause gives the accused the right to confront the witnesses against him. When the declarant is the accused himself, there is no one else to confront. The statement comes in as an opposing party’s statement.",true,"Your notes: “If defendant → not applicable. The right to confrontation doesn’t apply to the defendant who is the declarant.” Hearsay route: 801(d)(2)(A)."],
+["Sustained, because the statement was testimonial: a recorded police interview.",false,"Testimonial status matters only for statements of other declarants. A defendant isn’t a “witness against” himself in the Clause’s sense."],
+["Sustained unless Lamar takes the stand.",false,"Lamar can’t be forced to testify, and his own statement needs no cross-examination by him."],
+["Overruled, but only because the statement is against his penal interest.",false,"804(b)(3) isn’t needed, and Lamar is available anyway. The Clause simply doesn’t apply to his own words."]],
+a:["Step 1: criminal case, offered against the accused. Who is the declarant? The accused himself.","Clause not implicated; analyze under the hearsay rules (801(d)(2)(A)).","Separate issues (Miranda, voluntariness) are constitutional-criminal-procedure questions, not Confrontation."],
+r:["Sixth Amendment","FRE 801(d)(2)(A)"]},
+
+{id:"cf2",t:["conf"],lv:1,title:"The Civil Wrongful-Death Suit",
+facts:"In a civil wrongful-death suit, the plaintiff offers a deceased eyewitness’s formal written statement to a police detective describing the crash. The defendant objects under the Confrontation Clause because the statement was testimonial.",
+q:"Ruling on that objection?",
+o:[["Overruled. The Confrontation Clause applies only “in all criminal prosecutions,” and only to the accused. In a civil case, admissibility turns on the hearsay rules.",true,"The defendant may still win on hearsay: the statement needs an exception, and 803(8) or 804 won’t easily fit."],
+["Sustained, because the statement is testimonial and the declarant can’t be cross-examined.",false,"Testimonial status only matters when the Clause applies at all."],
+["Sustained, because Crawford applies to all testimonial hearsay.",false,"Crawford interprets the Sixth Amendment, which is limited to criminal prosecutions."],
+["Overruled, because the declarant is dead.",false,"Death makes the declarant unavailable. It wouldn’t satisfy the Clause in a criminal case without a prior opportunity to cross."]],
+a:["First question on the map: criminal case, offered against the accused? No.","Clause doesn’t apply. Run hearsay: 801(c) → exception? (804(b)(1)? No prior testimony. 807?)","Keep the two analyses separate on the exam: hearsay first, then Confrontation in criminal cases."],
+r:["Sixth Amendment","FRE 802"]},
+
+{id:"cf3",t:["conf"],lv:2,title:"The Lab Certificate",
+facts:"In a cocaine-trafficking prosecution, the government offers sworn “certificates of analysis” from a state lab stating that the seized bags contained 22 grams of cocaine. No analyst testifies. The certificates were prepared at police request for use at trial.",
+q:"Ruling?",
+o:[["Excluded under the Confrontation Clause. The certificates are testimonial (sworn statements made for use at trial), and the defendant has a right to cross-examine the analysts unless they are unavailable and he had a prior opportunity to cross.",true,"Melendez-Diaz v. Massachusetts (2009). And under Bullcoming (2011), a surrogate analyst who didn’t do or observe the test isn’t enough."],
+["Admitted, because lab results are neutral, scientific business records.",false,"Melendez-Diaz rejected that argument. Records prepared for use at trial are testimonial."],
+["Admitted, because the defendant could subpoena the analyst himself.",false,"The Clause puts the burden on the prosecution to present its witnesses, not on the defense to call them."],
+["Admitted if another analyst from the same lab testifies about the report.",false,"Bullcoming: a surrogate who didn’t perform or observe the test doesn’t satisfy the Clause."]],
+a:["Criminal + against the accused → testimonial? Yes: sworn, prepared for prosecution.","Declarant (the analyst) testifies? No. Unavailable + prior opportunity? No. Forfeiture? No → barred.","Fix: call the analyst who performed the test."],
+r:["Sixth Amendment"],src:"Melendez-Diaz v. Massachusetts; Bullcoming v. New Mexico"},
+
+{id:"cf4",t:["conf"],lv:2,title:"The Gas Station Shooting",
+facts:"Police respond to a call and find Covington bleeding from a gunshot wound in a gas station parking lot. They ask what happened, who shot him, and where. Covington says, “Rick shot me through his back door, about 25 minutes ago,” then dies. The shooter’s whereabouts are unknown. At Rick’s murder trial, the statements are offered.",
+q:"Testimonial?",
+o:[["No. Viewed objectively, the primary purpose of the questions and answers was to meet an ongoing emergency: an armed shooter at large and a wounded victim. The statements are nontestimonial, so the Clause isn’t triggered.",true,"Michigan v. Bryant (2011). Admissibility then turns on the hearsay rules (803(2), possibly 804(b)(2))."],
+["Yes. Any statement to police identifying a suspect is testimonial.",false,"Bryant looked at the whole circumstances, not just the fact that police asked who did it."],
+["Yes, because the shooting happened 25 minutes earlier, so it describes past events.",false,"Davis and Bryant ask whether there is an ongoing emergency. A shooter still at large with a gun kept the emergency going."],
+["The Clause doesn’t apply because Covington died.",false,"Death makes him unavailable. It doesn’t decide the testimonial question."]],
+a:["Criminal + against the accused → testimonial? Apply the primary-purpose test objectively to both declarant and questioners.","Ongoing emergency factors: armed assailant at large, medical condition, informality of the questioning.","Nontestimonial → Clause not triggered → hearsay and 403 decide."],
+r:["Sixth Amendment","FRE 803(2)"],src:"Michigan v. Bryant"},
+
+{id:"cf5",t:["conf"],lv:2,title:"After the Emergency",
+facts:"Officers respond to a domestic disturbance. When they arrive, things are calm. One officer keeps Hershel in the kitchen while another questions Amy in the living room. Amy describes how Hershel had shoved her into a heater, then signs a written affidavit. Amy doesn’t appear at trial.",
+q:"Ruling on Amy’s statement and affidavit?",
+o:[["Excluded under the Confrontation Clause. The emergency was over, and the primary purpose was to establish past events for a possible prosecution, so the statements are testimonial. Amy never faced cross-examination.",true,"Hammon v. Indiana (decided with Davis, 2006). Contrast the 911 call in Davis."],
+["Admitted, because domestic-violence statements are always nontestimonial.",false,"There’s no categorical rule. The primary-purpose test decides each case."],
+["Admitted as an excited utterance, which satisfies the Clause.",false,"A hearsay exception doesn’t answer the Confrontation question for a testimonial statement."],
+["Admitted, because the officers were investigating, not prosecuting.",false,"Statements made to investigate past crimes for later prosecution are exactly what “testimonial” means."]],
+a:["Criminal + against the accused → testimonial? Yes: separated, calm, describing what happened.","Declarant testifies? No. Unavailable + prior opportunity? No. Forfeiture? No facts showing it → barred.","Compare: Davis (911 call during the attack) → nontestimonial."],
+r:["Sixth Amendment"],src:"Hammon v. Indiana (with Davis v. Washington)"},
+
+{id:"cf6",t:["conf"],lv:2,title:"The Preschool Teacher",
+facts:"A preschool teacher notices injuries on 3-year-old L.P. and asks, “Who did this?” L.P. names his mother’s boyfriend, Darius. The teacher is a mandatory reporter under state law. L.P. is found incompetent to testify. The prosecution offers the statement against Darius.",
+q:"Testimonial?",
+o:[["No. Statements to teachers, not police, made to address an ongoing concern for a child’s safety, by a very young child who couldn’t intend to create evidence, are nontestimonial.",true,"Ohio v. Clark (2015). Mandatory-reporting duties don’t turn teachers into law-enforcement agents for this purpose."],
+["Yes, because the teacher is a mandatory reporter, so she acts as an arm of the police.",false,"Clark rejected that argument."],
+["Yes, because any statement identifying an abuser is testimonial.",false,"Primary purpose, not content, decides it."],
+["The Clause doesn’t apply because L.P. is incompetent to testify.",false,"Incompetence makes him unavailable. The testimonial question still has to be answered."]],
+a:["Criminal + against the accused → testimonial? Who asked, why, and how formally? Who spoke?","Clark: statements to non-law-enforcement listeners are much less likely to be testimonial (not categorically excluded).","Nontestimonial → hearsay rules decide (803(2)? 807?)."],
+r:["Sixth Amendment"],src:"Ohio v. Clark"},
+
+{id:"cf7",t:["conf","hs"],lv:3,title:"The Husband Who Never Testified",
+facts:"Rosa is charged with fraud for collecting life insurance after the deaths of her husband Robert and two other men. Months before he died, Robert told police that Rosa and her boyfriend had assaulted him, and he was scheduled to testify in a related case. A week before that court date, Robert was found murdered. The government offers Robert’s statements to police at Rosa’s fraud trial.",
+q:"Ruling?",
+o:[["Admissible if the court finds by a preponderance that Rosa wrongfully caused (or acquiesced in) Robert’s unavailability intending to prevent him from testifying. Then she forfeits both her hearsay objection (804(b)(6)) and her Confrontation objection. Her intent can concern any proceeding, not only this trial.",true,"United States v. Gray (from your notes); Giles v. California requires the intent element for the constitutional forfeiture."],
+["Excluded, because Robert’s statements to police are testimonial and he was never cross-examined.",false,"That’s the starting point, but forfeiture by wrongdoing removes the objection."],
+["Admissible only if Rosa killed Robert to keep him from testifying at this fraud trial specifically.",false,"Gray: the rule applies whenever the wrongdoing was intended to, and did, make the declarant unavailable as a witness, including in another proceeding."],
+["Admissible automatically, because Robert is dead.",false,"Death makes him unavailable. Forfeiture requires the defendant’s wrongdoing plus intent."]],
+a:["Testimonial (statements to police) + no prior cross → presumptively barred.","Forfeiture (804(b)(6) / Giles): (1) wrongdoing or acquiescence, (2) intended to make the declarant unavailable, (3) did make him unavailable; preponderance.","Gray: timing (one week before his court date) supports the inference of intent."],
+r:["Sixth Amendment","FRE 804(b)(6)"],src:"United States v. Gray; Giles v. California"},
+
+{id:"cf8",t:["conf"],lv:3,title:"The Codefendant’s Confession",
+facts:"Evans and Ray are tried together for robbery. Ray, who does not testify, confessed to police: “Evans and I did the job.” The prosecutor offers the confession against Ray, and the judge instructs the jury to consider it only against Ray.",
+q:"Does the limiting instruction cure the problem for Evans?",
+o:[["No. A nontestifying codefendant’s confession that expressly names the defendant is so powerfully incriminating that a limiting instruction can’t cure the Confrontation violation. The fix is severance or redaction.",true,"Bruton v. United States (1968). Samia v. United States (2023): redacting the name to a neutral “the other person,” with a limiting instruction, can be permissible."],
+["Yes. Juries are presumed to follow instructions.",false,"Bruton is the major exception to that presumption."],
+["Yes, because the confession is admissible against Ray as his own statement.",false,"It is admissible against Ray, which is why the problem arises in a joint trial."],
+["No, but only if Evans can show the confession is unreliable.",false,"Reliability isn’t the test after Crawford. The issue is the inability to cross-examine Ray."]],
+a:["The statement is testimonial (a confession to police) and Ray won’t take the stand.","Against Ray: 801(d)(2)(A). Against Evans: hearsay + Confrontation problem.","Remedies: separate trials, or a redaction that doesn’t point directly to Evans (Samia)."],
+r:["Sixth Amendment","FRE 105"],src:"Bruton v. United States; Samia v. United States"},
+
+{id:"cf9",t:["conf","hs"],lv:2,title:"The Copied Confession",
+facts:"At trial, Street claims his own confession was coerced: police read him his accomplice Peele’s confession and made him copy it. To rebut that claim, the prosecution has the sheriff read Peele’s confession so the jury can see how different the two are. The judge tells the jury not to consider Peele’s confession for its truth. Peele doesn’t testify.",
+q:"Does this violate the Confrontation Clause?",
+o:[["No. The Clause doesn’t bar using testimonial statements for purposes other than establishing the truth of the matter asserted. Here Peele’s confession was offered only for comparison, with a limiting instruction.",true,"Tennessee v. Street (1985), endorsed in Crawford footnote 9."],
+["Yes, because Peele’s confession is testimonial and he didn’t testify.",false,"Testimonial, yes, but it wasn’t offered for its truth."],
+["Yes, because any accomplice confession violates Bruton.",false,"Bruton concerns a codefendant’s confession offered for its truth in a joint trial."],
+["No, because the defendant opened the door by claiming coercion.",false,"The reason it’s allowed is the non-truth purpose. Hemphill (2022) holds that “opening the door” doesn’t forfeit Confrontation rights."]],
+a:["Not offered for truth → not hearsay (801(c)) and not a Confrontation problem (Crawford n.9).","105 limiting instruction is essential.","Watch for a pretextual “not for the truth” use (Smith v. Arizona, 2024): if a statement supports the point only if it’s true, it’s offered for its truth."],
+r:["Sixth Amendment","FRE 801(c)","FRE 105"],src:"Tennessee v. Street"},
+
+{id:"cf10",t:["conf"],lv:1,title:"Venting to a Friend",
+facts:"Before she disappeared, Dana texted her best friend: “Kyle threatened me again tonight. I’m scared of him.” At Kyle’s murder trial, the prosecution offers the text. Dana is dead.",
+q:"Is there a Confrontation problem?",
+o:[["No. A private message to a friend, not made to establish facts for a prosecution, is nontestimonial. Admissibility turns on the hearsay rules (e.g., 803(3) for “I’m scared”; the threat itself needs its own route).",true,"Giles and Davis note that statements to friends and neighbors are generally nontestimonial."],
+["Yes. Any statement accusing the defendant is testimonial.",false,"Accusation alone doesn’t make a statement testimonial."],
+["Yes, because Dana is unavailable.",false,"Unavailability matters only after you find the statement testimonial."],
+["No, because texts are business records.",false,"Personal texts aren’t business records. The reason is the nontestimonial purpose."]],
+a:["Criminal + against the accused → testimonial? No: informal, to a friend, not for prosecution.","Clause not triggered → hearsay: “I’m scared” (803(3)); “Kyle threatened me” is a statement of memory, not 803(3) (Shepard).","Then 403."],
+r:["Sixth Amendment","FRE 803(3)"],src:"Giles v. California (dicta); Davis v. Washington"},
+
+{id:"cf11",t:["conf","hs"],lv:3,title:"Testimony at Someone Else’s Trial",
+facts:"At Moe’s robbery trial, Larry testified under oath that Curly planned the robbery. Curly wasn’t a party to Moe’s trial and had no lawyer there. Larry has since died. At Curly’s trial, the prosecution offers Larry’s testimony from Moe’s trial.",
+q:"Ruling?",
+o:[["Excluded. The testimony is testimonial, and although Larry is unavailable, Curly never had a prior opportunity to cross-examine him. It also fails 804(b)(1), which requires an opportunity and similar motive for the party it is offered against.",true,"Both the Clause and the hearsay exception focus on whether this defendant had a chance to cross-examine."],
+["Admitted, because it was given under oath and subject to cross-examination by Moe.",false,"Moe’s cross doesn’t count for Curly in a criminal case. The “predecessor in interest” idea in 804(b)(1) applies only in civil cases."],
+["Admitted, because Larry is dead.",false,"Unavailability is only half of Crawford’s test."],
+["Admitted under 801(d)(1)(A) as prior sworn testimony.",false,"801(d)(1) requires the declarant to testify at the current trial."]],
+a:["Testimonial: yes (trial testimony is the core).","Declarant testifies? No. Unavailable + prior opportunity for THIS defendant? No. Forfeiture? No → barred.","Hearsay: 804(b)(1) fails for the same reason."],
+r:["Sixth Amendment","FRE 804(b)(1)"]},
+
+{id:"cf12",t:["conf"],lv:2,title:"Opening the Door?",
+facts:"Darrell is tried for a shooting. His defense blames Morris, who had pleaded guilty to gun possession in the same incident. To rebut, the prosecution reads Morris’s plea allocution, which says Morris had a different gun. Morris is out of the country and doesn’t testify. The trial court rules that Darrell “opened the door” by blaming Morris.",
+q:"Was admitting the plea allocution proper?",
+o:[["No. A defendant doesn’t forfeit his Confrontation right by making an argument that the testimonial statement would rebut. Only the Clause’s own exceptions (like forfeiture by wrongdoing) remove the right.",true,"Hemphill v. New York (2022)."],
+["Yes. A defendant who opens the door can’t complain about the response.",false,"That evidentiary door-opening idea can’t override the Sixth Amendment for testimonial statements."],
+["Yes, because a plea allocution is nontestimonial.",false,"A plea allocution is formal testimony in court, which is plainly testimonial."],
+["Yes, because Morris is unavailable.",false,"Unavailability alone isn’t enough without a prior opportunity to cross."]],
+a:["Testimonial: yes (plea allocution).","Declarant testifies? No. Prior opportunity? No. Forfeiture? No.","Door-opening isn’t a Confrontation exception → barred."],
+r:["Sixth Amendment"],src:"Hemphill v. New York"}
 ];
 // ===== JOURNEY MAPS =====
 // Decision nodes: {q, rule, s (short name), o:[[label, next]]}. Terminals: {end:true, label, kind:'in'|'out'|'route'}
 const MAPS = {
-hearsay:{name:"Hearsay + Confrontation",topic:"hs",root:"h_stmt",blurb:"Statement → truth → 801(d) → exceptions → Sixth Amendment → 403",
+hearsay:{name:"Hearsay",topic:"hs",root:"h_stmt",blurb:"Statement → truth → 801(d) exclusions → 803/804/807 exceptions → 403",
 nodes:{
 h_stmt:{s:"Statement?",rule:"801(a), (c)(1)",q:"Is there an out-of-court “statement”: an oral or written assertion, or nonverbal conduct intended as an assertion?",o:[["Yes",'h_truth'],["No: nonassertive conduct, or no assertion",'x_403']]},
 h_truth:{s:"Offered for truth?",rule:"801(c)(2)",q:"Is it offered to prove the truth of the matter asserted?",o:[["Yes",'h_ex'],["No: effect on listener, verbal act, notice, impeachment",'x_403']]},
-h_ex:{s:"801(d) exclusion?",rule:"801(d)",q:"Does 801(d) define it as not hearsay?",o:[["Yes: 801(d)(1) prior statement of a testifying witness",'c_crim'],["Yes: 801(d)(2) opposing party’s statement",'c_crim'],["No, it is hearsay",'h_exc']]},
-h_exc:{s:"Exception?",rule:"803 / 804 / 807 · 802",q:"Does a hearsay exception apply?",o:[["803: availability immaterial",'c_crim'],["804: declarant unavailable under 804(a)",'c_crim'],["807: residual",'c_crim'],["None",'T_802']]},
-c_crim:{s:"Criminal, vs. accused?",rule:"Sixth Amendment",q:"Is this a criminal case in which the statement is offered against the accused?",o:[["Yes",'c_decl'],["No",'x_403']]},
-c_decl:{s:"Declarant testifies?",rule:"Crawford n.9; Owens",q:"Is the declarant the defendant himself, or does the declarant testify at trial subject to cross-examination?",o:[["Yes: no Confrontation problem",'x_403'],["No",'c_test']]},
-c_test:{s:"Testimonial?",rule:"Crawford; Davis",q:"Is the statement testimonial (its primary purpose is to establish past facts for later prosecution)?",o:[["No: nontestimonial, Clause not triggered",'x_403'],["Yes: testimonial",'c_cross']]},
-c_cross:{s:"Unavailable + prior cross?",rule:"Crawford",q:"Is the declarant unavailable, and did the defendant have a prior opportunity to cross-examine?",o:[["Yes",'x_403'],["No",'c_forf']]},
-c_forf:{s:"Forfeiture?",rule:"Giles; 804(b)(6)",q:"Did the defendant forfeit the right through wrongdoing intended to keep the declarant from testifying?",o:[["Yes",'x_403'],["No",'T_conf']]},
+h_ex:{s:"801(d) exclusion?",rule:"801(d)",q:"Does 801(d) define it as not hearsay?",o:[["Yes: 801(d)(1) prior statement of a testifying witness",'x_403'],["Yes: 801(d)(2) opposing party’s statement",'x_403'],["No, it is hearsay",'h_exc']]},
+h_exc:{s:"Hearsay exception?",rule:"803 / 804 / 807 · 802",q:"Does a hearsay exception apply?",o:[["803: availability immaterial",'x_403'],["804: declarant unavailable under 804(a)",'x_403'],["807: residual",'x_403'],["None",'T_802']]},
 x_403:{s:"Rule 403",rule:"403",q:"Is the probative value substantially outweighed by unfair prejudice, confusion, misleading the jury, delay, waste of time, or cumulativeness?",o:[["Yes",'T_403'],["No",'T_adm']]},
 T_802:{end:1,kind:'out',label:"Excluded: hearsay with no exception (802)"},
-T_conf:{end:1,kind:'out',label:"Excluded: Confrontation Clause (Crawford)"},
 T_403:{end:1,kind:'out',label:"Excluded under 403"},
-T_adm:{end:1,kind:'in',label:"Admissible (105 instruction if offered for a limited purpose)"}
+T_adm:{end:1,kind:'in',label:"Admissible under the hearsay rules (criminal case against the accused? Run the Confrontation map next)"}
 }},
 character:{name:"Character Evidence",topic:"char",root:"k_rel",blurb:"401 → purpose → 413–415 → 404(a)(2) doors → 405 method → 403",
 nodes:{
@@ -1064,51 +1035,35 @@ T_cf:{end:1,kind:'in',label:"Not privileged: crime-fraud exception"},
 T_priv:{end:1,kind:'out',label:"Privileged: excluded"},
 T_waive:{end:1,kind:'in',label:"Waived (subject-matter waiver only if 502(a) is met)"}
 }},
-opinion:{name:"Lay & Expert Opinion",topic:"op",root:"o_type",blurb:"701 vs. 702 → qualification → reliability (2023) → 704(b) → 403",
+confront:{name:"Confrontation Clause",topic:"conf",root:"cf_crim",blurb:"Against the accused? → testimonial? → declarant cross-examined at trial? → unavailable + prior cross? → forfeiture or other exception",
 nodes:{
-o_type:{s:"Lay or expert?",rule:"701 / 702",q:"Is the witness testifying as a lay witness or as an expert?",o:[["Lay",'o_701'],["Expert",'o_qual']]},
-o_701:{s:"701 test",rule:"701(a)–(c)",q:"Is the opinion (a) rationally based on perception, (b) helpful, and (c) not based on scientific, technical, or other specialized knowledge?",o:[["Yes",'o_403'],["No: it depends on specialized knowledge",'T_702']]},
-o_qual:{s:"Qualified?",rule:"702",q:"Is the witness qualified by knowledge, skill, experience, training, or education?",o:[["Yes",'o_rel'],["No",'T_out']]},
-o_rel:{s:"Reliability",rule:"702(a)–(d), 2023",q:"Has the proponent shown it is more likely than not that the testimony is helpful, rests on sufficient facts or data, uses reliable methods, and applies them reliably?",o:[["Yes",'o_704'],["No",'T_out']]},
-o_704:{s:"Mental-state opinion?",rule:"704(b)",q:"In a criminal case, does the opinion say whether the defendant had a mental state that is an element of the crime or defense?",o:[["Yes",'T_704'],["No",'o_403']]},
-o_403:{s:"Rule 403",rule:"403",q:"Is the probative value substantially outweighed by a 403 danger?",o:[["Yes",'T_403'],["No",'T_in']]},
-T_702:{end:1,kind:'out',label:"Excluded as lay opinion: must qualify under 702"},
-T_out:{end:1,kind:'out',label:"Excluded"},
-T_704:{end:1,kind:'out',label:"Excluded: 704(b)"},
-T_403:{end:1,kind:'out',label:"Excluded under 403"},
-T_in:{end:1,kind:'in',label:"Admissible"}
-}},
-exhibit:{name:"Exhibits: Authentication & BER",topic:"auth",root:"e_902",blurb:"902 → 901 → is content at issue? → original or duplicate → 1004",
-nodes:{
-e_902:{s:"Self-authenticating?",rule:"902",q:"Is the item self-authenticating under 902?",o:[["Yes",'e_ber'],["No",'e_901']]},
-e_901:{s:"Sufficient to support a finding?",rule:"901(a)",q:"Is there evidence sufficient to support a finding that the item is what the proponent claims it is?",o:[["Yes",'e_ber'],["No",'T_auth']]},
-e_ber:{s:"Proving content?",rule:"1002",q:"Is the proponent proving the content of a writing, recording, or photograph?",o:[["Yes",'e_orig'],["No: the witness has independent knowledge, or the item only illustrates",'T_next']]},
-e_orig:{s:"Original/duplicate?",rule:"1001(d)–(e), 1003",q:"Is the original, or an acceptable duplicate, being offered?",o:[["Yes",'T_next'],["No",'e_1004']]},
-e_1004:{s:"1004 excuse?",rule:"1004",q:"Is other evidence of the content allowed: original lost or destroyed (not in bad faith), unobtainable, in the opponent’s control after notice, or collateral?",o:[["Yes",'T_next'],["No",'T_ber']]},
-T_next:{end:1,kind:'in',label:"Authenticated and BER satisfied: now run hearsay and 403"},
-T_auth:{end:1,kind:'out',label:"Excluded: not authenticated"},
-T_ber:{end:1,kind:'out',label:"Excluded: Best Evidence Rule (1002)"}
+cf_crim:{s:"Against the accused?",rule:"Sixth Amendment",q:"Is the statement offered against the accused in a criminal case, and who is the declarant?",o:[["Yes: against the accused, by someone other than the accused",'cf_test'],["Yes, but the declarant is the accused himself",'T_own'],["No: a civil case, or offered by the accused",'T_na']]},
+cf_test:{s:"Testimonial?",rule:"Crawford; Davis; Bryant",q:"Is the statement testimonial? Viewed objectively, was its primary purpose to establish or prove past events for a later prosecution?",o:[["Yes: testimonial",'cf_avail'],["No: nontestimonial (e.g., ongoing emergency, casual remark to a friend)",'T_nontest']]},
+cf_avail:{s:"Cross-examined at trial?",rule:"Crawford n.9; Owens",q:"Does the declarant testify at this trial and is the declarant available for cross-examination?",o:[["Yes",'T_ok'],["No",'cf_prior']]},
+cf_prior:{s:"Unavailable + prior cross?",rule:"Crawford",q:"Is the declarant unavailable, and did this defendant have a prior opportunity to cross-examine the declarant?",o:[["Yes",'T_ok2'],["No",'cf_exc']]},
+cf_exc:{s:"Clause exception?",rule:"Giles; 804(b)(6); Street",q:"Does an exception or limit on the Clause apply?",o:[["Forfeiture by wrongdoing: the defendant procured the absence intending to prevent testimony",'T_forf'],["Dying declaration (historical exception noted in Crawford n.6)",'T_dying'],["Not offered for its truth (Crawford n.9; Street)",'T_nottruth'],["None",'T_barred']]},
+T_own:{end:1,kind:'in',label:"No Confrontation problem: the accused can’t confront himself (go to 801(d)(2)(A))"},
+T_na:{end:1,kind:'route',label:"Clause doesn’t apply: decide under the hearsay rules"},
+T_nontest:{end:1,kind:'in',label:"Nontestimonial: Clause not triggered (hearsay rules and 403 decide)"},
+T_ok:{end:1,kind:'in',label:"Clause satisfied: the declarant is cross-examined at trial"},
+T_ok2:{end:1,kind:'in',label:"Clause satisfied: unavailable + prior opportunity to cross"},
+T_forf:{end:1,kind:'in',label:"Right forfeited: statement may come in (Giles; 804(b)(6))"},
+T_dying:{end:1,kind:'route',label:"Possible dying-declaration exception: unsettled, argue both sides"},
+T_nottruth:{end:1,kind:'in',label:"Clause not implicated: not offered for its truth (105 instruction)"},
+T_barred:{end:1,kind:'out',label:"Barred by the Confrontation Clause"}
 }}
 };
 
 // Scenarios: a = correct option index per node on the correct path; n = node-specific explanation.
 const DRILLS = [
-{id:"d_hs1",map:"hearsay",t:["hs"],lv:3,title:"The Station-House Recording",src:"Crawford v. Washington",
-facts:"Michael is charged with assault for stabbing Kenneth and claims self-defense. His wife Sylvia, who had received Miranda warnings, gave a recorded statement at the station that undercuts the self-defense claim. At trial she invokes the marital privilege. The prosecution offers her recording as a statement against penal interest.",
-a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:1,c_crim:0,c_decl:1,c_test:1,c_cross:1,c_forf:1},
-n:{h_ex:"Sylvia isn’t a party, so 801(d)(2) doesn’t fit.",h_exc:"Her privilege claim makes her unavailable (804(a)(1)). The prosecution argues 804(b)(3).",c_decl:"Sylvia never takes the stand.",c_test:"Structured police questioning at the station is the core of “testimonial.”",c_cross:"Michael never had a chance to cross-examine her.",c_forf:"Her silence comes from her own privilege, not from wrongdoing by Michael."}},
-{id:"d_hs2",map:"hearsay",t:["hs"],lv:2,title:"The Emergency Call",src:"Davis v. Washington",
-facts:"Michelle calls 911: “He’s here jumpin’ on me again… Adrian Davis.” Davis is charged with violating a protective order. Michelle doesn’t appear at trial. The prosecution offers the recording.",
-a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:0,c_crim:0,c_decl:1,c_test:0,x_403:1},
-n:{h_exc:"Excited utterance, 803(2).",c_test:"Its primary purpose was to get help with an ongoing emergency, so it’s nontestimonial.",x_403:"Highly probative; no unfair prejudice that substantially outweighs it."}},
 {id:"d_hs3",map:"hearsay",t:["hs"],lv:1,title:"Oil in Aisle 5",
 facts:"In a civil slip-and-fall case, the plaintiff offers testimony that a shopper told the store manager, “There’s oil all over aisle 5,” 20 minutes before the fall. It is offered to prove the store had notice.",
 a:{h_stmt:0,h_truth:1,x_403:1},
 n:{h_truth:"It is offered to show notice (effect on the listener), not that oil was actually there.",x_403:"A 105 instruction limits the jury to the notice purpose."}},
 {id:"d_hs4",map:"hearsay",t:["hs"],lv:2,title:"The Coconspirator",src:"Bourjaily v. United States",
 facts:"On a recorded call, Lonardo tells an FBI informant arranging a cocaine sale: “My friend will be the buyer — he has questions about quality.” Bourjaily takes the cocaine at the meeting. Lonardo doesn’t testify. The statements are offered against Bourjaily.",
-a:{h_stmt:0,h_truth:0,h_ex:1,c_crim:0,c_decl:1,c_test:0,x_403:1},
-n:{h_ex:"801(d)(2)(E): during and in furtherance of the conspiracy. The judge finds the foundation by a preponderance (104(a)) and may consider the statement itself.",c_decl:"Lonardo doesn’t testify, and he isn’t the defendant.",c_test:"Lonardo thought he was talking to a buyer, not building a case, so it’s nontestimonial."}},
+a:{h_stmt:0,h_truth:0,h_ex:1,x_403:1},
+n:{h_ex:"801(d)(2)(E): during and in furtherance of the conspiracy. The judge finds the foundation by a preponderance (104(a)) and may consider the statement itself, plus independent evidence. (Confrontation: statements to a person the declarant thinks is a buyer are nontestimonial.)"}},
 {id:"d_hs5",map:"hearsay",t:["hs"],lv:2,title:"“Dr. Shepard Has Poisoned Me”",src:"Shepard v. United States",
 facts:"Days into her illness, while she was talking about recovering, Mrs. Shepard told her nurse, “Dr. Shepard has poisoned me.” She later died. The prosecution offers the statement as a dying declaration, or under 803(3).",
 a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:3},
@@ -1117,14 +1072,22 @@ n:{h_exc:"804(b)(2) fails because she had no settled, hopeless expectation of de
 facts:"To prove a vessel was seaworthy, the owner’s estate offers evidence that the experienced captain inspected the ship and then sailed on it with his family aboard.",
 a:{h_stmt:1,x_403:1},
 n:{h_stmt:"Nonassertive conduct isn’t a “statement” under 801(a). (The common-law rule was different.)"}},
-{id:"d_hs7",map:"hearsay",t:["hs"],lv:2,title:"Preliminary Hearing Transcript",
-facts:"A robbery victim testified at the preliminary hearing and was cross-examined by defense counsel. The victim died before trial. The prosecution offers the transcript.",
-a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:1,c_crim:0,c_decl:1,c_test:1,c_cross:0,x_403:1},
-n:{h_exc:"804(a)(4) death → 804(b)(1) former testimony with an opportunity and similar motive.",c_test:"Testimony under oath at a hearing is testimonial.",c_cross:"Unavailable plus a prior opportunity to cross satisfies Crawford."}},
 {id:"d_hs8",map:"hearsay",t:["hs"],lv:1,title:"“I Hid the Gun”",
 facts:"The defendant told his girlfriend, “I hid the gun in the lake.” She testifies to the statement at his murder trial.",
-a:{h_stmt:0,h_truth:0,h_ex:1,c_crim:0,c_decl:0,x_403:1},
-n:{h_ex:"The defendant’s own statement offered against him is 801(d)(2)(A).",c_decl:"The declarant is the defendant. He can’t claim a right to confront himself."}},
+a:{h_stmt:0,h_truth:0,h_ex:1,x_403:1},
+n:{h_ex:"The defendant’s own statement offered against him is 801(d)(2)(A). (And there’s no Confrontation issue: he can’t confront himself.)"}},
+{id:"d_hs9",map:"hearsay",t:["hs"],lv:1,title:"The ER Visit",
+facts:"In a civil battery suit, the plaintiff’s ER doctor testifies that the plaintiff told her, “I was hit on the back of the head and I’ve had blurry vision since.” The plaintiff offers it to prove the injury and its cause.",
+a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:0,x_403:1},
+n:{h_ex:"The plaintiff is offering her own statement, so 801(d)(2) doesn’t help her.",h_exc:"803(4): made for treatment, describing symptoms and their general cause."}},
+{id:"d_hs10",map:"hearsay",t:["hs"],lv:2,title:"The Deposition of a Dead Witness",
+facts:"In a civil fraud case, a key witness was deposed and cross-examined at length by the defendant’s lawyer. The witness died before trial. The plaintiff offers the deposition transcript.",
+a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:1,x_403:1},
+n:{h_exc:"804(a)(4) death → 804(b)(1) former testimony: the defendant had an opportunity and similar motive to develop it."}},
+{id:"d_hs11",map:"hearsay",t:["hs"],lv:2,title:"The Self-Serving Denial",
+facts:"In a negligence suit, the defendant driver offers his own statement to the officer at the scene: “The other car came out of nowhere.” He made it 20 minutes after the crash, calmly, while filling out a report. He offers it to prove how the crash happened.",
+a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:3},
+n:{h_ex:"801(d)(2) only works when a party’s statement is offered against that party.",h_exc:"Not contemporaneous (803(1)) and not under stress (803(2)). He should testify live."}},
 
 {id:"d_ch1",map:"character",t:["char"],lv:1,title:"Two Bar Fights",
 facts:"Vic, charged with assault and claiming self-defense, has offered no character evidence. The prosecution offers two unrelated bar fights from last year “to show he’s a violent person.”",
@@ -1193,31 +1156,50 @@ facts:"A state-law contract claim is in federal court on diversity jurisdiction.
 a:{p_law:1},
 n:{p_law:"501: state law supplies the rule of decision, so state privilege law applies."}},
 
-{id:"d_op1",map:"opinion",t:["op"],lv:2,title:"The Officer’s Code Words",
-facts:"A detective, not qualified as an expert, testifies as a lay witness that “zip” and “eight-ball” are drug-trade code. He learned this from years of training.",
-a:{o_type:0,o_701:1},
-n:{o_701:"Specialized knowledge → 701(c) bars it. He must qualify under 702."}},
-{id:"d_op2",map:"opinion",t:["op"],lv:3,title:"The Insanity Question",
-facts:"A qualified forensic psychiatrist, using a reliable method, is asked: “Was the defendant unable to appreciate the wrongfulness of her acts at the time?”",
-a:{o_type:1,o_qual:0,o_rel:0,o_704:0},
-n:{o_704:"That is the ultimate mental-state question → 704(b) bars it. She can describe the diagnosis and its effects."}},
-
-{id:"d_ex1",map:"exhibit",t:["auth","be","hs"],lv:1,title:"Certified Invoices",
-facts:"A plaintiff offers the defendant’s original printed invoices to prove what was billed. They come with a records custodian’s certification meeting 902(11), and notice was given.",
-a:{e_902:0,e_ber:0,e_orig:0},
-n:{e_902:"902(11): certified domestic records of a regularly conducted activity.",e_ber:"Proving what was billed is proving content, so the BER is triggered.",e_orig:"Originals are offered."}},
-{id:"d_ex2",map:"exhibit",t:["auth","be"],lv:1,title:"The Intersection Photo",
-facts:"A witness who knows the intersection testifies that a photo fairly and accurately depicts it as it looked on the day of the crash. The photo is used to illustrate her testimony.",
-a:{e_902:1,e_901:0,e_ber:1},
-n:{e_901:"A witness with knowledge (901(b)(1)): “a fair and accurate depiction.”",e_ber:"The photo illustrates her testimony. Its content isn’t independently at issue."}},
-{id:"d_ex3",map:"exhibit",t:["be","auth"],lv:2,title:"The Flooded Contract",
-facts:"The only signed original of a contract was destroyed in an office flood. No one suggests bad faith. A witness who signed the contract will testify about its terms and authenticate it.",
-a:{e_902:1,e_901:0,e_ber:0,e_orig:1,e_1004:0},
-n:{e_1004:"1004(a): originals lost or destroyed, not by the proponent acting in bad faith → other evidence of content is allowed."}},
-{id:"d_ex4",map:"exhibit",t:["auth"],lv:2,title:"Profile Name Only",
-facts:"The prosecution offers a threatening post from an account bearing the defendant’s name and photo. There is no other evidence connecting him to it: no distinctive content, no IP or account records, no admission.",
-a:{e_902:1,e_901:1},
-n:{e_901:"A name and photo alone are usually too thin, since anyone can create an account (Griffin). There’s no real link to the defendant."}}
+{id:"d_hs1",map:"confront",t:["conf"],lv:3,title:"The Station-House Recording",src:"Crawford v. Washington",
+facts:"Michael is charged with assault for stabbing Kenneth and claims self-defense. His wife Sylvia, who had received Miranda warnings, gave a recorded statement at the station that undercuts the self-defense claim. At trial she invokes the marital privilege. The prosecution offers her recording as a statement against penal interest.",
+a:{cf_crim:0,cf_test:0,cf_avail:1,cf_prior:1,cf_exc:3},
+n:{cf_test:"Structured police questioning at the station is the core of “testimonial.”",cf_avail:"Sylvia invokes privilege and never takes the stand.",cf_prior:"She is unavailable (804(a)(1)), but Michael never had a chance to cross-examine her.",cf_exc:"Her silence comes from her own privilege, not from wrongdoing by Michael. A hearsay exception (804(b)(3)) can’t cure the constitutional problem."}},
+{id:"d_hs2",map:"confront",t:["conf"],lv:2,title:"The Emergency Call",src:"Davis v. Washington",
+facts:"Michelle calls 911: “He’s here jumpin’ on me again… Adrian Davis.” Davis is charged with violating a protective order. Michelle doesn’t appear at trial. The prosecution offers the recording.",
+a:{cf_crim:0,cf_test:1},
+n:{cf_test:"Its primary purpose was to get help with an ongoing emergency, so it’s nontestimonial. The hearsay route is 803(2)."}},
+{id:"d_hs7",map:"confront",t:["conf"],lv:2,title:"Preliminary Hearing Transcript",
+facts:"A robbery victim testified at the preliminary hearing and was cross-examined by defense counsel. The victim died before trial. The prosecution offers the transcript.",
+a:{cf_crim:0,cf_test:0,cf_avail:1,cf_prior:0},
+n:{cf_test:"Testimony under oath at a hearing is testimonial.",cf_prior:"Unavailable (death) plus a prior opportunity to cross satisfies Crawford. Hearsay route: 804(b)(1)."}},
+{id:"d_cf1",map:"confront",t:["conf"],lv:2,title:"The Lab Certificate",src:"Melendez-Diaz v. Massachusetts",
+facts:"In a drug prosecution, the government offers sworn lab certificates stating the seized powder was cocaine. The certificates were prepared at police request for trial. No analyst testifies, and nothing shows the analysts are unavailable.",
+a:{cf_crim:0,cf_test:0,cf_avail:1,cf_prior:1,cf_exc:3},
+n:{cf_test:"Sworn statements prepared for use at trial are testimonial (Melendez-Diaz).",cf_prior:"No showing of unavailability and no prior cross.",cf_exc:"No forfeiture; the certificates are offered for their truth."}},
+{id:"d_cf2",map:"confront",t:["conf","imp"],lv:2,title:"The Forgetful Victim",src:"United States v. Owens",
+facts:"An assault victim identified the defendant to an FBI agent from a photo array while in the hospital. At trial, the victim testifies and answers questions, but says he can no longer remember the attack itself.",
+a:{cf_crim:0,cf_test:0,cf_avail:0},
+n:{cf_test:"An identification given to an investigating agent is testimonial.",cf_avail:"Owens: a witness who takes the stand and answers questions is subject to cross-examination, even with memory loss."}},
+{id:"d_cf3",map:"confront",t:["conf","hs"],lv:3,title:"Killed Before His Court Date",src:"United States v. Gray",
+facts:"The defendant’s husband told police she had assaulted him and was scheduled to testify in a related case. A week before that date, he was murdered. The court finds by a preponderance that she arranged the killing to keep him from testifying. The government offers his police statements at her later fraud trial.",
+a:{cf_crim:0,cf_test:0,cf_avail:1,cf_prior:1,cf_exc:0},
+n:{cf_test:"Statements to police describing past assaults are testimonial.",cf_exc:"Wrongdoing + intent to make him unavailable + he was made unavailable → forfeiture (Giles; 804(b)(6)). Gray: intent regarding any proceeding suffices."}},
+{id:"d_cf4",map:"confront",t:["conf"],lv:2,title:"The Preschool Teacher",src:"Ohio v. Clark",
+facts:"A 3-year-old tells his preschool teacher that his mother’s boyfriend caused his injuries. The child is found incompetent to testify. The statement is offered against the boyfriend.",
+a:{cf_crim:0,cf_test:1},
+n:{cf_test:"Statements to teachers aimed at protecting a child, from a very young child, are nontestimonial (Clark)."}},
+{id:"d_cf5",map:"confront",t:["conf"],lv:1,title:"His Own Words",
+facts:"At a burglary trial, a detective testifies that the defendant said, “I went in through the back window.” The defense raises the Confrontation Clause.",
+a:{cf_crim:1},
+n:{cf_crim:"The declarant is the accused. There is no other witness to confront (801(d)(2)(A))."}},
+{id:"d_cf6",map:"confront",t:["conf","hs"],lv:3,title:"The Copied Confession",src:"Tennessee v. Street",
+facts:"The defendant says police made him copy his accomplice’s confession. To rebut, the prosecution reads the accomplice’s confession only so the jury can compare the two, with a limiting instruction. The accomplice doesn’t testify.",
+a:{cf_crim:0,cf_test:0,cf_avail:1,cf_prior:1,cf_exc:2},
+n:{cf_test:"A confession to police is testimonial.",cf_exc:"Offered only to compare, not for its truth → Clause not implicated (Crawford n.9)."}},
+{id:"d_cf7",map:"confront",t:["conf"],lv:1,title:"The Civil Suit",
+facts:"In a civil wrongful-death suit, the plaintiff offers a deceased eyewitness’s formal statement to police. The defendant raises the Confrontation Clause.",
+a:{cf_crim:2},
+n:{cf_crim:"The Sixth Amendment applies only in criminal prosecutions. The hearsay rules decide."}},
+{id:"d_cf8",map:"confront",t:["conf"],lv:3,title:"Killed in Anger",src:"Giles v. California",
+facts:"Weeks before Giles shot his ex-girlfriend, she told a responding officer that he had choked her and threatened to kill her. Nothing suggests he killed her to keep her from testifying. The prosecution offers her statement.",
+a:{cf_crim:0,cf_test:0,cf_avail:1,cf_prior:1,cf_exc:3},
+n:{cf_test:"Describing past events to an officer after the emergency ended → testimonial.",cf_exc:"Forfeiture requires intent to prevent testimony (Giles). Killing her alone isn’t enough."}},
 ];
 
 // ===== QUICK REVIEW CARDS =====
@@ -1255,10 +1237,6 @@ const CARDS = [
 ["FRE 609(a)(2)","Any crime, regardless of punishment, must be admitted if the court can readily determine that establishing its elements required proving or the witness’s admitting a dishonest act or false statement.","imp"],
 ["FRE 609(b)","More than 10 years since conviction or release, whichever is later: admissible only if probative value, supported by specific facts, substantially outweighs prejudicial effect, and with reasonable written notice.","imp"],
 ["FRE 613(b)","Extrinsic evidence of a witness’s prior inconsistent statement may not be admitted until after the witness is given an opportunity to explain or deny it (2024), unless the court orders otherwise. Doesn’t apply to 801(d)(2) statements.","imp"],
-["FRE 701","Lay opinion must be (a) rationally based on the witness’s perception, (b) helpful, and (c) not based on scientific, technical, or other specialized knowledge within the scope of 702.","op"],
-["FRE 702","An expert may testify if the proponent shows it is more likely than not that: (a) the knowledge will help the trier of fact; (b) the testimony is based on sufficient facts or data; (c) it is the product of reliable principles and methods; (d) the opinion reflects a reliable application of those methods to the facts.","op"],
-["FRE 703","An expert may rely on facts or data that experts in the field would reasonably rely on, even if inadmissible. Disclose them to the jury only if their probative value substantially outweighs their prejudicial effect.","op"],
-["FRE 704(b)","In a criminal case, an expert must not state an opinion about whether the defendant did or did not have a mental state or condition that is an element of the crime or a defense.","op"],
 ["FRE 801(a)","“Statement” means a person’s oral assertion, written assertion, or nonverbal conduct, if the person intended it as an assertion.","hs"],
 ["FRE 801(c)","Hearsay is a statement that (1) the declarant does not make while testifying at the current trial or hearing, and (2) a party offers to prove the truth of the matter asserted.","hs"],
 ["FRE 801(d)(1)(A)","Not hearsay: the declarant testifies, is subject to cross, and the statement is inconsistent and was given under penalty of perjury at a trial, hearing, or other proceeding or in a deposition.","hs"],
@@ -1282,14 +1260,17 @@ const CARDS = [
 ["FRE 805","Hearsay within hearsay is not excluded if each part of the combined statements conforms with an exception.","hs"],
 ["FRE 806","When a hearsay statement (or an 801(d)(2)(C)–(E) statement) is admitted, the declarant’s credibility may be attacked as if the declarant had testified. No opportunity to explain or deny is required.","imp"],
 ["FRE 807","Hearsay not covered by 803 or 804 is admissible if it is supported by sufficient guarantees of trustworthiness and is more probative on the point than any other evidence reasonably obtainable, with reasonable written notice.","hs"],
-["FRE 901(a)","The proponent must produce evidence sufficient to support a finding that the item is what the proponent claims it is.","auth"],
-["FRE 901(b)(5)","Voice identification: an opinion based on hearing the voice at any time under circumstances that connect it with the alleged speaker.","auth"],
-["FRE 902(11)","Certified domestic records of a regularly conducted activity that meet 803(6)(A)–(C) are self-authenticating, with written notice to the adverse party.","auth"],
-["FRE 1001(d)","For electronically stored information, “original” means any printout or other output readable by sight, if it accurately reflects the information.","be"],
-["FRE 1002","An original writing, recording, or photograph is required in order to prove its content, unless these rules or a federal statute provide otherwise.","be"],
-["FRE 1003","A duplicate is admissible to the same extent as the original unless a genuine question is raised about the original’s authenticity or admitting the duplicate would be unfair.","be"],
-["FRE 1004","Other evidence of content is admissible if all originals are lost or destroyed (not by the proponent in bad faith), can’t be obtained by judicial process, are in the opponent’s control after notice, or the writing is not closely related to a controlling issue.","be"],
-["FRE 1006","The court may admit a summary, chart, or calculation to prove the content of voluminous admissible evidence that can’t be conveniently examined in court, whether or not the underlying evidence has been admitted.","be"]
+
+["Crawford v. Washington","Testimonial statements of a witness who doesn’t appear at trial are admissible only if the declarant is unavailable and the defendant had a prior opportunity to cross-examine. Reliability is no substitute for confrontation.","conf"],
+["Davis v. Washington","Primary-purpose test: statements made to meet an ongoing emergency are nontestimonial; statements made to establish past events for later prosecution are testimonial.","conf"],
+["Michigan v. Bryant","Ongoing emergency is judged objectively from the circumstances and both parties’ statements and actions; an armed shooter at large can keep the emergency going.","conf"],
+["Melendez-Diaz v. Massachusetts","Sworn forensic lab certificates prepared for trial are testimonial; the analysts must be available for cross-examination.","conf"],
+["Bullcoming v. New Mexico","A surrogate analyst who didn’t perform or observe the test can’t stand in for the analyst who certified the report.","conf"],
+["Ohio v. Clark","A young child’s statements to teachers about abuse were nontestimonial; statements to people other than law enforcement are much less likely to be testimonial.","conf"],
+["Giles v. California","Forfeiture by wrongdoing requires that the defendant intended to prevent the witness from testifying; causing the absence alone isn’t enough.","conf"],
+["Bruton v. United States","In a joint trial, a nontestifying codefendant’s confession that expressly names the defendant violates the Clause even with a limiting instruction.","conf"],
+["Hemphill v. New York","A defendant doesn’t forfeit the right to confront testimonial statements by “opening the door” with his own argument.","conf"],
+["Crawford n.9 / Tennessee v. Street","The Clause doesn’t bar testimonial statements offered for purposes other than the truth of the matter asserted; and when the declarant testifies at trial, the Clause places no constraints on prior statements.","conf"],
 ];
 
 // Where the notes and the current FRE text differ
@@ -1308,12 +1289,12 @@ function RL(k, t, q, s, x){ RULES[k] = {t, q, s, x}; }
 
 RL("104(a)","Preliminary questions decided by the court",
  ["The court must decide any preliminary question about whether a witness is qualified,","a privilege exists, or evidence is admissible.","In so deciding, the court is not bound by evidence rules, except those on privilege."],
- "The judge decides admissibility foundations (hearsay-exception elements, privilege, expert qualification) by a preponderance (Bourjaily).",
- "Coconspirator foundation, 804 unavailability, and 702 reliability are 104(a) questions for the judge.");
+ "The judge decides admissibility foundations (hearsay-exception elements, privilege, witness qualification) by a preponderance (Bourjaily).",
+ "Coconspirator foundation, 804 unavailability, and forfeiture by wrongdoing are 104(a) questions for the judge.");
 RL("104(b)","Relevance that depends on a fact",
  ["When the relevance of evidence depends on whether a fact exists,","proof must be introduced sufficient to support a finding that the fact does exist."],
  "Conditional relevance: the judge asks only whether a reasonable jury could find the condition. The jury makes the actual call. The court may admit conditionally.",
- "Huddleston (other acts) and authentication (901) both use this low standard.");
+ "Huddleston (other acts) and conditional relevance problems use this low standard.");
 RL("105","Limiting evidence",
  ["If the court admits evidence that is admissible against a party or for a purpose","but not against another party or for another purpose","the court, on timely request, must restrict the evidence to its proper scope and instruct the jury accordingly."],
  "A limiting instruction confines evidence to its permitted use.",
@@ -1322,10 +1303,6 @@ RL("106","Remainder of or related statements",
  ["If a party introduces all or part of a statement, an adverse party may require the introduction, at that time,","of any other part — or any other statement — that in fairness ought to be considered at the same time.","The adverse party may do so over a hearsay objection."],
  "Rule of completeness. Since the 2023 amendment it covers oral statements and overrides a hearsay objection.",
  "Use it when the other side cherry-picks part of a confession or a letter.");
-RL("107","Illustrative aids",
- ["The court may allow a party to present an illustrative aid to help the trier of fact understand the evidence","An illustrative aid is not evidence and must not be provided to the jury during deliberations unless:"],
- "Added Dec. 1, 2024. An aid is allowed if its utility isn’t substantially outweighed by unfair prejudice, confusion, and similar dangers. It isn’t evidence.",
- "Distinguish a 107 aid (not evidence) from a 1006 summary (evidence).");
 RL("401","Test for relevant evidence",
  ["Evidence is relevant if: (a) it has any tendency to make a fact more or less probable than it would be without the evidence; and","(b) the fact is of consequence in determining the action."],
  "Two parts: probative (any tendency) and material (a fact of consequence). A very low bar.",
@@ -1440,22 +1417,6 @@ RL("613","Witness’s prior statement",[],"(a) need not show the statement to th
 RL("613(b)","Extrinsic evidence of a prior inconsistent statement",
  ["Unless the court orders otherwise, extrinsic evidence of a witness's prior inconsistent statement may not be admitted","until after the witness is given an opportunity to explain or deny the statement","This subdivision (b) does not apply to an opposing party's statement under Rule 801(d)(2)."],
  "Amended Dec. 1, 2024 to require the foundation BEFORE extrinsic evidence.","Impeachment use only, unless 801(d)(1)(A) applies.");
-RL("701","Lay opinion",
- ["If a witness is not testifying as an expert, testimony in the form of an opinion is limited to one that is:","rationally based on the witness’s perception;","helpful to clearly understanding the witness’s testimony or to determining a fact in issue; and","not based on scientific, technical, or other specialized knowledge within the scope of Rule 702."],
- "Perception + helpfulness + no specialized knowledge.","(c) stops experts from testifying in lay clothing.");
-RL("701(c)","Lay opinion: no specialized knowledge",
- ["not based on scientific, technical, or other specialized knowledge within the scope of Rule 702."],"If it needs training to reach, it’s 702 testimony.","Drug-code interpretation by an officer is the classic case.");
-RL("702","Testimony by expert witnesses",
- ["the expert’s scientific, technical, or other specialized knowledge will help the trier of fact","the testimony is based on sufficient facts or data;","the testimony is the product of reliable principles and methods; and","the expert’s opinion reflects a reliable application of the principles and methods to the facts of the case."],
- "Qualified + (a)–(d), each shown by the proponent “more likely than not” (2023 amendment). The judge is the gatekeeper (Daubert/Kumho).","Basis and application are admissibility questions, not just weight.");
-RL("703","Bases of an expert’s opinion",
- ["If experts in the particular field would reasonably rely on those kinds of facts or data","in forming an opinion on the subject, they need not be admissible for the opinion to be admitted.","to the jury only if their probative value in helping the jury evaluate the opinion","substantially outweighs their prejudicial effect."],
- "Experts may rely on inadmissible facts. Disclosure to the jury uses a reverse balancing test.","");
-RL("704(a)","Ultimate issue: general rule",
- ["An opinion is not objectionable just because it embraces an ultimate issue."],"","Legal conclusions (“he was negligent”) can still be excluded as unhelpful.");
-RL("704(b)","Ultimate issue: criminal mental state",
- ["In a criminal case, an expert witness must not state an opinion about whether the defendant","did or did not have a mental state or condition that constitutes an element of the crime charged or of a defense.","Those matters are for the trier of fact alone."],
- "Experts can describe a diagnosis and its features, but not the ultimate mental-state conclusion.","");
 RL("801(a)","Statement",
  ["“Statement” means a person's oral assertion, written assertion, or nonverbal conduct, if the person intended it as an assertion."],
  "No intent to assert → no statement → not hearsay (FRE rejects Wright v. Tatham).","Questions, commands, and nonassertive conduct are usually not statements.");
@@ -1491,7 +1452,7 @@ RL("803(5)","Recorded recollection",
  "Read into evidence. It becomes an exhibit only if the adverse party offers it.","");
 RL("803(6)","Records of a regularly conducted activity",
  ["the record was made at or near the time by — or from information transmitted by — someone with knowledge;","the record was kept in the course of a regularly conducted activity of a business, organization,","making the record was a regular practice of that activity;"],
- "(D) custodian, qualified witness, or 902(11)/(12) certification; (E) the opponent may show untrustworthiness. Outsiders’ statements in the record need their own exception (Johnson v. Lutz; 805).","Business records are on your final exam topic list.");
+ "(D) the custodian or another qualified witness (or a certification the rules allow) lays the foundation; (E) the opponent may show untrustworthiness. Outsiders’ statements in the record need their own exception (Johnson v. Lutz; 805).","Business records are on your final exam topic list.");
 RL("803(8)","Public records",[],
  "A public office’s record of (i) its activities; (ii) matters observed under a legal duty to report, excluding matters observed by law enforcement in criminal cases; (iii) in civil cases or against the government, factual findings from a legally authorized investigation. The opponent may show untrustworthiness.","Paraphrase. Watch the criminal-case limit.");
 RL("803(22)","Judgment of a previous conviction",
@@ -1520,35 +1481,10 @@ RL("806","Attacking and supporting the declarant",
 RL("807","Residual exception",
  ["the statement is supported by sufficient guarantees of trustworthiness—after considering the totality of circumstances","it is more probative on the point for which it is offered than any other evidence","The statement is admissible only if the proponent gives an adverse party reasonable notice"],
  "A last resort. Notice in writing before trial (or during trial if the court excuses it for good cause).","");
-RL("901","Authenticating or identifying evidence",[],"(a) the standard; (b) illustrations.","");
-RL("901(a)","Authentication: the requirement",
- ["the proponent must produce evidence sufficient to support a finding that the item is what the proponent claims it is"],
- "A 104(b)-type threshold. Gaps go to weight.","");
-RL("901(b)(1)","Testimony of a witness with knowledge",["Testimony that an item is what it is claimed to be."],"","");
-RL("901(b)(2)","Nonexpert opinion about handwriting",["based on a familiarity with it that was not acquired for the current litigation"],"","Contrast voice identification, (b)(5).");
-RL("901(b)(4)","Distinctive characteristics",["The appearance, contents, substance, internal patterns, or other distinctive characteristics of the item"],"…taken together with all the circumstances.","The workhorse for texts and social-media posts.");
-RL("901(b)(5)","Voice identification",["An opinion identifying a person’s voice — whether heard firsthand or through mechanical or electronic"],"…based on hearing the voice at any time under circumstances that connect it with the alleged speaker.","Familiarity gained after the fact is OK.");
-RL("902","Self-authenticating evidence",
- ["Printed material purporting to be a newspaper or periodical."],
- "Items needing no extrinsic evidence of authenticity: (4) certified public records, (6) newspapers, (7) trade inscriptions, (8) acknowledged documents, (11)–(12) certified business records, (13)–(14) certified electronic records.","Self-authentication doesn’t clear hearsay or the BER.");
-RL("902(11)","Certified domestic business records",["The original or a copy of a domestic record that meets the requirements of Rule 803(6)(A)-(C)"],"…as shown by a custodian’s certification, with written notice to the adverse party.","");
-RL("1001(d)","“Original”",["any counterpart intended to have the same effect by the person who executed or issued it."],"For electronically stored information, any printout or other output readable by sight that accurately reflects the information is an original.","Screenshots and printouts of ESI.");
-RL("1001(e)","“Duplicate”",["that accurately reproduces the original."],"A counterpart produced by a mechanical, photographic, chemical, electronic, or equivalent process.","");
-RL("1002","Requirement of the original",
- ["An original writing, recording, or photograph is required in order to prove its content","unless these rules or a federal statute provides otherwise."],
- "Triggered only when proving content. Independent knowledge of the event doesn’t trigger it.","");
-RL("1003","Admissibility of duplicates",
- ["A duplicate is admissible to the same extent as the original","unless a genuine question is raised about the original’s authenticity","or the circumstances make it unfair to admit the duplicate."],"","");
-RL("1004","Other evidence of content",
- ["all the originals are lost or destroyed, and not by the proponent acting in bad faith;","an original cannot be obtained by any available judicial process;","the writing, recording, or photograph is not closely related to a controlling issue."],
- "Plus (c): the opponent had control, was on notice, and failed to produce it.","");
-RL("1006","Summaries to prove content",
- ["The court may admit as evidence a summary, chart, or calculation offered to prove the content","whether or not they have been introduced into evidence.","A summary, chart, or calculation that functions only as an illustrative aid is governed by Rule 107."],
- "Amended Dec. 1, 2024. The underlying records must be made available for examination.","");
 // Constitutional and case-law anchors
 RL("6A","Sixth Amendment: Confrontation Clause",["In all criminal prosecutions, the accused shall enjoy the right … to be confronted with the witnesses against him"],
  "Crawford: testimonial statements of a declarant who doesn’t testify are barred unless the declarant is unavailable and the defendant had a prior opportunity to cross. Nontestimonial statements fall outside the Clause.","Criminal cases, against the accused only.");
-RL("Crawford","Crawford v. Washington (2004)",[],"For testimonial hearsay, the only reliability the Clause accepts is confrontation. Overruled Ohio v. Roberts for testimonial statements. Footnote 9: no problem when the declarant testifies.","Notes check: “testimonial” triggers the Clause.");
+RL("Crawford","Crawford v. Washington (2004)",[],"For testimonial hearsay, the only reliability the Clause accepts is confrontation. Overruled Ohio v. Roberts for testimonial statements. Footnote 9: no problem when the declarant testifies, or when the statement isn’t offered for its truth. Footnote 6 flags dying declarations as a possible historical exception.","Notes check: “testimonial” triggers the Clause.");
 RL("Davis","Davis v. Washington (2006)",[],"Primary-purpose test. Statements made to meet an ongoing emergency are nontestimonial. Statements describing past events for prosecution are testimonial (Hammon).","");
 RL("Giles","Giles v. California (2008)",[],"Forfeiture requires conduct designed to prevent the witness from testifying.","");
 RL("Owens","United States v. Owens (1988)",[],"A witness with memory loss who takes the stand is still subject to cross-examination for the Clause and for 801(d)(1)(C).","");
@@ -1557,6 +1493,16 @@ RL("Upjohn","Upjohn Co. v. United States (1981)",[],"Corporate privilege covers 
 RL("Zolin","United States v. Zolin (1989)",[],"Crime-fraud exception. The court may review allegedly privileged material in camera on a threshold showing.","");
 RL("Trammel","Trammel v. United States (1980)",[],"The witness-spouse alone holds the adverse spousal testimony privilege.","");
 RL("Jaffee","Jaffee v. Redmond (1996)",[],"Recognizes a psychotherapist-patient privilege (including licensed clinical social workers) under 501.","");
+
+RL("Hammon","Hammon v. Indiana (2006)",[],"Decided with Davis. Statements to officers after the emergency had ended, describing past events, were testimonial.","Compare the 911 call in Davis.");
+RL("Bryant","Michigan v. Bryant (2011)",[],"Primary purpose is judged objectively from the circumstances and both the declarant’s and questioners’ statements and actions. A dying victim’s answers about an armed shooter still at large were nontestimonial.","Ongoing emergency can extend beyond the victim to the public.");
+RL("Melendez-Diaz","Melendez-Diaz v. Massachusetts (2009)",[],"Sworn forensic certificates prepared for use at trial are testimonial. The prosecution must produce the analyst; the defendant’s subpoena power doesn’t shift the burden.","");
+RL("Bullcoming","Bullcoming v. New Mexico (2011)",[],"A surrogate analyst who didn’t perform or observe the test can’t satisfy the Clause for the certifying analyst’s report.","");
+RL("Clark","Ohio v. Clark (2015)",[],"A 3-year-old’s statements to preschool teachers were nontestimonial. Statements to non-law-enforcement listeners are much less likely to be testimonial; mandatory-reporter status doesn’t change that.","");
+RL("Bruton","Bruton v. United States (1968)",[],"In a joint trial, admitting a nontestifying codefendant’s confession that expressly implicates the defendant violates the Clause despite a limiting instruction. Samia v. United States (2023): a redaction to a neutral reference, with an instruction, can be permissible.","Remedies: severance or redaction.");
+RL("Hemphill","Hemphill v. New York (2022)",[],"A defendant doesn’t forfeit the confrontation right by “opening the door” through argument or evidence that the testimonial statement would rebut.","");
+RL("Street","Tennessee v. Street (1985)",[],"An accomplice’s confession admitted only to compare with the defendant’s, not for its truth, with a limiting instruction, didn’t violate the Clause. Crawford n.9 endorses the non-truth limit.","Smith v. Arizona (2024): if a statement supports the point only if true, it is offered for its truth.");
+RL("Gray","United States v. Gray (4th Cir. 2005)",[],"804(b)(6) applies whenever the defendant’s wrongdoing was intended to, and did, make the declarant unavailable as a witness, including in a different proceeding. Findings by a preponderance.","From your notes (listed there as “Gary”).");
 
 const CORNELL = n => "https://www.law.cornell.edu/rules/fre/rule_" + n;
 // Parse any citation-ish string into {num, parts} (parts lowercased) — "FRE 803 (2)", "rule 801(d)(2)(a)", "803.2" all work.
@@ -1586,12 +1532,12 @@ const STEP_HELP = {
  h_truth:[["801(c)"],"The same words can be hearsay or not depending on purpose. Ask what the proponent needs the jury to believe."],
  h_ex:[["801(d)(1)(A)","801(d)(1)(B)","801(d)(1)(C)","801(d)(2)"],"801(d) statements are defined as “not hearsay.” Check them before looking for exceptions."],
  h_exc:[["802","803","804(a)","807"],"No exclusion fits, so the statement is hearsay. It needs an exception, or 802 keeps it out."],
- c_crim:[["6A"],"The Confrontation Clause protects only the accused in criminal prosecutions."],
- c_decl:[["Crawford","Owens"],"A declarant who testifies and can be cross-examined satisfies the Clause. A defendant can’t confront himself."],
- c_test:[["Crawford","Davis"],"Only testimonial statements trigger the Clause. Apply the primary-purpose test."],
- c_cross:[["Crawford","804(b)(1)"],"A testimonial statement comes in only if the declarant is unavailable and there was a prior opportunity to cross."],
- c_forf:[["Giles","804(b)(6)"],"A defendant who silenced the witness intending to prevent testimony forfeits the objection."],
- x_403:[["403","105"],"Even admissible hearsay faces the final 403 balance."],
+ x_403:[["403","105"],"Even admissible hearsay faces the final 403 balance. In a criminal case against the accused, the Confrontation analysis comes next."],
+ cf_crim:[["6A"],"The Clause protects only the accused in a criminal prosecution, and only against other people’s statements."],
+ cf_test:[["Crawford","Davis","Bryant","Clark","Melendez-Diaz"],"Only testimonial statements trigger the Clause. Apply the primary-purpose test objectively: who spoke, to whom, how formally, and was there an ongoing emergency?"],
+ cf_avail:[["Crawford","Owens"],"A declarant who testifies at trial and answers questions satisfies the Clause, even with memory loss (Owens)."],
+ cf_prior:[["Crawford","804(b)(1)"],"For an absent declarant, Crawford requires both unavailability and a prior opportunity for this defendant to cross-examine."],
+ cf_exc:[["Giles","804(b)(6)","Gray","Street","Hemphill"],"Forfeiture by wrongdoing requires intent to prevent testimony. Non-truth uses fall outside the Clause. “Opening the door” is not an exception (Hemphill)."],
  k_rel:[["401","402"],"Every evidence analysis starts with relevance."],
  k_use:[["404(a)(1)","404(b)(2)","405(b)","406","404(a)(3)"],"The purpose decides the rule. Propensity triggers 404. Other purposes, habit, and character in issue route elsewhere."],
  k_hudd:[["104(b)","Huddleston"],"Other-act evidence is relevant only if the act happened and the person did it."],
@@ -1622,17 +1568,6 @@ const STEP_HELP = {
  p_st:[["Trammel"],"The witness-spouse decides whether to testify."],
  p_mc:[["501"],"Confidential marital communications have a separate privilege."],
  p_psy:[["Jaffee"],"A recognized federal privilege for therapy communications."],
- o_type:[["701","702"],"Lay and expert opinion have different gates."],
- o_701:[["701"],"Three requirements, and (c) stops experts in lay clothing."],
- o_qual:[["702"],"Qualification comes first."],
- o_rel:[["702"],"The 2023 amendment: the proponent proves each reliability element by a preponderance."],
- o_704:[["704(a)","704(b)"],"Ultimate-issue opinions are allowed, except an expert’s opinion on a criminal mental state."],
- o_403:[["403"],"The final balance."],
- e_902:[["902","902(11)"],"Some items prove themselves."],
- e_901:[["901(a)","901(b)(1)","901(b)(4)","901(b)(5)"],"A low threshold, but something must connect the item to the claim."],
- e_ber:[["1002"],"The BER applies only when content is being proved."],
- e_orig:[["1001(d)","1001(e)","1003"],"Originals and most duplicates satisfy the rule."],
- e_1004:[["1004"],"These excuses let in other evidence of content."]
 };
 
 // ===== ASK THE JUDGE: two graduated hints per case (nudge, don't answer) =====
@@ -1641,7 +1576,7 @@ rel1:["Relevance and sufficiency are different questions.","401 asks only whethe
 rel2:["“Prejudicial” and “unfairly prejudicial” aren’t the same thing.","Think about which way 403 tilts and what the judge can trim."],
 rel3:["Trace the chain of inferences from running to guilt.","Which link in that chain does the separate warrant weaken?"],
 rel4:["The evidence matters only if something else is true.","Who decides that condition, and how much proof is needed to let the jury decide?"],
-rel5:["Ask where the numbers came from.","Two rules police unreliable expert-style math and its effect on the jury."],
+rel5:["Ask where the numbers came from.","Which rule weighs low probative value against the risk of misleading the jury?"],
 rel6:["What exactly does 403 mean by “unfair”?","Strong evidence against you isn’t the danger the rule targets."],
 rel7:["One offer is for fault, the other answers a specific contested point.","Read 407’s “if disputed” list."],
 rel8:["Split the statement into its two parts.","Compare what 409 protects with what 408 protects."],
@@ -1669,10 +1604,6 @@ pr2:["Was the disclosure intentional?","502(b) has three elements."],
 pr3:["What was the client trying to do with the advice?","Past wrongdoing vs. future wrongdoing."],
 pr4:["Which spousal privilege fits observations?","Who holds that privilege after Trammel?"],
 pr5:["What kind of claim is this?","Read 501’s second sentence."],
-op1:["Does recognizing drunkenness take special training?","701(a)–(c)."],
-op2:["Where did the detective’s knowledge come from?","701(c)."],
-op3:["Has 702 changed recently?","Who decides whether the basis is sufficient?"],
-op4:["The question asks about an element of the defense.","704(b)."],
 hs1:["What legal effect do these words have?","Operative words aren’t offered for their truth."],
 hs2:["What does the plaintiff need this statement to prove?","Notice vs. the truth of the oil."],
 hs3:["Was the captain trying to communicate something?","801(a) requires intent to assert."],
@@ -1682,7 +1613,7 @@ hs6:["Is the statement looking forward or backward?","803(3) and Hillmon. Then a
 hs7:["What did she believe about her own condition when she spoke?","803(3) excludes one category of statements."],
 hs8:["Separate cause from fault.","803(4)(B) and “general cause.”"],
 hs9:["Count the layers.","Did everyone in the chain act under a duty to report?"],
-hs10:["Which exception covers routine bank records?","How can the foundation come in without a live witness?"],
+hs10:["Which exception covers routine bank records?","Who can lay the foundation: the people who made each entry, or someone else?"],
 hs11:["Check the exception number carefully.","803(22)’s four elements."],
 hs12:["Which 801(d)(2) category fits a partner in the deal?","Who decides the foundation, and may they consider the statement itself?"],
 hs13:["Suppose a hearsay exception fits. Is that the end?","Apply the testimonial test to a recorded station-house interview."],
@@ -1693,25 +1624,38 @@ hs17:["Two hurdles: hearsay and Confrontation.","Was there a prior opportunity t
 hs18:["Did he kill her to keep her from testifying?","Giles and 804(b)(6) require intent."],
 hs19:["What was the driver’s relationship to FreshCo?","801(d)(2)(D) doesn’t require authority to speak."],
 hs20:["Refreshing failed. What now?","803(5) has a limit on exhibits."],
-au1:["How high is the authentication bar?","Gaps in chain of custody usually go to weight."],
-au2:["Voice vs. handwriting.","901(b)(5) says “at any time.”"],
-au3:["Three of these appear in 902’s list.","Internal emails need a witness or a certification."],
-au4:["Anyone can make an account in someone’s name.","Look for distinctive content and technical links."],
-au5:["Demonstrative or illustrative?","Serge’s three factors and the 2024 rule 107."],
-be1:["Is the tenant proving what the writing says?","Is any 1004 excuse present?"],
-be2:["Is the clerk proving what the video shows?","When is the BER triggered?"],
-be3:["Is there any dispute about authenticity?","1003."],
-be4:["48,000 invoices can’t be examined in court.","1006 and the 2024 amendment."],
 mx1:["Take the three issues in order.","911 call → 803(2) + primary purpose. Fraud → 609(a)(2). “Does this kind of thing” → 404(b)(1)."],
-mx2:["Run the exhibit pathway: authenticate, BER, hearsay.","1001(d) for screenshots. Who sent the texts?"],
 d_hs1:["Is the station-house statement testimonial?","Did Michael ever have a chance to cross-examine Sylvia?"],
-d_hs2:["Which exception fits a call made mid-attack?","Primary purpose decides the testimonial question."],
+d_hs2:["Who is the declarant, and is this a criminal case?","Primary purpose: was there an ongoing emergency?"],
+d_hs4:["Is the speaker a partner in the deal?","801(d)(2)(E): during and in furtherance."],
+d_hs7:["Hearing testimony is testimonial. Then what?","Was there a prior opportunity to cross?"],
+d_hs8:["Who is the declarant, and who offers it?","801(d)(2)(A)."],
+d_hs9:["Who is offering the statement?","Look for an exception about treatment."],
+d_hs10:["The declarant died. Which article?","Did the defendant have an opportunity and similar motive?"],
+d_hs11:["Can a party use 801(d)(2) for its own statement?","Was it contemporaneous or excited?"],
+d_cf1:["Why were the certificates made?","Did any analyst testify?"],
+d_cf2:["Does he take the stand?","Owens: memory loss and cross-examination."],
+d_cf3:["Are statements to police testimonial?","Why did she arrange the killing?"],
+d_cf4:["Who asked, and why?","Clark: teachers aren’t police."],
+d_cf5:["Who is the declarant?","Can a defendant confront himself?"],
+d_cf6:["Testimonial, and no cross. Is there any way out?","What was the confession offered to prove?"],
+d_cf7:["What kind of case is this?","“In all criminal prosecutions.”"],
+d_cf8:["Testimonial and no prior cross. Any exception?","Did he kill her to keep her from testifying?"],
+cf1:["Whose statement is it?","Your notes’ Sixth Amendment checklist starts with who the declarant is."],
+cf2:["What does the Sixth Amendment cover?","Is this a criminal prosecution?"],
+cf3:["Why were the certificates prepared?","Can a substitute analyst stand in?"],
+cf4:["Was the danger over when he spoke?","Bryant: an armed shooter at large."],
+cf5:["Was there still an emergency when officers arrived?","Compare the 911 call in Davis."],
+cf6:["Who asked the question, and why?","Does a mandatory-reporting duty make a teacher an arm of the police?"],
+cf7:["Testimonial, no cross. What exception might apply?","Must the intent be about this trial specifically?"],
+cf8:["Can a limiting instruction fix this?","Bruton, then think about redaction (Samia)."],
+cf9:["What was the accomplice’s confession offered to prove?","Crawford footnote 9."],
+cf10:["To whom was she speaking, and why?","Nontestimonial → hearsay rules decide."],
+cf11:["Who had a chance to cross-examine Larry?","Does Moe’s cross count for Curly in a criminal case?"],
+cf12:["Is “opening the door” a Confrontation exception?","Hemphill."],
 d_hs3:["Why does the plaintiff care about this statement?","Notice is not truth."],
-d_hs4:["Is the speaker a partner in the deal?","Did he think he was talking to police?"],
 d_hs5:["Did she believe death was imminent?","Is “Dr. Shepard poisoned me” a statement of memory or belief?"],
 d_hs6:["Was sailing meant as a message?","801(a)."],
-d_hs7:["The victim died. Is there an exception?","Prior opportunity to cross at the hearing."],
-d_hs8:["Who is the declarant?","A defendant can’t confront himself."],
 d_ch1:["What is the stated purpose?","Has Vic opened any door?"],
 d_ch2:["Does the inference rely on character?","Signature → identity."],
 d_ch3:["Who is offering the character evidence?","Check the method."],
@@ -1728,12 +1672,6 @@ d_pr1:["Federal investigation, so federal law.","Upjohn, then crime-fraud, then 
 d_pr2:["Intentional or inadvertent?","502(b)."],
 d_pr3:["Observations aren’t communications.","Trammel."],
 d_pr4:["What supplies the rule of decision?","501."],
-d_op1:["Lay or expert?","Training-based knowledge."],
-d_op2:["Is the expert qualified and reliable? Then what is the question asking?","704(b)."],
-d_ex1:["Certified record?","Is content being proved, and is it the original?"],
-d_ex2:["Who can vouch for the photo?","Is the content of the photo at issue?"],
-d_ex3:["Authenticate first.","The original is gone. Why?"],
-d_ex4:["Is a name and photo enough?","901(a) still requires a link."]
 };
 // ===== APP =====
 const TOPICS = {
@@ -1741,16 +1679,15 @@ const TOPICS = {
   char:{n:"Character",r:"404–406 · 412–415"},
   imp:{n:"Impeachment",r:"607–613 · 806"},
   priv:{n:"Privileges",r:"501–502",thin:1},
-  op:{n:"Opinion",r:"701–706",thin:1},
-  hs:{n:"Hearsay & Confrontation",r:"801–807 · 6th Am."},
-  auth:{n:"Authentication",r:"901–902",thin:1},
-  be:{n:"Best Evidence",r:"1001–1008",thin:1}
+  hs:{n:"Hearsay",r:"801–807"},
+  conf:{n:"Confrontation Clause",r:"Sixth Amendment",final:1}
 };
+const REMOVED_TOPICS = ["op","auth","be"];
 const TKEYS = Object.keys(TOPICS);
 const LEVELS = {1:"Rookie",2:"Associate",3:"Trial-Ready",4:"Exam-Ready"};
 const LVDESC = {1:"single issue",2:"one rule, harder facts",3:"multi-issue",4:"everything mixed · 1.5× points"};
 const RANKS = [[0,"Rookie"],[250,"Associate"],[700,"Trial-Ready"],[1400,"Exam-Ready"]];
-const CODE = {rel:"REL",char:"CHR",imp:"IMP",priv:"PRV",op:"OPN",hs:"HSY",auth:"AUT",be:"BER"};
+const CODE = {rel:"REL",char:"CHR",imp:"IMP",priv:"PRV",hs:"HSY",conf:"CNF"};
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -1765,15 +1702,28 @@ let SAMPLE = null;
 // ---------- state (v1 shape kept; new fields added, nothing removed) ----------
 const KEY = "evidence-locker-v1";
 const blankT = () => ({hc:0,ha:0,dc:0,da:0,cc:0,ca:0});
-function fresh(){ const t = {}; TKEYS.forEach(k => t[k] = blankT()); return {v:1,pts:0,streak:0,best:0,t,hs:{},ds:{},bs:{},sprint:0,known:{},rl:{},hints:0,pref:{cite:true},rlFilled:true}; }
+function fresh(){ const t = {}; TKEYS.forEach(k => t[k] = blankT()); return {v:1,pts:0,streak:0,best:0,t,hs:{},ds:{},bs:{},sprint:0,known:{},rl:{},hints:0,pref:{cite:true},rlFilled:true,scope2:true}; }
 function load(){
   try { const s = JSON.parse(localStorage.getItem(KEY));
     if (s && s.v === 1){
       TKEYS.forEach(k => { s.t[k] = Object.assign(blankT(), s.t[k] || {}); });
       s.bs = s.bs || {}; s.rl = s.rl || {}; s.hints = s.hints || 0; s.pref = Object.assign({cite:true}, s.pref || {}); s.known = s.known || {}; s.ds = s.ds || {}; s.hs = s.hs || {};
       if (!s.rlFilled){ backfillRules(s); s.rlFilled = true; }
+      if (!s.scope2){ pruneScope(s); s.scope2 = true; }
       return s; } } catch(e){}
   return fresh();
+}
+// Scope change (Nov 2026): drop history for removed topics (opinion 701–706; anything after 807), keep everything else
+function pruneScope(s){
+  REMOVED_TOPICS.forEach(k => delete s.t[k]);
+  const hyp = new Set(HYPOS.map(h => h.id)), dr = new Set(DRILLS.map(d => d.id)), cards = new Set(CARDS.map(c => c[0]));
+  Object.keys(s.hs).forEach(id => { if (!hyp.has(id)) delete s.hs[id]; });
+  Object.keys(s.ds).forEach(id => { if (!dr.has(id)) delete s.ds[id]; });
+  Object.keys(s.bs).forEach(id => { if (!dr.has(id)) delete s.bs[id]; });
+  Object.keys(s.known).forEach(k => { if (!cards.has(k)) delete s.known[k]; });
+  Object.keys(s.rl).forEach(k => { const n = parseInt(k, 10); if (n >= 700 && n <= 706 || n >= 900) delete s.rl[k]; });
+  // drills that moved to the Confrontation map keep their clean/off-course status; their old hearsay-map
+  // results were Confrontation answers anyway, so we leave the per-topic totals as recorded.
 }
 // Rule-level history from progress saved before rule logging existed
 function backfillRules(s){
@@ -1870,7 +1820,7 @@ function renderDesk(){
     <div class="topics">${TKEYS.map(k => {
       const a = acc(k), t = S.t[k];
       const col = a.p === null ? "var(--line)" : a.p >= 80 ? "var(--ok)" : a.p >= 60 ? "var(--tag)" : "var(--bad)";
-      const badge = a.a >= 2 && a.p < 60 ? `<span class="badge weak">Weak area</span>` : a.a >= 4 && a.p >= 85 ? `<span class="badge good">Solid</span>` : TOPICS[k].thin ? `<span class="badge thin">Light in your notes</span>` : "";
+      const badge = a.a >= 2 && a.p < 60 ? `<span class="badge weak">Weak area</span>` : a.a >= 4 && a.p >= 85 ? `<span class="badge good">Solid</span>` : TOPICS[k].final ? `<span class="badge thin">Final topic</span>` : TOPICS[k].thin ? `<span class="badge thin">Light in your notes</span>` : "";
       return `<button class="tcard" data-go-hypo="${k}"><span class="nm">${TOPICS[k].n}</span><span class="rr">${TOPICS[k].r}</span>
         <span class="acc"><span>${a.p === null ? "—" : a.p + "%"}</span><span class="muted">H ${t.hc}/${t.ha} · M ${t.dc}/${t.da}</span></span>
         <span class="bar"><i style="width:${a.p || 0}%;background:${col}"></i></span>${badge}</button>`;
@@ -1890,14 +1840,14 @@ function renderDesk(){
     <div class="confirm" id="resetbox">${confirmReset ? `<span class="muted" style="font-size:14px">Erase all points and history?</span><button class="btn small" id="resetYes">Erase</button><button class="btn small ghost" id="resetNo">Keep</button>` : `<button class="btn small ghost" id="resetAsk">Reset progress</button>`}</div>
   </div>`;
 }
-function mapFor(k){ return {rel:"character",char:"character",imp:"impeach",priv:"privilege",op:"opinion",hs:"hearsay",auth:"exhibit",be:"exhibit"}[k]; }
+function mapFor(k){ return {rel:"character",char:"character",imp:"impeach",priv:"privilege",hs:"hearsay",conf:"confront"}[k]; }
 
 // ---------- CITATION GRADING ----------
 // 1 = exact (or more specific than the key) · 0.5 = right rule, not specific enough · 0.25 = right rule number, different subdivision · 0 = miss
 function gradeCite(input, keys){
   const tries = String(input).split(/[,;]|\band\b|\s\/\s/i).map(x => x.trim()).filter(Boolean);
   let best = {score:0, label:"miss"};
-  tries.forEach(t => { const a = parseCite(t); if (!a) return;
+  tries.forEach(t => { const a = parseCite(t); if (!a) return; if (CONF_CASES.has(a.num)) { a.num = "6A"; a.parts = []; }
     keys.forEach(kr => { const b = parseCite(kr); if (!b || a.num !== b.num) return;
       let i = 0; while (i < a.parts.length && i < b.parts.length && a.parts[i] === b.parts[i]) i++;
       let sc, label;
@@ -1908,6 +1858,8 @@ function gradeCite(input, keys){
     }); });
   return best;
 }
+// Citing a Confrontation case counts as citing the Sixth Amendment
+const CONF_CASES = new Set(["Crawford","Davis","Hammon","Bryant","Melendez-Diaz","Bullcoming","Clark","Giles","Bruton","Hemphill","Street","Owens"]);
 const CITE_MSG = {exact:"Full credit. That’s the controlling rule.", general:"Partial credit. Right rule, but cite the specific subdivision.", near:"Close. Right rule number, but a different subdivision controls.", miss:"Not the controlling rule.", skip:"Skipped."};
 
 // ---------- HYPOS ----------
@@ -1954,7 +1906,7 @@ function renderHypoCard(){
   const prev = S.hs[h.id], freKeys = h.r.filter(r => isFRE(r) || /Sixth/.test(r));
   let step = "";
   if (H.stage === "cite") step = `<div class="stepbox"><span class="n">Step 1 · Cite the controlling rule</span>
-      <div class="cite-row"><label class="sr" for="citeIn">Rule citation</label><input id="citeIn" class="cite-in" placeholder="e.g. 803(2) or 404(b)(2)" autocomplete="off" value="${esc(H.citeText)}">
+      <div class="cite-row"><label class="sr" for="citeIn">Rule citation</label><input id="citeIn" class="cite-in" placeholder="${h.t[0] === "conf" ? "e.g. Sixth Amendment, or a case like Crawford" : "e.g. 803(2) or 404(b)(2)"}" autocomplete="off" value="${esc(H.citeText)}">
       <button class="btn primary" id="citeGo">Submit cite</button><button class="btn ghost small" id="citeSkip">Skip</button></div>
       <span class="muted" style="font-size:13px">Any controlling rule counts. A more specific subdivision earns more credit.</span></div>`;
   const citeLine = H.cite ? `<div class="citeres ${H.cite.label}"><b>Your cite: ${esc(H.citeText || "—")}</b> · ${CITE_MSG[H.cite.label]}${done ? ` Controlling: ${freKeys.map(r => esc(bare(r))).join(", ")}.` : ""}</div>` : "";
@@ -2189,23 +2141,27 @@ function treeHTML(m, sol, o){
 }
 
 // ---------- BUILD MODE ----------
+function nodeOf(id){ for (const k in MAPS) if (MAPS[k].nodes[id]) return MAPS[k].nodes[id]; return null; }
+const DECOY_FROM = {confront:"hearsay", hearsay:"confront", character:"impeach", impeach:"character", privilege:"hearsay"};
 function initBuild(){
   const m = MAPS[D.map], sol = solve(D.sc);
   const onPath = sol.seq.map(([n]) => n);
-  const others = shuffle(Object.keys(m.nodes).filter(n => !m.nodes[n].end && !onPath.includes(n)));
-  const decoys = others.slice(0, Math.min(others.length, onPath.length <= 2 ? 2 : 3));
+  const want = onPath.length <= 2 ? 2 : 3;
+  let others = shuffle(Object.keys(m.nodes).filter(n => !m.nodes[n].end && !onPath.includes(n))).slice(0, want);
+  if (others.length < 2){ const alt = MAPS[DECOY_FROM[D.map]]; others = others.concat(shuffle(Object.keys(alt.nodes).filter(n => !alt.nodes[n].end && n !== "x_403")).slice(0, 2 - others.length + 1)); }
+  const decoys = others;
   B.chain = []; B.bank = shuffle(onPath.concat(decoys)); B.concl = null; B.done = false; B.result = null; B.err = "";
 }
 function terminals(m){ const seen = new Set(); return Object.keys(m.nodes).filter(n => m.nodes[n].end).filter(n => { const l = m.nodes[n].label; if (seen.has(l)) return false; seen.add(l); return true; }); }
 function renderBuild(){
   const m = MAPS[D.map], v = $("#v-maps");
   if (B.done) { v.innerHTML = caseHead() + `</div></article>` + buildResult(); return; }
-  const chain = B.chain.map((c, i) => { const nd = m.nodes[c.id];
+  const chain = B.chain.map((c, i) => { const nd = nodeOf(c.id);
     return `<li class="blk in" data-ci="${i}"><div class="blk-top"><span class="grip" data-drag="chain:${i}" aria-hidden="true">⋮⋮</span><span class="bn">${i + 1}</span><b>${esc(nd.s)}</b>
         <span class="blk-ctl">${whyBtn(`data-why-node="${c.id}"`)}<button class="ic" data-bup="${i}" aria-label="Move up" ${i === 0 ? "disabled" : ""}>↑</button><button class="ic" data-bdn="${i}" aria-label="Move down" ${i === B.chain.length - 1 ? "disabled" : ""}>↓</button><button class="ic" data-brm="${i}" aria-label="Remove">✕</button></span></div>
       <p class="bq">${esc(nd.q)}</p>
       <div class="ansrow">${nd.o.map((o, j) => `<button class="pill sm" data-bans="${i}:${j}" aria-pressed="${c.ans === j}">${esc(o[0])}</button>`).join("")}</div></li>`; }).join("");
-  const bank = B.bank.map(id => `<li class="blk" data-bid="${id}"><div class="blk-top"><span class="grip" data-drag="bank:${id}" aria-hidden="true">⋮⋮</span><b>${esc(m.nodes[id].s)}</b><span class="blk-ctl">${whyBtn(`data-why-node="${id}"`)}<button class="btn small" data-badd="${id}">Add ↓</button></span></div><p class="bq">${esc(m.nodes[id].q)}</p></li>`).join("");
+  const bank = B.bank.map(id => `<li class="blk" data-bid="${id}"><div class="blk-top"><span class="grip" data-drag="bank:${id}" aria-hidden="true">⋮⋮</span><b>${esc(nodeOf(id).s)}</b><span class="blk-ctl">${whyBtn(`data-why-node="${id}"`)}<button class="btn small" data-badd="${id}">Add ↓</button></span></div><p class="bq">${esc(nodeOf(id).q)}</p></li>`).join("");
   const ready = B.chain.length && B.chain.every(c => c.ans !== null) && B.concl;
   v.innerHTML = caseHead() + `</div></article>
     <div class="build">
@@ -2245,14 +2201,14 @@ function submitBuild(){
 function buildResult(){
   const m = MAPS[D.map], sc = D.sc, sol = solve(sc), seq = sol.seq, r = B.result;
   const expected = r.k >= 0 && seq[r.k] ? seq[r.k][0] : null;
-  const yours = B.chain.map((c, i) => { const nd = m.nodes[c.id]; const st = r.k === -1 || i < r.k ? "ok" : i === r.k ? "bad" : "after";
+  const yours = B.chain.map((c, i) => { const nd = nodeOf(c.id); const st = r.k === -1 || i < r.k ? "ok" : i === r.k ? "bad" : "after";
     return `<li class="ys ${st}"><span class="bn">${i + 1}</span><div><b>${esc(nd.s)}</b> → ${esc(nd.o[c.ans][0])}${st === "bad" ? `<span class="note">${r.why === "block" ? `Expected here: <b>${esc(m.nodes[seq[i][0]].s)}</b>` : r.why === "answer" ? `Right step, wrong answer. Correct: <b>${esc(nd.o[seq[i][1]][0])}</b>` : "This step goes past the end of the correct route."}</span>` : ""}</div></li>`; }).join("")
     + (r.why === "missing" ? `<li class="ys bad"><span class="bn">${B.chain.length + 1}</span><div><b>Missing step</b><span class="note">Expected next: <b>${esc(m.nodes[seq[r.k][0]].s)}</b></span></div></li>` : "")
     + `<li class="ys ${r.conclOk ? "ok" : "bad"}"><span class="bn">⚑</span><div><b>${esc(m.nodes[B.concl].label)}</b>${r.conclOk ? "" : `<span class="note">Correct conclusion: <b>${esc(m.nodes[sol.term].label)}</b></span>`}</div></li>`;
   const msg = r.clean ? `<div class="oncourse"><span class="stamp ok" style="display:inline-block;margin-bottom:10px">Affirmed</span><br><b>Clean build.</b> Every step in the right order, with the right answers and the right conclusion.</div>`
     : r.k === -1 ? `<div class="offcourse"><span class="stamp no" style="display:inline-block;margin-bottom:10px">Reversed</span><br><b>Your route was right, but the conclusion wasn’t.</b> Correct conclusion: <b>${esc(m.nodes[sol.term].label)}</b>.</div>`
     : `<div class="offcourse"><span class="stamp no" style="display:inline-block;margin-bottom:10px">Reversed</span><br><b>You went off course at step ${r.k + 1}.</b> ${
-        r.why === "block" ? `You placed “${esc(m.nodes[B.chain[r.k].id].s)}” where “${esc(m.nodes[expected].s)}” belongs.` :
+        r.why === "block" ? `You placed “${esc(nodeOf(B.chain[r.k].id).s)}” where “${esc(m.nodes[expected].s)}” belongs.` :
         r.why === "answer" ? `Right step (“${esc(m.nodes[expected].s)}”), wrong answer.` :
         r.why === "missing" ? `Your path stops early. The next step is “${esc(m.nodes[expected].s)}.”` :
         `Your path keeps going after the correct route has already ended.`}
@@ -2362,7 +2318,7 @@ document.addEventListener("click", e => {
   const d = t.dataset;
   if (t.id === "why-close" || t.id === "why-scrim"){ closeWhy(); return; }
   if (d.rule){ openWhy("Rule text", "", [d.rule]); return; }
-  if (d.whyNode){ const m = MAPS[D.map]; const nd = m.nodes[d.whyNode]; const help = STEP_HELP[d.whyNode] || [[], ""]; openWhy(nd.s + " · " + nd.rule, help[1] + " " + "Question: " + nd.q, help[0]); return; }
+  if (d.whyNode){ const nd = nodeOf(d.whyNode); const help = STEP_HELP[d.whyNode] || [[], ""]; openWhy(nd.s + " · " + nd.rule, help[1] + " " + "Question: " + nd.q, help[0]); return; }
   if (d.whyOpt !== undefined){ const h = H.deck[H.i]; const o = h.o[+d.whyOpt]; openWhy(o[1] ? "Why this answer is right" : "Why this answer is wrong", o[2], h.r); return; }
   if (d.goHypo){ H.topic = d.goHypo; H.lv = 4; H.deck = []; location.hash = "#hypos"; if (location.hash === "#hypos") route(); return; }
   if (d.goMap){ D.map = d.goMap; D.sc = null; location.hash = "#maps"; route(); return; }
@@ -2421,5 +2377,4 @@ document.addEventListener("keydown", e => {
 
 save(); renderStats(); route();
 </script>
-
 </body></html>
