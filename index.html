@@ -237,38 +237,38 @@ button.cite{cursor:pointer}button.cite:hover{border-color:var(--tag2);color:var(
 .rb blockquote p{margin:3px 0;font-size:15px}
 .rb p{margin:0}.tip{font-size:14px}
 .cornell{font:600 12px/1.4 var(--f-mono);color:var(--tag2)}
-/* build mode */
-.build{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:start}
-@media (max-width:760px){.build{grid-template-columns:1fr}}
-.bcol{display:grid;gap:12px}
-.chain-list,.bank-list{list-style:none;margin:0;padding:0;display:grid;gap:8px;min-height:60px}
-.chain-list{counter-reset:none;border:2px dashed var(--line);border-radius:var(--r);padding:8px}
-.blk{border:1px solid var(--line);border-radius:5px;background:var(--card);padding:10px;display:grid;gap:6px}
-.blk.in{border-color:var(--ink)}
-.blk-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.blk-top b{font-family:var(--f-display);font-weight:600}
-.blk-ctl{margin-left:auto;display:flex;gap:4px;align-items:center}
-.grip{cursor:grab;touch-action:none;user-select:none;font:700 14px/1 var(--f-mono);color:var(--muted);padding:6px 4px;border-radius:3px}
-.grip:hover{background:var(--soft);color:var(--ink)}
-.bn{font:600 12px/22px var(--f-mono);min-width:22px;height:22px;text-align:center;border-radius:50%;background:var(--ink);color:var(--bg)}
-.bq{margin:0;font-size:14px;color:var(--muted)}
-.ic{border:1px solid var(--line);background:var(--card);border-radius:3px;width:28px;height:26px;cursor:pointer;font:600 13px/1 var(--f-mono)}
-.ic:disabled{opacity:.35;cursor:default}
-.ansrow{display:flex;flex-wrap:wrap;gap:6px}
-.pill.sm{font-size:12.5px;padding:5px 10px;text-align:left}
-.empty{color:var(--muted);font-size:14px;padding:12px;text-align:center}
-.drop-mark{height:0;border-top:3px solid var(--tag2);border-radius:2px;list-style:none}
-.drag-ghost{position:fixed;z-index:40;pointer-events:none;opacity:.92;box-shadow:0 10px 30px rgba(0,0,0,.25);transform:rotate(-1.5deg);list-style:none}
-.lifted{opacity:.35}
-.concl{display:grid;gap:6px}
-.cmp{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:16px;align-items:start}
-@media (max-width:820px){.cmp{grid-template-columns:1fr}}
-.yours{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
-.ys{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:5px;border:1px solid var(--line);font-size:14px}
-.ys.ok{border-color:var(--ok);background:var(--ok-soft)}
-.ys.bad{border:2px solid var(--bad);background:var(--bad-soft)}
-.ys.after{opacity:.55}
-.ys .note{display:block;margin-top:4px;font-size:13px}
+/* journey maps: answer your way down */
+.walkgrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:820px){.walkgrid{grid-template-columns:1fr}}
+.wmain{display:grid;gap:12px;min-width:0}
+.stepq.seq{border-color:var(--tag2)}
+.stepq.seq .n{color:var(--tag2)}
+.youans{margin:0;font-size:15px}
+.okline{display:grid;gap:4px;padding:10px 12px;border-radius:5px;background:var(--ok-soft);border-left:4px solid var(--ok);font-size:14px}
+.okline b{color:var(--ok)}
+.fbcard{border-radius:var(--r);padding:14px 16px;display:grid;gap:8px;border-left:5px solid}
+.fbcard p{margin:0}
+.fbcard.bad{background:var(--bad-soft);border-color:var(--bad)}
+.fbcard.half{background:var(--route-soft);border-color:var(--tag)}
+.live{position:sticky;top:calc(110px + env(safe-area-inset-top,0px));display:grid;gap:10px}
+@media (max-width:820px){.live{position:static}}
+.lmap{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line);display:grid;gap:8px}
+.lmap li{position:relative}
+.lmap li::before{content:"";position:absolute;left:-15px;top:14px;width:12px;border-top:2px solid var(--line)}
+.lnode{border:1px solid var(--line);border-radius:5px;padding:8px 10px;background:var(--card);display:grid;gap:3px;font-size:14px}
+.lnode b{font-family:var(--f-display);font-weight:600}
+.lnode .mark{font:700 15px/1 var(--f-mono)}
+.lnode.ok{border-color:var(--ok)}.lnode.ok .mark{color:var(--ok)}
+.lnode.half{border-color:var(--tag);background:var(--route-soft)}.lnode.half .mark{color:var(--route)}
+.lnode.bad{border:2px solid var(--bad);background:var(--bad-soft)}.lnode.bad .mark{color:var(--bad)}
+.lnode.now{border:2px dashed var(--ink)}
+.lnode .was{color:var(--bad);text-decoration:line-through;font-size:13px}
+.edge2{font:600 12.5px/1.4 var(--f-mono)}
+.lchk{font-size:13px;padding:2px 0}
+.lchk.ok .eyebrow{color:var(--ok)}.lchk.bad .eyebrow{color:var(--bad)}
+.lend .tn{font-size:13px}
+.dn.h{border:2px solid var(--tag);box-shadow:0 0 0 4px var(--route-soft)}
+.flag.half{background:var(--tag);color:var(--on-tag)}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:560px){.panel,.cf-body{padding:16px}.cf-head,.cf-foot{padding-inline:16px}.brand h1{font-size:1.3rem}}
 </style>
@@ -967,16 +967,19 @@ r:["Sixth Amendment"],src:"Hemphill v. New York"}
 // ===== JOURNEY MAPS =====
 // Decision nodes: {q, rule, s (short name), o:[[label, next]]}. Terminals: {end:true, label, kind:'in'|'out'|'route'}
 const MAPS = {
-hearsay:{name:"Hearsay",topic:"hs",root:"h_stmt",blurb:"Statement → truth → 801(d) exclusions → 803/804/807 exceptions → 403",
+hearsay:{name:"Hearsay",topic:"hs",root:"h_stmt",blurb:"Statement → truth → 801(d) exclusions → 803 → 804(a) unavailability → 804(b) → 807 → 403",
 nodes:{
-h_stmt:{s:"Statement?",rule:"801(a), (c)(1)",q:"Is there an out-of-court “statement”: an oral or written assertion, or nonverbal conduct intended as an assertion?",o:[["Yes",'h_truth'],["No: nonassertive conduct, or no assertion",'x_403']]},
-h_truth:{s:"Offered for truth?",rule:"801(c)(2)",q:"Is it offered to prove the truth of the matter asserted?",o:[["Yes",'h_ex'],["No: effect on listener, verbal act, notice, impeachment",'x_403']]},
-h_ex:{s:"801(d) exclusion?",rule:"801(d)",q:"Does 801(d) define it as not hearsay?",o:[["Yes: 801(d)(1) prior statement of a testifying witness",'x_403'],["Yes: 801(d)(2) opposing party’s statement",'x_403'],["No, it is hearsay",'h_exc']]},
-h_exc:{s:"Hearsay exception?",rule:"803 / 804 / 807 · 802",q:"Does a hearsay exception apply?",o:[["803: availability immaterial",'x_403'],["804: declarant unavailable under 804(a)",'x_403'],["807: residual",'x_403'],["None",'T_802']]},
+h_stmt:{s:"Statement?",rule:"801(a), (c)(1)",q:"Is there an out-of-court “statement”: an oral or written assertion, or nonverbal conduct intended as an assertion?",o:[["Yes",'h_truth'],["No",'x_403']]},
+h_truth:{s:"Offered for truth?",rule:"801(c)(2)",q:"Is it offered to prove the truth of the matter asserted?",o:[["Yes",'h_ex'],["No",'x_403']]},
+h_ex:{s:"801(d) exclusion?",rule:"801(d)",q:"Does 801(d) define it as not hearsay?",o:[["Yes: 801(d)(1) prior statement of a testifying witness",'x_403'],["Yes: 801(d)(2) opposing party’s statement",'x_403'],["No, it is hearsay",'h_803']]},
+h_803:{s:"803 exception?",rule:"803",q:"Does an 803 exception apply (the declarant’s availability doesn’t matter)?",o:[["Yes",'x_403'],["No",'h_avail']]},
+h_avail:{s:"Unavailable?",rule:"804(a)",q:"Is the declarant unavailable under 804(a)?",o:[["Yes",'h_804'],["No",'h_807']]},
+h_804:{s:"804(b) exception?",rule:"804(b)",q:"Does an 804(b) exception apply?",o:[["Yes",'x_403'],["No",'h_807']]},
+h_807:{s:"Residual (807)?",rule:"807",q:"Does the residual exception apply?",o:[["Yes",'x_403'],["No",'T_802']]},
 x_403:{s:"Rule 403",rule:"403",q:"Is the probative value substantially outweighed by unfair prejudice, confusion, misleading the jury, delay, waste of time, or cumulativeness?",o:[["Yes",'T_403'],["No",'T_adm']]},
 T_802:{end:1,kind:'out',label:"Excluded: hearsay with no exception (802)"},
 T_403:{end:1,kind:'out',label:"Excluded under 403"},
-T_adm:{end:1,kind:'in',label:"Admissible under the hearsay rules (criminal case against the accused? Run the Confrontation map next)"}
+T_adm:{end:1,kind:'in',label:"Admissible under the hearsay rules"}
 }},
 character:{name:"Character Evidence",topic:"char",root:"k_rel",blurb:"401 → purpose → 413–415 → 404(a)(2) doors → 405 method → 403",
 nodes:{
@@ -1060,35 +1063,34 @@ const DRILLS = [
 facts:"In a civil slip-and-fall case, the plaintiff offers testimony that a shopper told the store manager, “There’s oil all over aisle 5,” 20 minutes before the fall. It is offered to prove the store had notice.",
 a:{h_stmt:0,h_truth:1,x_403:1},
 n:{h_truth:"It is offered to show notice (effect on the listener), not that oil was actually there.",x_403:"A 105 instruction limits the jury to the notice purpose."}},
-{id:"d_hs4",map:"hearsay",t:["hs"],lv:2,title:"The Coconspirator",src:"Bourjaily v. United States",
+{id:"d_hs4",map:"hearsay",t:["hs"],lv:2,title:"The Coconspirator",src:"Bourjaily v. United States",crim:1,
 facts:"On a recorded call, Lonardo tells an FBI informant arranging a cocaine sale: “My friend will be the buyer — he has questions about quality.” Bourjaily takes the cocaine at the meeting. Lonardo doesn’t testify. The statements are offered against Bourjaily.",
 a:{h_stmt:0,h_truth:0,h_ex:1,x_403:1},
-n:{h_ex:"801(d)(2)(E): during and in furtherance of the conspiracy. The judge finds the foundation by a preponderance (104(a)) and may consider the statement itself, plus independent evidence. (Confrontation: statements to a person the declarant thinks is a buyer are nontestimonial.)"}},
+n:{h_ex:"801(d)(2)(E): during and in furtherance of the conspiracy. The judge finds the foundation by a preponderance (104(a)) and may consider the statement itself, plus independent evidence."}},
 {id:"d_hs5",map:"hearsay",t:["hs"],lv:2,title:"“Dr. Shepard Has Poisoned Me”",src:"Shepard v. United States",
 facts:"Days into her illness, while she was talking about recovering, Mrs. Shepard told her nurse, “Dr. Shepard has poisoned me.” She later died. The prosecution offers the statement as a dying declaration, or under 803(3).",
-a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:3},
-n:{h_exc:"804(b)(2) fails because she had no settled, hopeless expectation of death. 803(3) fails because it’s a belief offered to prove the past fact believed. Your stop is 802."}},
+a:{h_stmt:0,h_truth:0,h_ex:2,h_803:1,h_avail:0,h_804:1,h_807:1},
+n:{h_ex:"Mrs. Shepard isn’t a party and isn’t testifying.",h_803:"803(3) excludes “a statement of memory or belief to prove the fact remembered or believed.” “He poisoned me” looks backward.",h_avail:"She has died: 804(a)(4).",h_804:"804(b)(2) needs a settled, hopeless expectation of imminent death. She was talking about recovering.",h_807:"Cardozo found the statement too unreliable for this use; nothing here offers the guarantees 807 demands. Your stop is 802."}},
 {id:"d_hs6",map:"hearsay",t:["hs"],lv:1,title:"The Captain Sails",src:"Wright v. Tatham",
 facts:"To prove a vessel was seaworthy, the owner’s estate offers evidence that the experienced captain inspected the ship and then sailed on it with his family aboard.",
 a:{h_stmt:1,x_403:1},
 n:{h_stmt:"Nonassertive conduct isn’t a “statement” under 801(a). (The common-law rule was different.)"}},
-{id:"d_hs8",map:"hearsay",t:["hs"],lv:1,title:"“I Hid the Gun”",
+{id:"d_hs8",map:"hearsay",t:["hs"],lv:1,title:"“I Hid the Gun”",crim:1,
 facts:"The defendant told his girlfriend, “I hid the gun in the lake.” She testifies to the statement at his murder trial.",
 a:{h_stmt:0,h_truth:0,h_ex:1,x_403:1},
-n:{h_ex:"The defendant’s own statement offered against him is 801(d)(2)(A). (And there’s no Confrontation issue: he can’t confront himself.)"}},
+n:{h_ex:"The defendant’s own statement offered against him is 801(d)(2)(A)."}},
 {id:"d_hs9",map:"hearsay",t:["hs"],lv:1,title:"The ER Visit",
 facts:"In a civil battery suit, the plaintiff’s ER doctor testifies that the plaintiff told her, “I was hit on the back of the head and I’ve had blurry vision since.” The plaintiff offers it to prove the injury and its cause.",
-a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:0,x_403:1},
-n:{h_ex:"The plaintiff is offering her own statement, so 801(d)(2) doesn’t help her.",h_exc:"803(4): made for treatment, describing symptoms and their general cause."}},
+a:{h_stmt:0,h_truth:0,h_ex:2,h_803:0,x_403:1},
+n:{h_ex:"The plaintiff is offering her own statement, so 801(d)(2) doesn’t help her.",h_803:"803(4): made for treatment, describing symptoms and their general cause."}},
 {id:"d_hs10",map:"hearsay",t:["hs"],lv:2,title:"The Deposition of a Dead Witness",
 facts:"In a civil fraud case, a key witness was deposed and cross-examined at length by the defendant’s lawyer. The witness died before trial. The plaintiff offers the deposition transcript.",
-a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:1,x_403:1},
-n:{h_exc:"804(a)(4) death → 804(b)(1) former testimony: the defendant had an opportunity and similar motive to develop it."}},
+a:{h_stmt:0,h_truth:0,h_ex:2,h_803:1,h_avail:0,h_804:0,x_403:1},
+n:{h_803:"No 803 exception covers prior testimony.",h_avail:"Death: 804(a)(4).",h_804:"804(b)(1): the defendant had an opportunity and similar motive to develop the testimony."}},
 {id:"d_hs11",map:"hearsay",t:["hs"],lv:2,title:"The Self-Serving Denial",
 facts:"In a negligence suit, the defendant driver offers his own statement to the officer at the scene: “The other car came out of nowhere.” He made it 20 minutes after the crash, calmly, while filling out a report. He offers it to prove how the crash happened.",
-a:{h_stmt:0,h_truth:0,h_ex:2,h_exc:3},
-n:{h_ex:"801(d)(2) only works when a party’s statement is offered against that party.",h_exc:"Not contemporaneous (803(1)) and not under stress (803(2)). He should testify live."}},
-
+a:{h_stmt:0,h_truth:0,h_ex:2,h_803:1,h_avail:1,h_807:1},
+n:{h_ex:"801(d)(2) only works when a party’s statement is offered against that party.",h_803:"Not contemporaneous (803(1)) and not under stress (803(2)).",h_avail:"He’s sitting in the courtroom and can testify.",h_807:"A self-serving account by an available party is neither especially trustworthy nor more probative than his live testimony."}},
 {id:"d_ch1",map:"character",t:["char"],lv:1,title:"Two Bar Fights",
 facts:"Vic, charged with assault and claiming self-defense, has offered no character evidence. The prosecution offers two unrelated bar fights from last year “to show he’s a violent person.”",
 a:{k_rel:0,k_use:0,k_413:1,k_crim:3},
@@ -1462,6 +1464,7 @@ RL("804(a)","Criteria for being unavailable",[],
  "(1) privilege; (2) refusal despite a court order; (3) lack of memory; (4) death or illness; (5) absence despite process or reasonable means. Not if the proponent wrongfully caused it.","Paraphrase.");
 RL("804(a)(1)","Unavailable: privilege",[],"Exempted by a court ruling on privilege (the Fifth Amendment, the spousal privilege).","Paraphrase.");
 RL("804(a)(4)","Unavailable: death or illness",[],"Can’t be present or testify because of death or a then-existing infirmity or illness.","Paraphrase.");
+RL("804(b)","Exceptions when the declarant is unavailable",[],"Once 804(a) unavailability is shown: (1) former testimony, (2) statement under belief of imminent death, (3) statement against interest, (4) personal or family history, (6) forfeiture by wrongdoing.","None of these applies unless 804(a) is satisfied first.");
 RL("804(b)(1)","Former testimony",
  ["was given as a witness at a trial, hearing, or lawful deposition","is now offered against a party who had — or, in a civil case, whose predecessor in interest had —","an opportunity and similar motive to develop it"],
  "Also satisfies Crawford when the declarant is unavailable.","");
@@ -1531,7 +1534,10 @@ const STEP_HELP = {
  h_stmt:[["801(a)","801(c)"],"Hearsay needs an assertion. Conduct or words not intended as an assertion never reach the hearsay rule."],
  h_truth:[["801(c)"],"The same words can be hearsay or not depending on purpose. Ask what the proponent needs the jury to believe."],
  h_ex:[["801(d)(1)(A)","801(d)(1)(B)","801(d)(1)(C)","801(d)(2)"],"801(d) statements are defined as “not hearsay.” Check them before looking for exceptions."],
- h_exc:[["802","803","804(a)","807"],"No exclusion fits, so the statement is hearsay. It needs an exception, or 802 keeps it out."],
+ h_803:[["803","803(1)","803(2)","803(3)","803(4)","803(6)"],"803 exceptions apply whether or not the declarant is available, so check them first."],
+ h_avail:[["804(a)"],"Every 804(b) exception requires an unavailable declarant. 804(a) lists the five ways."],
+ h_804:[["804(b)(1)","804(b)(2)","804(b)(3)","804(b)(6)"],"Only after unavailability is shown do the 804(b) exceptions open up."],
+ h_807:[["807"],"The residual exception is a last resort: trustworthiness, more probative than anything else reasonably available, and notice."],
  x_403:[["403","105"],"Even admissible hearsay faces the final 403 balance. In a criminal case against the accused, the Confrontation analysis comes next."],
  cf_crim:[["6A"],"The Clause protects only the accused in a criminal prosecution, and only against other people’s statements."],
  cf_test:[["Crawford","Davis","Bryant","Clark","Melendez-Diaz"],"Only testimonial statements trigger the Clause. Apply the primary-purpose test objectively: who spoke, to whom, how formally, and was there an ongoing emergency?"],
@@ -1672,6 +1678,95 @@ d_pr1:["Federal investigation, so federal law.","Upjohn, then crime-fraud, then 
 d_pr2:["Intentional or inadvertent?","502(b)."],
 d_pr3:["Observations aren’t communications.","Trammel."],
 d_pr4:["What supplies the rule of decision?","501."],
+};
+// ===== JOURNEY MAPS: "answer your way down the path" =====
+// After answering a node, the student justifies the answer:
+//  - REASONS[node][optionIndex] (2+ entries) → pick the reason that fits these facts (key in each drill's `r`)
+//  - otherwise CITE[node] → pick the governing rule from four choices
+//  - nodes whose options already state the legal distinction (e.g. "Which privilege?") need no second step
+const X403 = [["unfair","Unfair prejudice"],["confuse","Confusing the issues or misleading the jury"],["waste","Undue delay, wasted time, or cumulative evidence"]];
+const REASONS = {
+  h_stmt:{0:[["assert","An oral or written assertion (801(a))"],["conduct","Nonverbal conduct intended as an assertion, like pointing or nodding (801(a))"]],
+          1:[["nonassert","Conduct not intended as an assertion (801(a))"],["noassert","Words that assert nothing: a question, command, or greeting"]]},
+  h_truth:{1:[["listener","Effect on the listener: notice, fear, or reasonableness"],["verbal","Verbal act: the words themselves have legal effect"],["impeach","Impeachment only: it shows inconsistency, not truth"],["circum","Circumstantial evidence of the declarant’s state of mind"]]},
+  h_ex:{0:[["inc","(d)(1)(A) inconsistent, given under penalty of perjury at a proceeding"],["cons","(d)(1)(B) consistent, to rebut fabrication or rehabilitate"],["id","(d)(1)(C) identification of a person perceived earlier"]],
+        1:[["own","(d)(2)(A) the party’s own statement"],["adopt","(d)(2)(B) adopted by the party"],["auth","(d)(2)(C) authorized by the party"],["agent","(d)(2)(D) agent or employee, within the scope"],["cocon","(d)(2)(E) coconspirator, during and in furtherance"]],
+        2:[["noparty","The proponent made the statement; 801(d)(2) works only against the party who made it"],["none","The declarant is a non-party who isn’t testifying, so no 801(d) category fits"]]},
+  h_803:{0:[["psi","803(1) present sense impression"],["exc","803(2) excited utterance"],["som","803(3) then-existing state of mind"],["med","803(4) medical diagnosis or treatment"],["rr","803(5) recorded recollection"],["biz","803(6) business record"],["pub","803(8) public record"],["conv","803(22) judgment of a prior conviction"]]},
+  h_avail:{0:[["priv","(a)(1) exempted by privilege"],["refuse","(a)(2) refuses despite a court order"],["mem","(a)(3) lacks memory"],["death","(a)(4) death or illness"],["absent","(a)(5) absent despite reasonable efforts"]]},
+  h_804:{0:[["former","(b)(1) former testimony"],["dying","(b)(2) statement under belief of imminent death"],["against","(b)(3) statement against interest"],["forf","(b)(6) forfeiture by wrongdoing"]]},
+  x_403:{0:X403},
+  k_use:{1:[["motive","Motive"],["intent","Intent"],["identity","Identity: a distinctive signature"],["plan","Common plan or scheme"],["knowledge","Knowledge or absence of mistake"]]},
+  k_413:{0:[["413","413: criminal sexual-assault case"],["414","414: criminal child-molestation case"],["415","415: civil sexual-assault or child-molestation case"]]},
+  k_form:{0:[["rep","Reputation testimony"],["op","Opinion testimony"],["cross","Specific instances, asked about on cross"]]},
+  k_403:{0:X403},
+  J_403:{0:X403.concat([["harass","Harassment or undue embarrassment of the witness (611(a))"]])},
+  p_ac:{1:[["facts","The underlying facts aren’t privileged"],["biz","Business, not legal, advice"],["notconf","Not made in confidence: a third party was present"]]},
+  cf_test:{0:[["police","Structured police questioning about past events"],["formal","A formal, sworn document prepared for trial (affidavit, certificate)"],["court","Prior testimony in court or a plea allocution"]],
+           1:[["emerg","Primary purpose: meeting an ongoing emergency"],["private","An informal statement to a friend or acquaintance"],["nonpolice","Made to someone outside law enforcement for a non-prosecution purpose (e.g., child safety)"],["cocon","Made to a supposed partner in crime, unaware of police"]]},
+  cf_avail:{0:[["testifies","Takes the stand and answers questions"],["memory","Testifies but has memory loss, and is still subject to cross (Owens)"]]},
+  cf_prior:{0:[["prelim","Cross-examined at a preliminary hearing"],["depo","Cross-examined at a deposition or a prior trial"]]}
+};
+// Governing rule for yes/no steps without a reasons list (rule keys; displayed via the rule library)
+const CITE = {
+  h_truth:"801(c)", h_803:"803", h_avail:"804(a)", h_804:"804(b)", h_807:"807", x_403:"403",
+  k_rel:"401", k_hudd:"104(b)", k_413:"413", k_form:"405(a)", k_403:"403",
+  i_10:"609(b)", i_old:"609(b)", i_cf:"609(a)(2)", i_fel:"609(a)(1)", i_who:"609(a)(1)", i_bal:"609(a)(1)(B)", i_608b:"608(b)", i_att:"608(a)", i_801:"801(d)(1)(A)", i_613:"613(b)", J_403:"403",
+  p_ac:"Upjohn", p_cf:"Zolin", p_st:"Trammel", p_mc:"501", p_psy:"Jaffee",
+  cf_avail:"Crawford", cf_prior:"Crawford"
+};
+// Extra plausible distractors per map for rule picks
+const CITE_POOL = {
+  hearsay:["801(a)","801(c)","801(d)","802","803","804(a)","804(b)","807","403","805"],
+  character:["401","402","403","104(b)","404(a)(1)","404(b)(2)","405(a)","405(b)","406","413"],
+  impeach:["607","608(a)","608(b)","609(a)(1)","609(a)(1)(B)","609(a)(2)","609(b)","613(b)","801(d)(1)(A)","403"],
+  privilege:["501","502(a)","502(b)","Upjohn","Trammel","Jaffee","Zolin"],
+  confront:["6A","Crawford","Davis","Owens","Giles","Melendez-Diaz","804(b)(1)","804(b)(6)"]
+};
+// "What should you check next?" — asked only where sequence is the lesson. Shown before the keyed node.
+const CHECKS = {
+  h_ex:{q:"It’s a statement offered for its truth. What do you check next?",
+    o:["Whether 801(d) defines it as not hearsay","Whether an 803 exception applies","Whether the declarant is unavailable under 804(a)","Rule 403 balancing"],
+    why:"801(d) statements are “not hearsay” by definition. Check the exclusions before hunting for exceptions.",rk:["801(d)","802"]},
+  h_avail:{q:"No 803 exception fits. What do you check next?",
+    o:["Whether the declarant is unavailable under 804(a)","Whether an 804(b) exception fits","The residual exception (807)","Rule 403 balancing"],
+    why:"Every 804(b) exception requires an unavailable declarant, so establish 804(a) first. 807 is the last resort, after 803 and 804.",rk:["804(a)","807"]},
+  x_403:{q:"The hearsay rule won’t keep it out. What do you check next?",
+    o:["Rule 403: is the probative value substantially outweighed?","Keep looking for an 803 exception to be safe","Rule 105 instead: a limiting instruction replaces balancing","Nothing: evidence that clears the hearsay rule is admissible"],
+    why:"Clearing the hearsay rule removes one objection. 403 still applies to everything, and a 105 instruction is a tool inside that balance, not a substitute.",rk:["403","105"]},
+  k_use:{q:"The evidence is relevant. What do you ask next?",
+    o:["What it’s offered to prove: propensity or another purpose","Whether it’s proved by reputation or opinion (405)","Rule 403 balancing","Whether it’s hearsay"],
+    why:"Purpose decides whether 404 is triggered at all. Method (405) and 403 come after you know which route you’re on.",rk:["404(a)(1)","404(b)(2)"]},
+  k_form:{q:"A 404(a)(2) door is open. What do you check next?",
+    o:["Whether the method of proof is permitted (405)","Rule 403 balancing","Whether it’s really habit (406)","Whether the prosecutor gave notice (404(b)(3))"],
+    why:"An open door doesn’t mean any proof goes. 405(a) limits the method (reputation or opinion on direct) before you reach 403.",rk:["405(a)"]},
+  i_10:{q:"The impeachment is by prior conviction. What do you check first?",
+    o:["How old it is: the 10-year clock (609(b))","Whether it’s crimen falsi (609(a)(2))","Whether it’s a felony (609(a)(1))","Rule 403 balancing"],
+    why:"Age decides which test governs. A conviction more than 10 years old goes to 609(b)’s stricter test, even if it’s crimen falsi.",rk:["609(b)"]},
+  p_waive:{q:"It’s a privileged communication and the crime-fraud exception doesn’t apply. What’s left?",
+    o:["Whether the privilege was waived (502)","Rule 403 balancing","Whether the communication is relevant","Nothing: once privileged, always privileged"],
+    why:"Disclosure can waive the privilege. 502 limits how far a waiver reaches.",rk:["502(a)","502(b)"]},
+  cf_avail:{q:"The statement is testimonial. What do you check next?",
+    o:["Whether the declarant testifies at this trial and can be cross-examined","Whether a hearsay exception covers it","Whether it bears indicia of reliability","Rule 403 balancing"],
+    why:"Crawford: for testimonial statements, a hearsay exception or a reliability finding can’t substitute for confrontation. Ask about cross-examination.",rk:["Crawford"]},
+  _crim:{q:"This is a criminal case, and the statement is offered against the accused. The hearsay analysis is done. What’s left?",
+    o:["The Confrontation Clause (Sixth Amendment)","Rule 404(b) notice","Rule 609 impeachment of the declarant","Nothing: admissible hearsay is admissible"],
+    why:"In a criminal case, hearsay that clears the rules must still survive the Confrontation Clause. Your notes put it last (step 9). Run it on the Confrontation map.",rk:["6A","Crawford"]}
+};
+// Correct reason for each drill, for nodes whose correct answer has a reasons list
+const DRILL_R = {
+  d_hs3:{h_stmt:"assert",h_truth:"listener"},
+  d_hs4:{h_stmt:"assert",h_ex:"cocon"},
+  d_hs5:{h_stmt:"assert",h_ex:"none",h_avail:"death"},
+  d_hs6:{h_stmt:"nonassert"},
+  d_hs8:{h_stmt:"assert",h_ex:"own"},
+  d_hs9:{h_stmt:"assert",h_ex:"noparty",h_803:"med"},
+  d_hs10:{h_stmt:"assert",h_ex:"none",h_avail:"death",h_804:"former"},
+  d_hs11:{h_stmt:"assert",h_ex:"noparty"},
+  d_ch2:{k_use:"identity"}, d_ch3:{k_form:"rep"}, d_ch5:{k_413:"413"},
+  d_hs1:{cf_test:"police"}, d_hs2:{cf_test:"emerg"}, d_hs7:{cf_test:"court",cf_prior:"prelim"},
+  d_cf1:{cf_test:"formal"}, d_cf2:{cf_test:"police",cf_avail:"memory"}, d_cf3:{cf_test:"police"},
+  d_cf4:{cf_test:"nonpolice"}, d_cf6:{cf_test:"police"}, d_cf8:{cf_test:"police"}
 };
 // ===== APP =====
 const TOPICS = {
@@ -2020,101 +2115,199 @@ function finishWrite(result){
   H.stage = "done"; renderHypoCard();
 }
 
-// ---------- JOURNEY MAPS ----------
-const D = {map:null, sc:null, path:[], node:null, term:null, compact:true, mode:"walk", hints:0};
-const B = {chain:[], bank:[], concl:null, done:false, result:null};
+// ---------- JOURNEY MAPS: answer your way down the path ----------
+const D = {map:null, sc:null, compact:true, hints:0};
+let W = null; // walker state for the current case
 function solve(sc){ const m = MAPS[sc.map]; let n = m.root; const seq = []; let guard = 0;
   while (!m.nodes[n].end && guard++ < 40){ const i = sc.a[n]; seq.push([n, i]); n = m.nodes[n].o[i][1]; } return {seq, term:n}; }
+function nodeOf(id){ for (const k in MAPS) if (MAPS[k].nodes[id]) return MAPS[k].nodes[id]; return null; }
+const cleanOf = id => S.ds[id] === 1 || S.bs[id] === 1;  // earlier Build-mode clears still count
+function ruleLabel(k){ const f = findRule(k); if (!f) return k; return /^\d/.test(f.k) ? "FRE " + f.k + " · " + f.r.t : f.r.t; }
 function renderMaps(){
   const v = $("#v-maps");
-  if (D.sc) return D.mode === "build" ? renderBuild() : renderDrill();
+  if (D.sc) return renderDrill();
   if (D.map){
     const m = MAPS[D.map], list = DRILLS.filter(d => d.map === D.map);
     v.innerHTML = `<div><button class="btn ghost small" id="mBack">← All maps</button></div>
       <div><span class="eyebrow">Journey map</span><h2 style="margin-top:6px">${esc(m.name)}</h2><p class="lede mono" style="font-size:13px">${esc(m.blurb)}</p></div>
-      <div class="panel" style="display:grid;gap:10px;padding:14px 16px">
-        <div class="filters"><span class="eyebrow lbl">Mode</span>
-          <button class="pill" data-mode="walk" aria-pressed="${D.mode === "walk"}">Click-through</button>
-          <button class="pill" data-mode="build" aria-pressed="${D.mode === "build"}">Build the path</button></div>
-        <span class="muted" style="font-size:14px">${D.mode === "walk" ? "Answer one fork at a time and follow the branch you choose." : "Assemble the route yourself from a bank of step blocks (some are decoys), set each answer, and pick the conclusion. Drag the blocks or tap them to place."}</span>
-      </div>
       <div class="row"><button class="btn primary" id="mRandom">Random unsolved case</button></div>
-      <div class="sclist">${list.map(d => { const st = D.mode === "build" ? S.bs[d.id] : S.ds[d.id]; return `<button class="scrow" data-sc="${d.id}"><span class="sticker blue">${LEVELS[d.lv]}</span><span>${esc(d.title)}${d.src ? ` <span class="muted" style="font-size:13px">· ${esc(d.src)}</span>` : ""}</span><span class="st" style="color:${st === 1 ? "var(--ok)" : st === 0 ? "var(--bad)" : "var(--muted)"}">${st === 1 ? "Clean path" : st === 0 ? "Off course" : "Open"}</span></button>`; }).join("")}</div>`;
+      <div class="sclist">${list.map(d => { const st = cleanOf(d.id) ? 1 : (d.id in S.ds || d.id in S.bs) ? 0 : null; return `<button class="scrow" data-sc="${d.id}"><span class="sticker blue">${LEVELS[d.lv]}</span><span>${esc(d.title)}${d.src ? ` <span class="muted" style="font-size:13px">· ${esc(d.src)}</span>` : ""}</span><span class="st" style="color:${st === 1 ? "var(--ok)" : st === 0 ? "var(--bad)" : "var(--muted)"}">${st === 1 ? "Clean path" : st === 0 ? "Missed steps" : "Open"}</span></button>`; }).join("")}</div>`;
     return;
   }
   v.innerHTML = `<div><span class="eyebrow">Rule-pathway drills</span><h2 style="margin-top:6px">Journey maps</h2>
-    <p class="lede">Trace the route through the rules one fork at a time, or build it yourself from blocks. Either way, at the end you see the full decision tree with the correct path in green and the exact step where you went off course.</p></div>
-    <div class="maps">${Object.entries(MAPS).map(([k,m]) => { const list = DRILLS.filter(d => d.map === k); const clean = list.filter(d => S.ds[d.id] === 1).length, built = list.filter(d => S.bs[d.id] === 1).length;
-      return `<button class="mcard" data-map="${k}"><span class="eyebrow">${list.length} cases · ${clean} clicked clean · ${built} built clean</span><h3>${esc(m.name)}</h3><span class="bl">${esc(m.blurb)}</span><span class="bar" style="margin-top:6px"><i style="width:${100*Math.max(clean,built)/list.length}%;background:var(--ok)"></i></span></button>`; }).join("")}</div>`;
+    <p class="lede">Answer your way down the analysis. At each step, decide the question and pick the rule or reason that supports your answer. A wrong turn stops you, explains the rule, and puts you back on the correct branch, so you always finish the full analysis. The map builds itself as you go.</p></div>
+    <div class="maps">${Object.entries(MAPS).map(([k,m]) => { const list = DRILLS.filter(d => d.map === k); const clean = list.filter(d => cleanOf(d.id)).length;
+      return `<button class="mcard" data-map="${k}"><span class="eyebrow">${list.length} cases · ${clean} clean</span><h3>${esc(m.name)}</h3><span class="bl">${esc(m.blurb)}</span><span class="bar" style="margin-top:6px"><i style="width:${100*clean/list.length}%;background:var(--ok)"></i></span></button>`; }).join("")}</div>`;
 }
 function startDrill(id){
-  const sc = DRILLS.find(d => d.id === id); D.sc = sc; D.map = sc.map; D.path = []; D.node = MAPS[sc.map].root; D.term = null; D.hints = 0;
-  if (D.mode === "build") initBuild();
-  renderMaps(); window.scrollTo(0,0);
+  const sc = DRILLS.find(d => d.id === id); D.sc = sc; D.map = sc.map; D.hints = 0;
+  const m = MAPS[sc.map];
+  W = {sc, m, node:m.root, stage:null, recs:[], cur:null, last:null, order:null, done:false};
+  enterNode(m.root); renderMaps(); window.scrollTo(0, 0);
 }
-function chooseStep(i){
-  const m = MAPS[D.map]; D.path.push([D.node, i]); const nx = m.nodes[D.node].o[i][1];
-  if (m.nodes[nx].end){ D.term = nx; finishDrill(); } else D.node = nx;
+function enterNode(id){
+  W.node = id; W.cur = null;
+  if (CHECKS[id]) { W.stage = "check"; W.order = shuffle(CHECKS[id].o.map((_, i) => i)); }
+  else { W.stage = "answer"; }
+}
+function secondStep(node, opt){
+  const rs = REASONS[node] && REASONS[node][opt];
+  if (rs && rs.length >= 2) return {type:"reason", items: shuffle(rs.map(r => ({v:r[0], t:r[1]}))), right: (DRILL_R[W.sc.id] || {})[node]};
+  if (CITE[node]){
+    const right = CITE[node]; const same = Object.keys(W.m.nodes).filter(x => CITE[x]).map(x => CITE[x]);
+    const pool = shuffle([...new Set((CITE_POOL[W.sc.map] || []).concat(same))].filter(k => k !== right && findRule(k) && findRule(k).k !== findRule(right).k));
+    return {type:"cite", items: shuffle([right].concat(pool.slice(0, 3))).map(k => ({v:k, t:ruleLabel(k)})), right};
+  }
+  return null;
+}
+function pickCheck(i){
+  const id = W.stage === "final" ? "_crim" : W.node, ck = CHECKS[id], ok = i === 0;
+  W.recs.push({kind:"check", id, pick:i, ok});
+  if (ok){ W.last = {ok:true, text:`Sequence: ${ck.o[0]}.`, note:ck.why}; afterCheck(id); }
+  else { W.stage = id === "_crim" ? "finalfb" : "checkfb"; W.cur = {id, pick:i}; }
   renderDrill();
 }
-function divergeIdx(){ for (let k = 0; k < D.path.length; k++){ const [n,i] = D.path[k]; if (D.sc.a[n] !== i) return k; } return -1; }
-function logPathRules(seq, k){ seq.forEach(([n], idx) => { if (k !== -1 && idx > k) return; const rk = (STEP_HELP[n] || [[]])[0][0]; if (rk) logRule(rk, k === -1 || idx < k); }); }
+function afterCheck(id){ if (id === "_crim") finishDrill(); else { W.stage = "answer"; } }
+function pickAnswer(i){
+  const n = W.node, right = W.sc.a[n], ok = i === right;
+  W.cur = {node:n, ans:i, ok};
+  if (!ok){ W.cur.second = secondStep(n, right); W.stage = "fb"; renderDrill(); return; }
+  const st = secondStep(n, i);
+  if (st){ W.cur.second = st; W.stage = "reason"; } else { commitNode(); }
+  renderDrill();
+}
+function pickReason(v){
+  const c = W.cur, st = c.second; c.reason = v; c.rok = v === st.right;
+  if (!c.rok){ W.stage = "fb"; renderDrill(); return; }
+  commitNode(); renderDrill();
+}
+function commitNode(){
+  const c = W.cur, n = c.node, nd = W.m.nodes[n], right = W.sc.a[n];
+  const rec = {kind:"node", node:n, ans:c.ans, ok:c.ok, reason:c.reason, rok:c.second ? c.rok : null, type:c.second ? c.second.type : null};
+  if (!c.ok){ rec.rok = null; }
+  W.recs.push(rec);
+  if (c.ok && rec.rok !== false){
+    const r = c.second ? c.second.items.find(x => x.v === c.reason) : null;
+    W.last = {ok:true, text:`${nd.s} ${nd.o[right][0]}${r ? " · " + r.t : ""}`, note:W.sc.n[n] || ""};
+  } else W.last = null;
+  advance(nd.o[right][1]);
+}
+function advance(next){
+  const m = W.m;
+  if (m.nodes[next].end){
+    W.term = next;
+    if (W.sc.crim && m.nodes[next].kind === "in"){ W.stage = "final"; W.order = shuffle(CHECKS._crim.o.map((_, i) => i)); return; }
+    finishDrill(); return;
+  }
+  enterNode(next);
+}
+function continueAfterFb(){
+  if (W.stage === "checkfb"){ W.last = null; afterCheck(W.cur.id); renderDrill(); return; }
+  if (W.stage === "finalfb"){ finishDrill(); renderDrill(); return; }
+  commitNode(); renderDrill();
+}
 function finishDrill(){
-  const k = divergeIdx(), clean = k === -1, steps = D.path.length;
-  const prev = S.ds[D.sc.id];
-  D.sc.t.forEach(t => { S.t[t].da++; if (clean) S.t[t].dc++; });
-  S.ds[D.sc.id] = clean ? 1 : (prev === 1 ? 1 : 0);
-  logPathRules(solve(D.sc).seq, k);
+  W.stage = "done"; W.done = true;
+  const nodes = W.recs.filter(r => r.kind === "node"), checks = W.recs.filter(r => r.kind === "check");
+  const clean = nodes.every(r => r.ok && r.rok !== false) && checks.every(r => r.ok);
   const mult = Math.max(0, 1 - 0.2 * D.hints);
-  const pts = clean ? Math.round((30 + 5 * steps) * mult) + 2 * Math.min(S.streak, 10) : 5 * k;
+  let pts = 0; nodes.forEach(r => { if (r.ok) pts += 6; if (r.ok && r.rok === true) pts += 3; }); checks.forEach(r => { if (r.ok) pts += 4; });
+  pts = Math.round(pts * mult) + (clean ? 15 + 2 * Math.min(S.streak, 10) : 0);
+  const prev = S.ds[W.sc.id]; S.ds[W.sc.id] = clean ? 1 : (prev === 1 ? 1 : 0);
+  W.sc.t.forEach(t => { S.t[t].da++; if (clean) S.t[t].dc++; });
+  nodes.forEach(r => { const k = (STEP_HELP[r.node] || [[]])[0][0]; if (k) logRule(k, r.ok && r.rok !== false); });
+  if (CITE_POOL) nodes.forEach(r => { if (r.type === "cite") logRule(CITE[r.node], r.rok === true); });
+  W.pts = pts; W.clean = clean;
   award(pts, clean);
+}
+function liveMap(){
+  const m = W.m;
+  const items = W.recs.map(r => {
+    if (r.kind === "check"){ const ck = CHECKS[r.id]; return `<li class="lchk ${r.ok ? "ok" : "bad"}"><span class="eyebrow">Sequence check ${r.ok ? "✓" : "✗"}</span> ${esc(ck.o[0])}</li>`; }
+    const nd = m.nodes[r.node], right = W.sc.a[r.node];
+    const st = !r.ok ? "bad" : r.rok === false ? "half" : "ok";
+    const rs = r.type === "reason" ? (REASONS[r.node][right].find(x => x[0] === (DRILL_R[W.sc.id] || {})[r.node]) || [])[1] : r.type === "cite" ? ruleLabel(CITE[r.node]) : "";
+    return `<li class="lnode ${st}"><div class="row spread"><b>${esc(nd.s)}</b><span>${whyBtn(`data-why-node="${r.node}"`)} <span class="mark">${st === "ok" ? "✓" : st === "half" ? "◐" : "✗"}</span></span></div>
+      ${!r.ok ? `<span class="was">You said: ${esc(nd.o[r.ans][0])}</span>` : ""}
+      <span class="edge2">→ ${esc(nd.o[right][0])}${rs ? ` <span class="muted">· ${esc(rs)}</span>` : ""}</span></li>`;
+  });
+  if (!W.done && W.stage !== "final" && W.stage !== "finalfb") items.push(`<li class="lnode now"><b>${esc(m.nodes[W.node].s)}</b><span class="muted" style="font-size:12px">You are here</span></li>`);
+  if (W.term) items.push(`<li class="lend"><span class="tn ${m.nodes[W.term].kind}">${esc(m.nodes[W.term].label)}</span></li>`);
+  return `<div class="panel live"><span class="eyebrow">Your map so far</span><ol class="lmap">${items.join("")}</ol></div>`;
 }
 function caseHead(){
   const m = MAPS[D.map], sc = D.sc;
-  return `<div class="row spread"><button class="btn ghost small" id="dExit">← ${esc(m.name)} cases</button><span class="sticker blue">${D.mode === "build" ? "Build the path" : "Click-through"} · ${LEVELS[sc.lv]}</span></div>
+  return `<div class="row spread"><button class="btn ghost small" id="dExit">← ${esc(m.name)} cases</button><span class="sticker blue">Journey map · ${LEVELS[sc.lv]}</span></div>
     <article class="casefile"><div class="cf-head"><h3>${esc(sc.title)}</h3>${sc.src ? `<span class="src">${esc(sc.src)}</span>` : ""}</div>
-    <div class="cf-body"><p class="facts">${esc(sc.facts)}</p>`;
+    <div class="cf-body"><p class="facts">${esc(sc.facts)}</p></div></article>`;
+}
+function stageCard(){
+  const m = W.m, n = W.node, nd = m.nodes[n], sc = W.sc;
+  const stepNo = W.recs.filter(r => r.kind === "node").length + 1;
+  const last = W.last ? `<div class="okline"><b>✓ ${esc(W.last.text)}</b>${W.last.note ? `<span>${esc(W.last.note)}</span>` : ""}</div>` : "";
+  const judge = judgeBox(HINTS[sc.id], D.hints, `id="dHint"`);
+  if (W.stage === "check" || W.stage === "final"){
+    const ck = CHECKS[W.stage === "final" ? "_crim" : n];
+    return `${last}<div class="stepq seq"><span class="n">Sequence check</span><p class="ask">${esc(ck.q)}</p>
+      <div style="display:grid;gap:8px">${W.order.map(i => `<button class="choice" data-cp="${i}">${esc(ck.o[i])}</button>`).join("")}</div></div>`;
+  }
+  if (W.stage === "checkfb" || W.stage === "finalfb"){
+    const ck = CHECKS[W.cur.id];
+    return `<div class="fbcard bad"><span class="eyebrow">Sequence check</span><p><b>Not quite.</b> You picked “${esc(ck.o[W.cur.pick])}.” Next comes: <b>${esc(ck.o[0])}</b>.</p><p>${esc(ck.why)}</p>
+      <div class="row">${whyBtn(`data-why-keys="${esc(ck.rk.join("|"))}" data-why-title="${esc(ck.o[0])}"`, "Rule text")}<button class="btn primary" id="wCont">${W.stage === "finalfb" ? "See the full map →" : "Continue →"}</button></div></div>`;
+  }
+  if (W.stage === "answer"){
+    return `${last}<div class="stepq"><div class="row spread"><span class="n">Step ${stepNo} · ${esc(nd.s)}</span>${whyBtn(`data-why-node="${n}"`, "Why this step?")}</div><p class="ask">${esc(nd.q)}</p>
+      <div style="display:grid;gap:8px">${nd.o.map((o,i) => `<button class="choice" data-ans="${i}">${esc(o[0])}</button>`).join("")}</div>${judge}</div>`;
+  }
+  if (W.stage === "reason"){
+    const c = W.cur, st = c.second;
+    return `<div class="stepq"><div class="row spread"><span class="n">Step ${stepNo} · ${esc(nd.s)}</span>${whyBtn(`data-why-node="${n}"`, "Why this step?")}</div>
+      <p class="muted" style="margin:0">${esc(nd.q)}</p><p class="youans">Your answer: <b>${esc(nd.o[c.ans][0])}</b></p>
+      <p class="ask">${st.type === "reason" ? "Which reason fits these facts?" : "Which rule governs this step?"}</p>
+      <div style="display:grid;gap:8px">${st.items.map(x => `<button class="choice" data-rs="${esc(x.v)}">${esc(x.t)}</button>`).join("")}</div>${judge}</div>`;
+  }
+  if (W.stage === "fb"){
+    const c = W.cur, right = sc.a[n], st = c.second;
+    const rtext = st ? (st.items.find(x => x.v === st.right) || {}).t : "";
+    const head = !c.ok
+      ? `<p><b>Stopped here.</b> You answered “${esc(nd.o[c.ans][0])}.” The correct answer is <b>“${esc(nd.o[right][0])}”</b>${rtext ? `, because: ${esc(rtext)}` : ""}.</p>`
+      : `<p><b>Right answer, wrong ${st.type === "reason" ? "reason" : "rule"}.</b> You picked “${esc((st.items.find(x => x.v === c.reason) || {}).t)}.” ${st.type === "reason" ? "The reason that fits" : "The governing rule"}: <b>${esc(rtext)}</b>.</p>`;
+    return `<div class="fbcard ${c.ok ? "half" : "bad"}"><span class="eyebrow">Step ${stepNo} · ${esc(nd.s)} · ${esc(nd.rule)}</span>${head}
+      ${sc.n[n] ? `<p>${esc(sc.n[n])}</p>` : (STEP_HELP[n] ? `<p>${esc(STEP_HELP[n][1])}</p>` : "")}
+      <div class="row">${whyBtn(`data-why-node="${n}"`, "Rule text")}<button class="btn primary" id="wCont">Continue down the correct branch →</button></div></div>`;
+  }
+  return "";
 }
 function renderDrill(){
-  const m = MAPS[D.map], sc = D.sc, v = $("#v-maps");
-  const trail = D.path.map(([n,i]) => `<span>${esc(m.nodes[n].s)}: ${esc(shortLabel(m.nodes[n].o[i][0]))}</span>`).join("<em>→</em>");
-  let body;
-  if (!D.term){
-    const nd = m.nodes[D.node];
-    body = `<div class="stepq"><div class="row spread"><span class="n">Step ${D.path.length + 1}</span>${whyBtn(`data-why-node="${D.node}"`, "Why this step?")}</div><p class="ask">${esc(nd.q)}</p>
-      <div style="display:grid;gap:8px">${nd.o.map((o,i) => `<button class="choice" data-step="${i}">${esc(o[0])}</button>`).join("")}</div>
-      ${judgeBox(HINTS[sc.id], D.hints, `id="dHint"`)}</div>`;
-  } else body = drillResult();
-  v.innerHTML = caseHead() + `${D.path.length ? `<div class="trail"><span class="eyebrow" style="background:none;padding:0">Your route</span>${trail}</div>` : ""}</div></article>${body}`;
-}
-function shortLabel(s){ return s.split(":")[0].split(" — ")[0]; }
-function walkList(m, sc, sol, k){
-  return `<ol class="walk">${sol.seq.map(([n,i], idx) => { const x = m.nodes[n]; const bad = k === idx;
-    return `<li class="${bad ? "bad" : ""}"><span class="mono muted" style="font-size:12px">${esc(x.rule)}</span> ${whyBtn(`data-why-node="${n}"`)}<br>${esc(x.q)} <span class="a">→ ${esc(x.o[i][0])}</span>${sc.n[n] ? `<span class="note">${esc(sc.n[n])}</span>` : ""}</li>`; }).join("")}
-    <li><b>${esc(m.nodes[sol.term].label)}</b></li></ol>`;
-}
-function treeSection(m, sol, opts){
-  return `<div class="row spread"><span class="eyebrow">Correct flowchart</span>
-      <div class="row"><div class="legend"><span><i style="border-color:var(--ok)"></i>correct path</span>${opts.path.length ? `<span><i style="border-color:var(--bad);border-top-style:dashed"></i>your wrong turn</span>` : ""}</div>
-      <button class="btn small" id="dCompact">${D.compact ? "Show every branch" : "Show only the paths taken"}</button></div></div>
-    <div class="treebox"><div class="tree">${treeHTML(m, sol, opts)}</div></div>`;
+  const v = $("#v-maps");
+  if (W.done){ v.innerHTML = caseHead() + drillResult(); return; }
+  v.innerHTML = caseHead() + `<div class="walkgrid"><div class="wmain">${stageCard()}</div>${liveMap()}</div>`;
 }
 function drillResult(){
-  const m = MAPS[D.map], sc = D.sc, sol = solve(sc), k = divergeIdx();
-  const nd = k >= 0 ? m.nodes[D.path[k][0]] : null;
-  const head = k === -1
-    ? `<div class="oncourse"><span class="stamp ok" style="display:inline-block;margin-bottom:10px">Affirmed</span><br><b>Clean path.</b> You reached the right conclusion by the right route: <b>${esc(m.nodes[sol.term].label)}</b>.</div>`
-    : `<div class="offcourse"><span class="stamp no" style="display:inline-block;margin-bottom:10px">Reversed</span><br><b>You went off course at step ${k + 1}: ${esc(nd.s)}</b> <span class="mono muted" style="font-size:12px">(${esc(nd.rule)})</span> ${whyBtn(`data-why-node="${D.path[k][0]}"`)}<br>
-       You answered “${esc(nd.o[D.path[k][1]][0])}.” The correct answer is “${esc(nd.o[sc.a[D.path[k][0]]][0])}.”
-       ${sc.n[D.path[k][0]] ? `<br><span style="display:block;margin-top:6px">${esc(sc.n[D.path[k][0]])}</span>` : ""}
-       <br><span class="muted" style="display:block;margin-top:6px">Your conclusion: ${esc(m.nodes[D.term].label)}. Correct conclusion: <b>${esc(m.nodes[sol.term].label)}</b>.</span></div>`;
+  const m = W.m, sc = W.sc, sol = solve(sc);
+  const nodes = W.recs.filter(r => r.kind === "node"), checks = W.recs.filter(r => r.kind === "check");
+  const miss = new Set(nodes.filter(r => !r.ok).map(r => r.node)), half = new Set(nodes.filter(r => r.ok && r.rok === false).map(r => r.node));
+  const right = nodes.filter(r => r.ok).length, cks = checks.filter(r => r.ok).length;
+  const review = W.recs.filter(r => r.kind === "check" ? !r.ok : (!r.ok || r.rok === false)).map(r => {
+    if (r.kind === "check"){ const ck = CHECKS[r.id]; return `<li><span class="eyebrow">Sequence</span> You picked “${esc(ck.o[r.pick])}.” Next was <b>${esc(ck.o[0])}</b>. ${esc(ck.why)}</li>`; }
+    const nd = m.nodes[r.node], a = sc.a[r.node], st = r.type;
+    const rs = st === "reason" ? (REASONS[r.node][a].find(x => x[0] === (DRILL_R[sc.id] || {})[r.node]) || [])[1] : st === "cite" ? ruleLabel(CITE[r.node]) : (secondStep(r.node, a) || {}).right ? ruleLabel(CITE[r.node] || "") : "";
+    return `<li><span class="eyebrow">${esc(nd.s)} · ${esc(nd.rule)}</span> ${whyBtn(`data-why-node="${r.node}"`)}<br>${!r.ok ? `You answered “${esc(nd.o[r.ans][0])}.” Correct: <b>${esc(nd.o[a][0])}</b>.` : `Right answer, wrong ${st === "reason" ? "reason" : "rule"}.`}${rs ? ` Supporting: <b>${esc(rs)}</b>.` : ""}${sc.n[r.node] ? `<span class="note">${esc(sc.n[r.node])}</span>` : ""}</li>`;
+  }).join("");
+  const head = W.clean
+    ? `<div class="oncourse"><span class="stamp ok" style="display:inline-block;margin-bottom:10px">Affirmed</span><br><b>Clean analysis.</b> Every answer, every supporting rule, and every sequence check was right. Conclusion: <b>${esc(m.nodes[sol.term].label)}</b>.</div>`
+    : `<div class="offcourse"><span class="stamp no" style="display:inline-block;margin-bottom:10px">Reversed</span><br><b>${right} of ${nodes.length} answers right</b>${half.size ? `, ${half.size} with the wrong supporting rule or reason` : ""}${checks.length ? ` · ${cks} of ${checks.length} sequence checks` : ""}. You finished on the correct branch: <b>${esc(m.nodes[sol.term].label)}</b>.</div>`;
   return `<div class="panel result">${head}
-    ${treeSection(m, sol, {path:D.path, term:D.term, div:k >= 0 ? D.path[k][0] : null})}
-    <details ${k === -1 ? "" : "open"}><summary class="eyebrow" style="cursor:pointer;padding:6px 0">Correct path, step by step</summary>${walkList(m, sc, sol, k)}</details>
-    <div class="row"><button class="btn primary" id="dNext">Next case →</button><button class="btn" id="dRetry">Retry this case</button><button class="btn ghost" id="dSwap">Try it in ${D.mode === "build" ? "click-through" : "Build"} mode</button></div></div>`;
+    ${review ? `<div><span class="eyebrow">Review these steps</span><ol class="walk">${review}</ol></div>` : ""}
+    <div class="row spread"><span class="eyebrow">Completed map</span>
+      <div class="row"><div class="legend"><span><i style="border-color:var(--ok)"></i>correct path</span><span><i style="border-color:var(--bad);border-top-style:dashed"></i>your wrong turn</span><span><i style="border-color:var(--tag)"></i>wrong reason</span></div>
+      <button class="btn small" id="dCompact">${D.compact ? "Show every branch" : "Show only the path"}</button></div></div>
+    <div class="treebox"><div class="tree">${treeHTML(m, sol, {path:nodes.map(r => [r.node, r.ans]), term:sol.term, miss, half})}</div></div>
+    <div class="row"><button class="btn primary" id="dNext">Next case →</button><button class="btn" id="dRetry">Retry this case</button></div></div>`;
 }
 function treeHTML(m, sol, o){
-  const path = o.path || [], term = o.term || null, divNode = o.div || null;
+  const path = o.path || [], term = o.term || null, miss = o.miss || new Set(), half = o.half || new Set();
   const cOpt = {}, sOpt = {}; sol.seq.forEach(([n,i]) => cOpt[n] = i); path.forEach(([n,i]) => sOpt[n] = i);
   const indeg = {}; Object.values(m.nodes).forEach(nd => { if (!nd.end) nd.o.forEach(x => indeg[x[1]] = (indeg[x[1]] || 0) + 1); });
   const shared = id => !m.nodes[id].end && indeg[id] > 1 && id !== m.root;
@@ -2124,135 +2317,23 @@ function treeHTML(m, sol, o){
   function render(id){
     const nd = m.nodes[id];
     if (nd.end){ const c = id === sol.term, s = id === term;
-      return `<span class="tn ${nd.kind} ${c ? "c" : ""} ${s ? "s" : ""}">${esc(nd.label)}${c && s ? `<span class="who">✓ you</span>` : c ? `<span class="who">correct</span>` : s ? `<span class="who">you</span>` : ""}</span>`; }
-    const cls = (id in cOpt ? " c" : "") + (id === divNode ? " d" : "");
-    return `<div class="dn${cls}">${id === divNode ? `<span class="flag">${o.divLabel || "Went off course here"}</span><br>` : ""}<span class="rq">${esc(nd.rule)} ${whyBtn(`data-why-node="${id}"`)}</span>${esc(nd.q)}</div>
+      return `<span class="tn ${nd.kind} ${c ? "c" : ""}">${esc(nd.label)}${c ? `<span class="who">correct</span>` : ""}</span>`; }
+    const cls = (id in cOpt ? " c" : "") + (miss.has(id) ? " d" : half.has(id) ? " h" : "");
+    const flag = miss.has(id) ? `<span class="flag">Missed: you answered “${esc(nd.o[sOpt[id]][0])}”</span><br>` : half.has(id) ? `<span class="flag half">Right answer, wrong reason</span><br>` : "";
+    return `<div class="dn${cls}">${flag}<span class="rq">${esc(nd.rule)} ${whyBtn(`data-why-node="${id}"`)}</span>${esc(nd.q)}</div>
       <ul>${nd.o.map((x,i) => {
         const onC = cOpt[id] === i, onS = sOpt[id] === i; const lc = onC ? "c" : onS ? "w" : "dim";
         const tgt = x[1], tn = m.nodes[tgt];
         if (D.compact && !onC && !onS) return `<li class="dim"><span class="edge">${esc(x[0])}</span><span class="leads">→ ${esc(tn.end ? tn.label : tn.s)}</span></li>`;
-        const child = shared(tgt) ? `<span class="jump ${onC ? "c" : onS ? "w" : ""}">→ continue at: ${esc(tn.s)}</span>` : render(tgt);
-        return `<li class="${lc}"><span class="edge">${esc(x[0])}${onS && onC ? " · you ✓" : onS ? " · you" : ""}</span><div>${child}</div></li>`;
+        if (!onC && onS) return `<li class="w"><span class="edge">${esc(x[0])} · you</span><span class="leads">→ ${esc(tn.end ? tn.label : tn.s)}</span></li>`;
+        const child = shared(tgt) ? `<span class="jump ${onC ? "c" : ""}">→ continue at: ${esc(tn.s)}</span>` : render(tgt);
+        return `<li class="${lc}"><span class="edge">${esc(x[0])}${onS && onC ? " · you ✓" : ""}</span><div>${child}</div></li>`;
       }).join("")}</ul>`;
   }
   let html = render(m.root);
   order.forEach(id => { if (D.compact && !onAny(id)) return; html += `<div class="station"><div class="sh">Shared step · ${esc(m.nodes[id].s)}</div>${render(id)}</div>`; });
   return html;
 }
-
-// ---------- BUILD MODE ----------
-function nodeOf(id){ for (const k in MAPS) if (MAPS[k].nodes[id]) return MAPS[k].nodes[id]; return null; }
-const DECOY_FROM = {confront:"hearsay", hearsay:"confront", character:"impeach", impeach:"character", privilege:"hearsay"};
-function initBuild(){
-  const m = MAPS[D.map], sol = solve(D.sc);
-  const onPath = sol.seq.map(([n]) => n);
-  const want = onPath.length <= 2 ? 2 : 3;
-  let others = shuffle(Object.keys(m.nodes).filter(n => !m.nodes[n].end && !onPath.includes(n))).slice(0, want);
-  if (others.length < 2){ const alt = MAPS[DECOY_FROM[D.map]]; others = others.concat(shuffle(Object.keys(alt.nodes).filter(n => !alt.nodes[n].end && n !== "x_403")).slice(0, 2 - others.length + 1)); }
-  const decoys = others;
-  B.chain = []; B.bank = shuffle(onPath.concat(decoys)); B.concl = null; B.done = false; B.result = null; B.err = "";
-}
-function terminals(m){ const seen = new Set(); return Object.keys(m.nodes).filter(n => m.nodes[n].end).filter(n => { const l = m.nodes[n].label; if (seen.has(l)) return false; seen.add(l); return true; }); }
-function renderBuild(){
-  const m = MAPS[D.map], v = $("#v-maps");
-  if (B.done) { v.innerHTML = caseHead() + `</div></article>` + buildResult(); return; }
-  const chain = B.chain.map((c, i) => { const nd = nodeOf(c.id);
-    return `<li class="blk in" data-ci="${i}"><div class="blk-top"><span class="grip" data-drag="chain:${i}" aria-hidden="true">⋮⋮</span><span class="bn">${i + 1}</span><b>${esc(nd.s)}</b>
-        <span class="blk-ctl">${whyBtn(`data-why-node="${c.id}"`)}<button class="ic" data-bup="${i}" aria-label="Move up" ${i === 0 ? "disabled" : ""}>↑</button><button class="ic" data-bdn="${i}" aria-label="Move down" ${i === B.chain.length - 1 ? "disabled" : ""}>↓</button><button class="ic" data-brm="${i}" aria-label="Remove">✕</button></span></div>
-      <p class="bq">${esc(nd.q)}</p>
-      <div class="ansrow">${nd.o.map((o, j) => `<button class="pill sm" data-bans="${i}:${j}" aria-pressed="${c.ans === j}">${esc(o[0])}</button>`).join("")}</div></li>`; }).join("");
-  const bank = B.bank.map(id => `<li class="blk" data-bid="${id}"><div class="blk-top"><span class="grip" data-drag="bank:${id}" aria-hidden="true">⋮⋮</span><b>${esc(nodeOf(id).s)}</b><span class="blk-ctl">${whyBtn(`data-why-node="${id}"`)}<button class="btn small" data-badd="${id}">Add ↓</button></span></div><p class="bq">${esc(nodeOf(id).q)}</p></li>`).join("");
-  const ready = B.chain.length && B.chain.every(c => c.ans !== null) && B.concl;
-  v.innerHTML = caseHead() + `</div></article>
-    <div class="build">
-      <div class="panel bcol"><div class="row spread"><span class="eyebrow">Your path · in order</span><span class="mono muted" style="font-size:12px">${B.chain.length} step${B.chain.length === 1 ? "" : "s"}</span></div>
-        <ol class="chain-list" id="chainList">${chain || `<li class="empty">Drag blocks here, or tap “Add.” Start with the threshold question for this kind of evidence.</li>`}</ol>
-        <div class="concl"><span class="eyebrow">Conclusion</span><div class="ansrow">${terminals(m).map(t => `<button class="pill sm" data-bconcl="${t}" aria-pressed="${B.concl && m.nodes[B.concl].label === m.nodes[t].label}">${esc(m.nodes[t].label)}</button>`).join("")}</div></div>
-        ${B.err ? `<p class="citeres miss">${esc(B.err)}</p>` : ""}
-        <div class="row"><button class="btn primary" id="bSubmit" ${ready ? "" : "aria-disabled=\"true\""}>Submit path</button><button class="btn ghost small" id="bClear">Clear</button></div>
-        ${judgeBox(HINTS[D.sc.id], D.hints, `id="dHint"`)}
-      </div>
-      <div class="panel bcol"><span class="eyebrow">Block bank · some are decoys</span><ul class="bank-list" id="bankList">${bank || `<li class="empty">All blocks placed.</li>`}</ul></div>
-    </div>`;
-}
-function submitBuild(){
-  if (!(B.chain.length && B.chain.every(c => c.ans !== null) && B.concl)){ B.err = "Place at least one block, set an answer on every block, and pick a conclusion."; renderBuild(); return; }
-  const m = MAPS[D.map], sol = solve(D.sc), seq = sol.seq;
-  let k = -1, why = "";
-  for (let i = 0; i < Math.max(seq.length, B.chain.length); i++){
-    const c = B.chain[i], s = seq[i];
-    if (!c){ k = i; why = "missing"; break; }
-    if (!s){ k = i; why = "extra"; break; }
-    if (c.id !== s[0]){ k = i; why = "block"; break; }
-    if (c.ans !== s[1]){ k = i; why = "answer"; break; }
-  }
-  const conclOk = m.nodes[B.concl].label === m.nodes[sol.term].label;
-  const clean = k === -1 && conclOk;
-  B.result = {k, why, conclOk, clean}; B.done = true;
-  const prev = S.bs[D.sc.id]; S.bs[D.sc.id] = clean ? 1 : (prev === 1 ? 1 : 0);
-  D.sc.t.forEach(t => { S.t[t].da++; if (clean) S.t[t].dc++; });
-  logPathRules(seq, k === -1 ? (conclOk ? -1 : seq.length - 1) : k);
-  const mult = Math.max(0, 1 - 0.2 * D.hints);
-  const good = k === -1 ? seq.length : k;
-  const pts = clean ? Math.round((40 + 6 * seq.length) * mult) + 2 * Math.min(S.streak, 10) : 5 * good;
-  award(pts, clean);
-  renderBuild(); window.scrollTo(0, 0);
-}
-function buildResult(){
-  const m = MAPS[D.map], sc = D.sc, sol = solve(sc), seq = sol.seq, r = B.result;
-  const expected = r.k >= 0 && seq[r.k] ? seq[r.k][0] : null;
-  const yours = B.chain.map((c, i) => { const nd = nodeOf(c.id); const st = r.k === -1 || i < r.k ? "ok" : i === r.k ? "bad" : "after";
-    return `<li class="ys ${st}"><span class="bn">${i + 1}</span><div><b>${esc(nd.s)}</b> → ${esc(nd.o[c.ans][0])}${st === "bad" ? `<span class="note">${r.why === "block" ? `Expected here: <b>${esc(m.nodes[seq[i][0]].s)}</b>` : r.why === "answer" ? `Right step, wrong answer. Correct: <b>${esc(nd.o[seq[i][1]][0])}</b>` : "This step goes past the end of the correct route."}</span>` : ""}</div></li>`; }).join("")
-    + (r.why === "missing" ? `<li class="ys bad"><span class="bn">${B.chain.length + 1}</span><div><b>Missing step</b><span class="note">Expected next: <b>${esc(m.nodes[seq[r.k][0]].s)}</b></span></div></li>` : "")
-    + `<li class="ys ${r.conclOk ? "ok" : "bad"}"><span class="bn">⚑</span><div><b>${esc(m.nodes[B.concl].label)}</b>${r.conclOk ? "" : `<span class="note">Correct conclusion: <b>${esc(m.nodes[sol.term].label)}</b></span>`}</div></li>`;
-  const msg = r.clean ? `<div class="oncourse"><span class="stamp ok" style="display:inline-block;margin-bottom:10px">Affirmed</span><br><b>Clean build.</b> Every step in the right order, with the right answers and the right conclusion.</div>`
-    : r.k === -1 ? `<div class="offcourse"><span class="stamp no" style="display:inline-block;margin-bottom:10px">Reversed</span><br><b>Your route was right, but the conclusion wasn’t.</b> Correct conclusion: <b>${esc(m.nodes[sol.term].label)}</b>.</div>`
-    : `<div class="offcourse"><span class="stamp no" style="display:inline-block;margin-bottom:10px">Reversed</span><br><b>You went off course at step ${r.k + 1}.</b> ${
-        r.why === "block" ? `You placed “${esc(nodeOf(B.chain[r.k].id).s)}” where “${esc(m.nodes[expected].s)}” belongs.` :
-        r.why === "answer" ? `Right step (“${esc(m.nodes[expected].s)}”), wrong answer.` :
-        r.why === "missing" ? `Your path stops early. The next step is “${esc(m.nodes[expected].s)}.”` :
-        `Your path keeps going after the correct route has already ended.`}
-        ${expected ? whyBtn(`data-why-node="${expected}"`) : ""}${expected && sc.n[expected] ? `<span style="display:block;margin-top:6px">${esc(sc.n[expected])}</span>` : ""}</div>`;
-  return `<div class="panel result">${msg}
-    <div class="cmp"><div><span class="eyebrow">Your path</span><ol class="yours">${yours}</ol></div>
-      <div style="min-width:0">${treeSection(m, sol, {path:[], term:null, div:expected, divLabel:"You went off course here"})}</div></div>
-    <details ${r.clean ? "" : "open"}><summary class="eyebrow" style="cursor:pointer;padding:6px 0">Correct path, step by step</summary>${walkList(m, sc, sol, r.k)}</details>
-    <div class="row"><button class="btn primary" id="dNext">Next case →</button><button class="btn" id="dRetry">Rebuild this case</button><button class="btn ghost" id="dSwap">Try it in click-through mode</button></div></div>`;
-}
-// pointer drag for build blocks (works with mouse, pen and touch; tap/keyboard controls are the fallback)
-let drag = null;
-document.addEventListener("pointerdown", e => {
-  const g = e.target.closest("[data-drag]"); if (!g) return;
-  const [from, val] = g.dataset.drag.split(":"); const li = g.closest("li");
-  drag = {from, val, x:e.clientX, y:e.clientY, moved:false, li, ghost:null, idx:null};
-  g.setPointerCapture && g.setPointerCapture(e.pointerId); e.preventDefault();
-});
-document.addEventListener("pointermove", e => {
-  if (!drag) return;
-  if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 6) return;
-  if (!drag.moved){ drag.moved = true; const r = drag.li.getBoundingClientRect(); const gh = drag.li.cloneNode(true); gh.classList.add("drag-ghost"); gh.style.width = r.width + "px"; document.body.appendChild(gh); drag.ghost = gh; drag.dx = e.clientX - r.left; drag.dy = e.clientY - r.top; drag.li.classList.add("lifted"); }
-  drag.ghost.style.left = (e.clientX - drag.dx) + "px"; drag.ghost.style.top = (e.clientY - drag.dy) + "px";
-  const list = $("#chainList"); if (!list) return; const lr = list.getBoundingClientRect();
-  document.querySelectorAll(".drop-mark").forEach(x => x.remove());
-  if (e.clientX >= lr.left - 30 && e.clientX <= lr.right + 30 && e.clientY >= lr.top - 40 && e.clientY <= lr.bottom + 40){
-    const items = [...list.querySelectorAll("li.blk.in")]; let idx = items.length;
-    for (let i = 0; i < items.length; i++){ const r = items[i].getBoundingClientRect(); if (e.clientY < r.top + r.height / 2){ idx = i; break; } }
-    drag.idx = idx; const mark = document.createElement("li"); mark.className = "drop-mark";
-    if (items[idx]) list.insertBefore(mark, items[idx]); else list.appendChild(mark);
-  } else drag.idx = null;
-});
-document.addEventListener("pointerup", () => {
-  if (!drag) return; const d = drag; drag = null;
-  document.querySelectorAll(".drop-mark").forEach(x => x.remove());
-  if (d.ghost) d.ghost.remove();
-  if (!d.moved){ if (d.from === "bank") addBlock(d.val); return; }
-  if (d.idx === null){ if (d.from === "chain"){ removeBlock(+d.val); } else renderBuild(); return; }
-  if (d.from === "bank"){ B.bank = B.bank.filter(x => x !== d.val); B.chain.splice(d.idx, 0, {id:d.val, ans:null}); }
-  else { const from = +d.val; const [it] = B.chain.splice(from, 1); B.chain.splice(d.idx > from ? d.idx - 1 : d.idx, 0, it); }
-  B.err = ""; renderBuild();
-});
-function addBlock(id){ B.bank = B.bank.filter(x => x !== id); B.chain.push({id, ans:null}); B.err = ""; renderBuild(); }
-function removeBlock(i){ const [it] = B.chain.splice(i, 1); if (it) B.bank.push(it.id); renderBuild(); }
 
 // ---------- QUICK REVIEW ----------
 const R = {mode:"cards", topic:"all", deck:[], i:0, flip:false, reverse:false, sp:null};
@@ -2339,25 +2420,19 @@ document.addEventListener("click", e => {
   if (t.id === "hNext" || t.id === "hSkip"){ H.i++; resetCard(); renderHypoCard(); $("#hypo-card").scrollIntoView({block:"start",behavior:"smooth"}); return; }
   if (t.id === "hRestart"){ H.deck = []; renderHypos(); return; }
   if (d.map){ D.map = d.map; D.sc = null; renderMaps(); return; }
-  if (d.mode){ D.mode = d.mode; renderMaps(); return; }
   if (t.id === "mBack"){ D.map = null; renderMaps(); return; }
   if (d.sc){ startDrill(d.sc); return; }
-  if (t.id === "mRandom"){ const list = DRILLS.filter(x => x.map === D.map); const store = D.mode === "build" ? S.bs : S.ds; const open = list.filter(x => store[x.id] !== 1); const pick = shuffle(open.length ? open : list)[0]; startDrill(pick.id); return; }
-  if (d.step !== undefined){ chooseStep(+d.step); return; }
-  if (t.id === "dHint"){ if (HINTS[D.sc.id] && D.hints < HINTS[D.sc.id].length){ D.hints++; S.hints++; save(); D.mode === "build" ? renderBuild() : renderDrill(); } return; }
-  if (t.id === "dExit"){ D.sc = null; renderMaps(); return; }
-  if (t.id === "dCompact"){ D.compact = !D.compact; D.mode === "build" ? renderBuild() : renderDrill(); return; }
+  if (t.id === "mRandom"){ const list = DRILLS.filter(x => x.map === D.map); const open = list.filter(x => !cleanOf(x.id)); const pick = shuffle(open.length ? open : list)[0]; startDrill(pick.id); return; }
+  if (d.cp !== undefined){ pickCheck(+d.cp); return; }
+  if (d.ans !== undefined){ pickAnswer(+d.ans); return; }
+  if (d.rs !== undefined){ pickReason(d.rs); return; }
+  if (t.id === "wCont"){ continueAfterFb(); return; }
+  if (d.whyKeys){ openWhy(d.whyTitle || "Why?", "", d.whyKeys.split("|")); return; }
+  if (t.id === "dHint"){ if (HINTS[D.sc.id] && D.hints < HINTS[D.sc.id].length){ D.hints++; S.hints++; save(); renderDrill(); } return; }
+  if (t.id === "dExit"){ D.sc = null; W = null; renderMaps(); return; }
+  if (t.id === "dCompact"){ D.compact = !D.compact; renderDrill(); return; }
   if (t.id === "dRetry"){ startDrill(D.sc.id); return; }
-  if (t.id === "dSwap"){ D.mode = D.mode === "build" ? "walk" : "build"; startDrill(D.sc.id); return; }
-  if (t.id === "dNext"){ const store = D.mode === "build" ? S.bs : S.ds; const list = DRILLS.filter(x => x.map === D.map && x.id !== D.sc.id); const open = list.filter(x => store[x.id] !== 1); const pick = shuffle(open.length ? open : list)[0]; if (pick) startDrill(pick.id); else { D.sc = null; renderMaps(); } return; }
-  if (d.badd){ addBlock(d.badd); return; }
-  if (d.bup !== undefined){ const i = +d.bup; [B.chain[i-1], B.chain[i]] = [B.chain[i], B.chain[i-1]]; renderBuild(); return; }
-  if (d.bdn !== undefined){ const i = +d.bdn; [B.chain[i+1], B.chain[i]] = [B.chain[i], B.chain[i+1]]; renderBuild(); return; }
-  if (d.brm !== undefined){ removeBlock(+d.brm); return; }
-  if (d.bans){ const [i, j] = d.bans.split(":").map(Number); B.chain[i].ans = j; B.err = ""; renderBuild(); return; }
-  if (d.bconcl){ B.concl = d.bconcl; B.err = ""; renderBuild(); return; }
-  if (t.id === "bSubmit"){ submitBuild(); return; }
-  if (t.id === "bClear"){ initBuild(); renderBuild(); return; }
+  if (t.id === "dNext"){ const list = DRILLS.filter(x => x.map === D.map && x.id !== D.sc.id); const open = list.filter(x => !cleanOf(x.id)); const pick = shuffle(open.length ? open : list)[0]; if (pick) startDrill(pick.id); else { D.sc = null; renderMaps(); } return; }
   if (d.rm){ R.mode = d.rm; if (R.mode === "cards" && R.sp){ clearInterval(R.sp.timer); R.sp = null; } renderReview(); return; }
   if (d.rt){ R.topic = d.rt; cardDeck(); renderReview(); return; }
   if (t.id === "rRev"){ R.reverse = !R.reverse; R.flip = false; renderReview(); return; }
