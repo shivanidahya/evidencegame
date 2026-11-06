@@ -269,6 +269,18 @@ button.cite{cursor:pointer}button.cite:hover{border-color:var(--tag2);color:var(
 .lend .tn{font-size:13px}
 .dn.h{border:2px solid var(--tag);box-shadow:0 0 0 4px var(--route-soft)}
 .flag.half{background:var(--tag);color:var(--on-tag)}
+/* identify the statement + concept hints */
+.hl-facts{cursor:text;user-select:text;-webkit-user-select:text;background:var(--soft);border-radius:5px;padding:10px 12px;outline:2px dashed var(--tag2);outline-offset:2px}
+.hl-facts::selection{background:var(--tag);color:var(--on-tag)}
+.sent{display:inline;font:inherit;line-height:1.7;text-align:left;border:1px dashed var(--line);background:var(--card);border-radius:4px;padding:2px 4px;margin:2px 0;cursor:pointer;color:var(--ink)}
+.sent:hover,.sent:focus-visible{border-color:var(--tag2);background:var(--soft)}
+mark.keyspan{background:var(--ok-soft);color:var(--ink);border-bottom:2px solid var(--ok);padding:0 2px;border-radius:2px}
+mark.yours{background:var(--bad-soft);color:var(--ink);border-bottom:2px dashed var(--bad);padding:0 2px}
+.selbox{display:grid;gap:4px;padding:8px 10px;border:1px solid var(--line);border-radius:5px;background:var(--bg);font-size:14px}
+.hint-btn{font:600 12px/1.2 var(--f-mono);padding:6px 9px;border:1px dashed var(--route);color:var(--route);background:var(--route-soft);border-radius:4px;cursor:pointer;text-align:left}
+.hint-btn[aria-expanded="true"]{border-style:solid}
+.defbox{display:grid;gap:4px;padding:10px 12px;border-radius:5px;background:var(--route-soft);border-left:4px solid var(--route)}
+.defbox p{margin:0}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:560px){.panel,.cf-body{padding:16px}.cf-head,.cf-foot{padding-inline:16px}.brand h1{font-size:1.3rem}}
 </style>
@@ -1768,6 +1780,81 @@ const DRILL_R = {
   d_cf1:{cf_test:"formal"}, d_cf2:{cf_test:"police",cf_avail:"memory"}, d_cf3:{cf_test:"police"},
   d_cf4:{cf_test:"nonpolice"}, d_cf6:{cf_test:"police"}, d_cf8:{cf_test:"police"}
 };
+
+// ===== IDENTIFY THE STATEMENT (first step of every hearsay and Confrontation case) =====
+// key: acceptable spans of the statement at issue (exact substrings of the facts; offsets computed and verified at load)
+// others: other statements or conduct in the same facts (graded as "a different statement")
+// alt: plausible wrong multiple-choice options not quoted in the facts (in-court testimony, non-assertive conduct, argument)
+// Rookie cases use multiple choice; higher levels use highlighting (with tap-a-sentence fallback).
+const SPANS = {
+  d_hs3:{key:["There’s oil all over aisle 5"],others:[],alt:["The shopper’s testimony in court about what she told the manager","The plaintiff’s fall 20 minutes later","The manager’s putting out a wet-floor sign afterward (conduct)"]},
+  d_hs4:{key:["My friend will be the buyer — he has questions about quality."],others:["Bourjaily takes the cocaine at the meeting"],alt:["The informant’s testimony at trial describing the call"]},
+  d_hs5:{key:["Dr. Shepard has poisoned me."],others:["she was talking about recovering"],alt:["The nurse’s testimony at trial describing the conversation"]},
+  d_hs6:{key:["the experienced captain inspected the ship and then sailed on it with his family aboard","sailed on it with his family aboard"],others:[],alt:["The estate’s argument that the vessel was seaworthy","A dockworker’s testimony at trial that the ship looked sound","A harbor inspector’s testimony at trial about the ship’s condition"]},
+  d_hs8:{key:["I hid the gun in the lake."],others:["She testifies to the statement at his murder trial."],alt:["The police recovering a gun from the lake","The girlfriend’s testimony on the stand repeating his words"]},
+  d_hs9:{key:["I was hit on the back of the head and I’ve had blurry vision since."],others:["the plaintiff’s ER doctor testifies"],alt:["The plaintiff’s trip to the ER (her conduct)","The ER doctor’s testimony on the stand describing the visit"]},
+  d_hs10:{key:["the deposition transcript","was deposed and cross-examined at length by the defendant’s lawyer"],others:[],alt:["The plaintiff’s opening statement describing the fraud","The defendant’s lawyer’s questions on cross at the deposition","The witness’s death before trial"]},
+  d_hs11:{key:["The other car came out of nowhere."],others:["while filling out a report"],alt:["The driver’s testimony on the stand today"]},
+  d_hs1:{key:["gave a recorded statement at the station that undercuts the self-defense claim","a recorded statement at the station","her recording"],others:["At trial she invokes the marital privilege."],alt:["Michael’s claim of self-defense at trial"]},
+  d_hs2:{key:["He’s here jumpin’ on me again… Adrian Davis."],others:["Michelle doesn’t appear at trial."],alt:["A responding officer’s testimony about Michelle’s injuries"]},
+  d_hs7:{key:["testified at the preliminary hearing","the transcript"],others:[],alt:["Defense counsel’s questions on cross at the hearing","The victim’s death before trial","The prosecutor’s argument at trial about the robbery"]},
+  d_cf1:{key:["sworn lab certificates stating the seized powder was cocaine","stating the seized powder was cocaine"],others:["No analyst testifies"],alt:["The seizure of the powder by police (conduct)"]},
+  d_cf2:{key:["identified the defendant to an FBI agent from a photo array","identified the defendant"],others:["says he can no longer remember the attack itself"],alt:["The FBI agent’s choice of photos for the array"]},
+  d_cf3:{key:["told police she had assaulted him","his police statements"],others:["The court finds by a preponderance that she arranged the killing"],alt:["The insurance claim she filed"]},
+  d_cf4:{key:["tells his preschool teacher that his mother’s boyfriend caused his injuries","his mother’s boyfriend caused his injuries"],others:["The child is found incompetent to testify."],alt:["The bruises the teacher saw on the child (physical evidence)"]},
+  d_cf5:{key:["I went in through the back window."],others:["a detective testifies"],alt:["The broken back window found at the scene","The burglary victim’s list of missing items"]},
+  d_cf6:{key:["reads the accomplice’s confession"],others:["The defendant says police made him copy his accomplice’s confession."],alt:["The judge’s limiting instruction to the jury"]},
+  d_cf7:{key:["a deceased eyewitness’s formal statement to police"],others:["The defendant raises the Confrontation Clause."],alt:["The plaintiff’s complaint alleging wrongful death","The eyewitness’s death before trial"]},
+  d_cf8:{key:["told a responding officer that he had choked her and threatened to kill her","he had choked her and threatened to kill her","her statement"],others:["Weeks before Giles shot his ex-girlfriend"],alt:["Giles’s testimony at trial that he acted in self-defense"]}
+};
+const ID_HINT = ["What’s hearsay?","Hearsay is a statement (an assertion, or conduct meant as an assertion) that the declarant made other than while testifying at the current trial, offered to prove what it asserts (801(a), (c)). To find it, look for words or assertive conduct by someone outside this courtroom. A witness describing it on the stand is only the messenger.",["801(a)","801(c)"]];
+
+// ===== CONCEPT HINTS: hidden definitions, opened on request (count against the step) =====
+const DEFS = {
+  h_stmt:["What’s a statement?","Under 801(a), a statement is a person’s oral assertion, written assertion, or nonverbal conduct the person intended as an assertion. If the person wasn’t trying to communicate a fact, there’s no statement."],
+  h_truth:["What’s “truth of the matter asserted”?","A statement is offered for its truth when its value depends on the declarant being right about what they said. If the words matter just because they were said (they gave notice, formed a contract, show the listener’s state of mind), they aren’t offered for their truth."],
+  h_ex:["What does 801(d) exclude?","801(d) defines two groups of statements as “not hearsay”: certain prior statements of a witness who testifies and is cross-examined at this trial (d)(1), and statements offered against the party who made, adopted, authorized, or is responsible for them (d)(2)."],
+  h_803:["What’s in 803?","803 lists exceptions that apply whether or not the declarant is available, because the circumstances supply reliability: timing (present sense impression), stress (excited utterance), state of mind, medical purpose, routine records, and others."],
+  h_avail:["What’s “unavailable”?","804(a) treats a declarant as unavailable if privileged, refusing despite a court order, lacking memory, dead or ill, or absent despite reasonable efforts. It doesn’t apply if the proponent caused the unavailability to prevent testimony."],
+  h_804:["What’s in 804(b)?","804(b) exceptions apply only to unavailable declarants: former testimony, statements under belief of imminent death, statements against interest, family history, and forfeiture by wrongdoing."],
+  h_807:["What’s the residual exception?","807 admits hearsay that no other exception covers if it has sufficient guarantees of trustworthiness, is more probative on the point than other reasonably obtainable evidence, and the proponent gave notice."],
+  x_403:["What’s “unfair prejudice”?","Unfair prejudice is an undue tendency to suggest a decision on an improper basis, often an emotional one. 403 excludes evidence only when that danger (or confusion, delay, cumulativeness) substantially outweighs probative value."],
+  k_rel:["What’s relevant?","Evidence is relevant if it has any tendency to make a fact more or less probable than it would be without the evidence, and the fact is of consequence in determining the action (401)."],
+  k_use:["What’s propensity?","Propensity reasoning goes: the person has a character trait, so they probably acted in line with it this time. 404 bars that chain. Other uses (motive, intent, identity, habit, character as an element) don’t rely on it."],
+  k_hudd:["What’s the Huddleston standard?","Before other-act evidence comes in, there must be enough evidence for a jury to reasonably find, by a preponderance, that the act happened and the person did it (104(b)). The judge doesn’t decide it personally."],
+  k_413:["What do 413–415 allow?","In sexual-assault and child-molestation cases, evidence that the party committed another such act may be considered for any relevant purpose, including propensity. 403 still applies."],
+  k_crim:["What opens the character door?","In a criminal case, only the accused can open the door: by offering his own pertinent trait, or the victim’s. The prosecutor may then respond. In homicide, first-aggressor evidence lets the prosecutor show the victim’s peacefulness."],
+  k_form:["What methods does 405 allow?","Character is proved by reputation or opinion on direct. Specific instances may be asked about on cross, or used when character is an essential element of a claim or defense."],
+  k_403:["What’s “unfair prejudice”?","An undue tendency to suggest a decision on an improper basis. For character evidence, the main risk is the jury punishing the person for who they are."],
+  i_m:["What are the impeachment methods?","Prior convictions (609), specific acts bearing on truthfulness (608(b)), reputation or opinion about truthfulness (608(a)), prior inconsistent statements (613), and bias, motive, or capacity."],
+  i_10:["What’s the 10-year clock?","Count from the conviction or the release from confinement for it, whichever is later. More than 10 years puts the conviction under 609(b)."],
+  i_old:["What’s the 609(b) test?","An old conviction comes in only if its probative value, supported by specific facts and circumstances, substantially outweighs its prejudicial effect, and the proponent gave reasonable written notice."],
+  i_cf:["What’s crimen falsi?","A crime whose elements required proving, or the witness admitting, a dishonest act or false statement: fraud, perjury, false statement. Its label or the way it was committed isn’t enough."],
+  i_fel:["What counts as a felony under 609?","A crime punishable by death or by imprisonment for more than one year, judged by the possible punishment, not the actual sentence."],
+  i_who:["Why does it matter if the witness is the accused?","An accused who testifies gets a more protective balance under 609(a)(1)(B), because the jury may use the conviction as propensity evidence against him."],
+  i_bal:["What’s the 609(a)(1)(B) balance?","The conviction comes in only if its probative value outweighs its prejudicial effect to the defendant. Courts weigh impeachment value, age, similarity to the charged crime, and how central the defendant’s testimony is."],
+  i_608b:["What’s “probative of truthfulness”?","Conduct that shows willingness to lie or deceive, like lying on a form, fraud, or false statements. Violence or drug use usually doesn’t bear on truthfulness."],
+  i_ext:["What’s extrinsic evidence?","Proof from a source other than the witness being cross-examined: documents, other witnesses, recordings. 608(b) bars it for specific acts offered to show character for truthfulness."],
+  i_608a:["What’s 608(a) character evidence?","Reputation or opinion testimony about a witness’s character for truthfulness or untruthfulness, and nothing broader."],
+  i_att:["What counts as an attack?","Evidence of untruthful character, such as reputation, opinion, specific acts, or convictions, opens the door to support. Merely contradicting a witness usually doesn’t."],
+  i_pis:["What’s substantive use?","Using a prior statement as proof that its contents are true, not just to show the witness is inconsistent. Impeachment-only use calls for a limiting instruction."],
+  i_801:["What makes a prior inconsistent statement substantive?","801(d)(1)(A): the declarant testifies and is subject to cross, and the earlier statement was made under penalty of perjury at a trial, hearing, other proceeding, or deposition."],
+  i_613:["What’s the 613(b) foundation?","Before extrinsic evidence of a prior inconsistent statement comes in, the witness must get a chance to explain or deny it, and the adverse party a chance to question the witness about it."],
+  J_403:["What’s “unfair prejudice”?","An undue tendency to suggest a decision on an improper basis. In impeachment, also consider confusion, wasted time, and protecting witnesses from harassment (611(a))."],
+  p_law:["What law governs privilege?","Federal common law governs privilege in federal cases, except in civil cases where state law supplies the rule of decision for a claim or defense. Then state privilege law applies (501)."],
+  p_which:["What are the federal privileges?","Attorney-client, work product, adverse spousal testimony, marital communications, psychotherapist-patient, and others recognized “in the light of reason and experience.”"],
+  p_ac:["What’s attorney-client privilege?","A confidential communication between client and lawyer (or their agents) made to obtain legal advice. It covers communications, not the underlying facts."],
+  p_cf:["What’s the crime-fraud exception?","No privilege covers communications in which the client seeks advice to further a future crime or fraud, whether or not the lawyer knew."],
+  p_waive:["What’s waiver?","Voluntary disclosure of privileged material can waive the privilege. 502 limits inadvertent disclosures and subject-matter waiver."],
+  p_st:["What’s the spousal testimonial privilege?","A spouse may refuse to testify against the other spouse in a criminal case. Under Trammel, the witness-spouse holds the privilege."],
+  p_mc:["What’s the marital communications privilege?","Protects confidential communications made between spouses during a valid marriage. It doesn’t cover observations or communications made in front of others."],
+  p_psy:["What’s the psychotherapist privilege?","Protects confidential communications made to a licensed psychotherapist or clinical social worker for treatment (Jaffee)."],
+  cf_crim:["Who does the Clause protect?","The Sixth Amendment gives the accused in a criminal prosecution the right to confront the witnesses against him. It doesn’t apply in civil cases, and an accused’s own words aren’t a “witness against” him."],
+  cf_test:["What’s “testimonial”?","A statement is testimonial when, viewed objectively, its primary purpose is to establish or prove past events for possible later prosecution. Formal statements to police, affidavits, and prior testimony are core examples."],
+  cf_avail:["What counts as cross-examination at trial?","The declarant takes the stand at this trial and answers questions. A witness with memory loss who still testifies is subject to cross (Owens)."],
+  cf_prior:["What’s a prior opportunity to cross?","For an absent declarant, the Clause requires unavailability plus an earlier chance for this defendant to cross-examine, as at a preliminary hearing, deposition, or earlier trial."],
+  cf_exc:["What are the exceptions to the Clause?","Forfeiture by wrongdoing (the defendant made the witness unavailable intending to prevent testimony), statements not offered for their truth, and possibly dying declarations. “Opening the door” isn’t one."]
+};
 // ===== APP =====
 const TOPICS = {
   rel:{n:"Relevance",r:"401–403 · 407–411"},
@@ -2139,11 +2226,119 @@ function renderMaps(){
     <div class="maps">${Object.entries(MAPS).map(([k,m]) => { const list = DRILLS.filter(d => d.map === k); const clean = list.filter(d => cleanOf(d.id)).length;
       return `<button class="mcard" data-map="${k}"><span class="eyebrow">${list.length} cases · ${clean} clean</span><h3>${esc(m.name)}</h3><span class="bl">${esc(m.blurb)}</span><span class="bar" style="margin-top:6px"><i style="width:${100*clean/list.length}%;background:var(--ok)"></i></span></button>`; }).join("")}</div>`;
 }
+// ---------- identify-the-statement step + concept hints ----------
+const ABBR = /(?:\bMrs|\bMr|\bMs|\bDr|\bv|\bU\.S|\bNo)\.$/;
+function sentences(t){
+  const out = []; let st = 0;
+  for (let i = 0; i < t.length; i++){
+    if (!".!?".includes(t[i])) continue;
+    let j = i + 1; while (j < t.length && "”’\")".includes(t[j])) j++;
+    if (j < t.length && t[j] !== " ") continue;
+    if (ABBR.test(t.slice(Math.max(0, i - 4), i + 1))) continue;
+    out.push([st, j]); while (j < t.length && t[j] === " ") j++; st = j; i = j - 1;
+  }
+  if (st < t.length) out.push([st, t.length]);
+  return out;
+}
+function spanSet(sc){
+  const sp = SPANS[sc.id]; if (!sp) return null; const f = sc.facts;
+  const rng = t => { const i = f.indexOf(t); return [i, i + t.length]; };
+  return {key: sp.key.map(rng), others: sp.others.map(rng), alt: sp.alt, keyText: sp.key[0], othersText: sp.others};
+}
+function gradeSel(sc, s, e, mode){
+  const sp = spanSet(sc); let best = {cov:0, ratio:99};
+  sp.key.forEach(([ks, ke]) => { const ov = Math.max(0, Math.min(e, ke) - Math.max(s, ks)); const cov = ov / (ke - ks), ratio = (e - s) / (ke - ks);
+    if (cov > best.cov || (cov === best.cov && ratio < best.ratio)) best = {cov, ratio}; });
+  if (best.cov >= 0.7 && (mode === "sentence" || best.ratio <= 1.5)) return {res:"ok"};
+  const oth = sp.others.findIndex(([os, oe]) => Math.max(0, Math.min(e, oe) - Math.max(s, os)) / (oe - os) >= 0.5);
+  if (best.cov >= 0.3) return {res:"partial", why: best.ratio > 1.5 ? "too-long" : "too-short"};
+  if (oth >= 0) return {res:"wrong", why:"other", other: sp.othersText[oth]};
+  return {res:"wrong", why:"none"};
+}
+function idMode(sc){ if (sc.lv === 1) return "mc"; try { if (window.matchMedia("(pointer:coarse)").matches) return "sentence"; } catch(e){} return "highlight"; }
+function idOptions(sc){
+  const sp = SPANS[sc.id];
+  const opts = [{t:"“" + sp.key[0] + "”", v:"key"}].concat(sp.others.map((o, i) => ({t:"“" + o + "”", v:"o" + i})), sp.alt.map((a, i) => ({t:a, v:"a" + i})));
+  return shuffle([opts[0]].concat(shuffle(opts.slice(1)).slice(0, 3)));
+}
+function factsHTML(sc){
+  const f = sc.facts, sp = spanSet(sc);
+  if (W && W.stage === "identify" && W.idMode === "highlight") return `<p class="facts hl-facts" id="idFacts">${esc(f)}</p>`;
+  if (W && W.stage === "identify" && W.idMode === "sentence") return `<p class="facts">${sentences(f).map(([a, b], i) => `<button class="sent" data-sent="${i}">${esc(f.slice(a, b))}</button>`).join(" ")}</p>`;
+  if (W && sp && W.idRec){ // after the step: mark the statement at issue (and the student's highlight if it missed)
+    const [ks, ke] = sp.key[0]; const y = W.idRec.sel;
+    const marks = [[ks, ke, "keyspan"]]; if (y && W.idRec.res !== "ok" && (y[1] <= ks || y[0] >= ke)) marks.push([y[0], y[1], "yours"]);
+    marks.sort((a, b) => a[0] - b[0]); let out = "", p = 0;
+    marks.forEach(([a, b, c]) => { if (a < p) return; out += esc(f.slice(p, a)) + `<mark class="${c}">${esc(f.slice(a, b))}</mark>`; p = b; });
+    return `<p class="facts">${out + esc(f.slice(p))}</p>`;
+  }
+  return `<p class="facts">${esc(f)}</p>`;
+}
+function selOffsets(){
+  const box = $("#idFacts"), sel = window.getSelection(); if (!box || !sel || !sel.rangeCount || sel.isCollapsed) return null;
+  const r = sel.getRangeAt(0); if (!box.contains(r.startContainer) || !box.contains(r.endContainer)) return null;
+  const pre = document.createRange(); pre.selectNodeContents(box); pre.setEnd(r.startContainer, r.startOffset);
+  const s = pre.toString().length, e = s + r.toString().length;
+  let a = s, b = e; const t = W.sc.facts; while (a < b && /\s/.test(t[a])) a++; while (b > a && /\s/.test(t[b - 1])) b--;
+  return b > a ? [a, b] : null;
+}
+document.addEventListener("selectionchange", () => {
+  if (!W || W.stage !== "identify" || W.idMode !== "highlight") return;
+  const o = selOffsets(); if (!o) return; W.sel = o;
+  const pv = $("#selPreview"), go = $("#idCheck"); if (pv) pv.textContent = "“" + W.sc.facts.slice(o[0], o[1]) + "”"; if (go) go.disabled = false;
+});
+function submitId(sel, mcVal){
+  const sc = W.sc; let g;
+  if (mcVal !== undefined){
+    g = mcVal === "key" ? {res:"ok"} : mcVal[0] === "o" ? {res:"wrong", why:"other", other:SPANS[sc.id].others[+mcVal.slice(1)]} : {res:"wrong", why:"alt", alt:SPANS[sc.id].alt[+mcVal.slice(1)]};
+  } else g = gradeSel(sc, sel[0], sel[1], W.idMode);
+  W.idRec = Object.assign({kind:"id", sel:mcVal === undefined ? sel : null, mode:W.idMode}, g);
+  W.recs.push(W.idRec);
+  if (g.res === "ok"){ W.last = {ok:true, text:"Statement identified: “" + SPANS[sc.id].key[0] + "”", note:""}; enterNode(W.m.root); }
+  else { W.stage = "idfb"; }
+  renderDrill();
+}
+function idCard(){
+  const sc = W.sc, hint = defToggle("_id");
+  const prompt = `<p class="ask">What out-of-court statement (or conduct) is being offered?</p>`;
+  if (W.idMode === "mc"){
+    if (!W.idOpts) W.idOpts = idOptions(sc);
+    return `<div class="stepq"><div class="row spread"><span class="n">Step 1 · Identify the statement</span>${hint.btn}</div>${prompt}${hint.box}
+      <div style="display:grid;gap:8px">${W.idOpts.map(o => `<button class="choice" data-idmc="${o.v}">${esc(o.t)}</button>`).join("")}</div></div>`;
+  }
+  const hl = W.idMode === "highlight";
+  return `<div class="stepq"><div class="row spread"><span class="n">Step 1 · Identify the statement</span>${hint.btn}</div>${prompt}${hint.box}
+    <p class="muted" style="margin:0;font-size:14px">${hl ? "Click and drag in the facts above to highlight just the statement or conduct, then check it." : "Tap the sentence in the facts above that contains the statement or conduct."}</p>
+    ${hl ? `<div class="selbox"><span class="eyebrow">Your highlight</span><span id="selPreview" class="mono">${W.sel ? esc("“" + sc.facts.slice(W.sel[0], W.sel[1]) + "”") : "Nothing highlighted yet"}</span></div>
+      <div class="row"><button class="btn primary" id="idCheck" ${W.sel ? "" : "disabled"}>Check my highlight</button><button class="btn ghost small" id="idSwitch">Tap a sentence instead</button></div>`
+    : `<div class="row"><button class="btn ghost small" id="idSwitch">Highlight instead</button></div>`}</div>`;
+}
+function idFbCard(){
+  const r = W.idRec, sp = SPANS[W.sc.id], key = sp.key[0];
+  const msg = r.res === "partial"
+    ? (r.why === "too-long" ? "You found it, but your selection runs well past the statement. Highlight only the words (or conduct) being offered." : "You caught part of it. Here is the full statement.")
+    : r.why === "other" ? `“${esc(r.other)}” is something else in the facts. It isn’t what the proponent is offering for its truth.`
+    : r.why === "alt" ? `“${esc(r.alt)}” isn’t the out-of-court statement. ${/testimony|testifies|on the stand/i.test(r.alt) ? "In-court testimony is how the statement reaches the jury; the hearsay is what was said outside court." : "Look for the assertion (or conduct) someone made outside this trial."}`
+    : "That selection doesn’t contain the statement at issue.";
+  return `<div class="fbcard ${r.res === "partial" ? "half" : "bad"}"><span class="eyebrow">Step 1 · Identify the statement</span>
+    <p><b>${r.res === "partial" ? "Partly right." : "Not quite."}</b> ${msg}</p>
+    <p>The statement at issue: <b>“${esc(key)}”</b> (marked in the facts above).</p>
+    <div class="row">${whyBtn(`data-why-keys="801(a)|801(c)" data-why-title="Statement and hearsay"`, "Rule text")}<button class="btn primary" id="wCont">Continue the analysis →</button></div></div>`;
+}
+// concept hints: hidden definitions, opened on request
+function defToggle(key){
+  const d = key === "_id" ? ID_HINT : DEFS[key]; if (!d) return {btn:"", box:""};
+  const open = W.defs.has(key);
+  return {btn:`<button class="hint-btn" data-def="${key}" aria-expanded="${open}">${esc(d[0])}</button>`,
+    box: open ? `<div class="defbox"><span class="eyebrow">Hint · ${esc(d[0])}</span><p>${esc(d[1])}</p><span class="muted" style="font-size:12px">Hint used: this step now earns half points and is logged as assisted for the rule.</span></div>` : ""};
+}
+
 function startDrill(id){
   const sc = DRILLS.find(d => d.id === id); D.sc = sc; D.map = sc.map; D.hints = 0;
   const m = MAPS[sc.map];
-  W = {sc, m, node:m.root, stage:null, recs:[], cur:null, last:null, order:null, done:false};
-  enterNode(m.root); renderMaps(); window.scrollTo(0, 0);
+  W = {sc, m, node:m.root, stage:null, recs:[], cur:null, last:null, order:null, done:false, defs:new Set(), idRec:null, sel:null, idOpts:null};
+  if (SPANS[sc.id]){ W.stage = "identify"; W.idMode = idMode(sc); } else enterNode(m.root);
+  renderMaps(); window.scrollTo(0, 0);
 }
 function enterNode(id){
   W.node = id; W.cur = null;
@@ -2202,6 +2397,7 @@ function advance(next){
   enterNode(next);
 }
 function continueAfterFb(){
+  if (W.stage === "idfb"){ W.last = null; enterNode(W.m.root); renderDrill(); return; }
   if (W.stage === "checkfb"){ W.last = null; afterCheck(W.cur.id); renderDrill(); return; }
   if (W.stage === "finalfb"){ finishDrill(); renderDrill(); return; }
   commitNode(); renderDrill();
@@ -2209,13 +2405,19 @@ function continueAfterFb(){
 function finishDrill(){
   W.stage = "done"; W.done = true;
   const nodes = W.recs.filter(r => r.kind === "node"), checks = W.recs.filter(r => r.kind === "check");
-  const clean = nodes.every(r => r.ok && r.rok !== false) && checks.every(r => r.ok);
+  const idr = W.idRec;
+  const clean = nodes.every(r => r.ok && r.rok !== false) && checks.every(r => r.ok) && (!idr || idr.res === "ok");
   const mult = Math.max(0, 1 - 0.2 * D.hints);
-  let pts = 0; nodes.forEach(r => { if (r.ok) pts += 6; if (r.ok && r.rok === true) pts += 3; }); checks.forEach(r => { if (r.ok) pts += 4; });
+  const half = k => W.defs.has(k) ? 0.5 : 1;
+  let pts = 0; nodes.forEach(r => { let p = 0; if (r.ok) p += 6; if (r.ok && r.rok === true) p += 3; pts += p * half(r.node); }); checks.forEach(r => { if (r.ok) pts += 4; });
+  if (idr) pts += (idr.res === "ok" ? 6 : idr.res === "partial" ? 3 : 0) * half("_id");
   pts = Math.round(pts * mult) + (clean ? 15 + 2 * Math.min(S.streak, 10) : 0);
   const prev = S.ds[W.sc.id]; S.ds[W.sc.id] = clean ? 1 : (prev === 1 ? 1 : 0);
   W.sc.t.forEach(t => { S.t[t].da++; if (clean) S.t[t].dc++; });
-  nodes.forEach(r => { const k = (STEP_HELP[r.node] || [[]])[0][0]; if (k) logRule(k, r.ok && r.rok !== false); });
+  nodes.forEach(r => { const k = (STEP_HELP[r.node] || [[]])[0][0]; if (k) logRule(k, r.ok && r.rok !== false && !W.defs.has(r.node)); });
+  if (idr) logRule("801(c)", idr.res === "ok" && !W.defs.has("_id"));
+  S.defHints = S.defHints || {};
+  W.defs.forEach(k => { S.defHints[k] = (S.defHints[k] || 0) + 1; const rk = k === "_id" ? "801(c)" : (STEP_HELP[k] || [[]])[0][0]; if (rk && S.rl[rk]) S.rl[rk].h = (S.rl[rk].h || 0) + 1; });
   if (CITE_POOL) nodes.forEach(r => { if (r.type === "cite") logRule(CITE[r.node], r.rok === true); });
   W.pts = pts; W.clean = clean;
   award(pts, clean);
@@ -2223,6 +2425,7 @@ function finishDrill(){
 function liveMap(){
   const m = W.m;
   const items = W.recs.map(r => {
+    if (r.kind === "id"){ const st = r.res === "ok" ? "ok" : r.res === "partial" ? "half" : "bad"; return `<li class="lnode ${st}"><div class="row spread"><b>Statement</b><span class="mark">${st === "ok" ? "✓" : st === "half" ? "◐" : "✗"}</span></div><span class="edge2">→ “${esc(SPANS[W.sc.id].key[0])}”</span></li>`; }
     if (r.kind === "check"){ const ck = CHECKS[r.id]; return `<li class="lchk ${r.ok ? "ok" : "bad"}"><span class="eyebrow">Sequence check ${r.ok ? "✓" : "✗"}</span> ${esc(ck.o[0])}</li>`; }
     const nd = m.nodes[r.node], right = W.sc.a[r.node];
     const st = !r.ok ? "bad" : r.rok === false ? "half" : "ok";
@@ -2231,7 +2434,7 @@ function liveMap(){
       ${!r.ok ? `<span class="was">You said: ${esc(nd.o[r.ans][0])}</span>` : ""}
       <span class="edge2">→ ${esc(nd.o[right][0])}${rs ? ` <span class="muted">· ${esc(rs)}</span>` : ""}</span></li>`;
   });
-  if (!W.done && W.stage !== "final" && W.stage !== "finalfb") items.push(`<li class="lnode now"><b>${esc(m.nodes[W.node].s)}</b><span class="muted" style="font-size:12px">You are here</span></li>`);
+  if (!W.done && W.stage !== "final" && W.stage !== "finalfb" && W.stage !== "idfb") items.push(`<li class="lnode now"><b>${esc(W.stage === "identify" || W.stage === "idfb" ? "Statement" : m.nodes[W.node].s)}</b><span class="muted" style="font-size:12px">You are here</span></li>`);
   if (W.term) items.push(`<li class="lend"><span class="tn ${m.nodes[W.term].kind}">${esc(m.nodes[W.term].label)}</span></li>`);
   return `<div class="panel live"><span class="eyebrow">Your map so far</span><ol class="lmap">${items.join("")}</ol></div>`;
 }
@@ -2239,13 +2442,15 @@ function caseHead(){
   const m = MAPS[D.map], sc = D.sc;
   return `<div class="row spread"><button class="btn ghost small" id="dExit">← ${esc(m.name)} cases</button><span class="sticker blue">Journey map · ${LEVELS[sc.lv]}</span></div>
     <article class="casefile"><div class="cf-head"><h3>${esc(sc.title)}</h3>${sc.src ? `<span class="src">${esc(sc.src)}</span>` : ""}</div>
-    <div class="cf-body"><p class="facts">${esc(sc.facts)}</p></div></article>`;
+    <div class="cf-body">${factsHTML(sc)}</div></article>`;
 }
 function stageCard(){
   const m = W.m, n = W.node, nd = m.nodes[n], sc = W.sc;
-  const stepNo = W.recs.filter(r => r.kind === "node").length + 1;
+  const stepNo = W.recs.filter(r => r.kind === "node" || r.kind === "id").length + 1;
   const last = W.last ? `<div class="okline"><b>✓ ${esc(W.last.text)}</b>${W.last.note ? `<span>${esc(W.last.note)}</span>` : ""}</div>` : "";
   const judge = judgeBox(HINTS[sc.id], D.hints, `id="dHint"`);
+  if (W.stage === "identify") return idCard();
+  if (W.stage === "idfb") return idFbCard();
   if (W.stage === "check" || W.stage === "final"){
     const ck = CHECKS[W.stage === "final" ? "_crim" : n];
     return `${last}<div class="stepq seq"><span class="n">Sequence check</span><p class="ask">${esc(ck.q)}</p>
@@ -2257,13 +2462,14 @@ function stageCard(){
       <div class="row">${whyBtn(`data-why-keys="${esc(ck.rk.join("|"))}" data-why-title="${esc(ck.o[0])}"`, "Rule text")}<button class="btn primary" id="wCont">${W.stage === "finalfb" ? "See the full map →" : "Continue →"}</button></div></div>`;
   }
   if (W.stage === "answer"){
-    return `${last}<div class="stepq"><div class="row spread"><span class="n">Step ${stepNo} · ${esc(nd.s)}</span>${whyBtn(`data-why-node="${n}"`, "Why this step?")}</div><p class="ask">${esc(nd.q)}</p>
+    const hint = defToggle(n);
+    return `${last}<div class="stepq"><div class="row spread"><span class="n">Step ${stepNo} · ${esc(nd.s)}</span>${hint.btn}</div><p class="ask">${esc(nd.q)}</p>${hint.box}
       <div style="display:grid;gap:8px">${nd.o.map((o,i) => `<button class="choice" data-ans="${i}">${esc(o[0])}</button>`).join("")}</div>${judge}</div>`;
   }
   if (W.stage === "reason"){
-    const c = W.cur, st = c.second;
-    return `<div class="stepq"><div class="row spread"><span class="n">Step ${stepNo} · ${esc(nd.s)}</span>${whyBtn(`data-why-node="${n}"`, "Why this step?")}</div>
-      <p class="muted" style="margin:0">${esc(nd.q)}</p><p class="youans">Your answer: <b>${esc(nd.o[c.ans][0])}</b></p>
+    const c = W.cur, st = c.second, hint = defToggle(n);
+    return `<div class="stepq"><div class="row spread"><span class="n">Step ${stepNo} · ${esc(nd.s)}</span>${hint.btn}</div>
+      <p class="muted" style="margin:0">${esc(nd.q)}</p>${hint.box}<p class="youans">Your answer: <b>${esc(nd.o[c.ans][0])}</b></p>
       <p class="ask">${st.type === "reason" ? "Which reason fits these facts?" : "Which rule governs this step?"}</p>
       <div style="display:grid;gap:8px">${st.items.map(x => `<button class="choice" data-rs="${esc(x.v)}">${esc(x.t)}</button>`).join("")}</div>${judge}</div>`;
   }
@@ -2289,7 +2495,8 @@ function drillResult(){
   const nodes = W.recs.filter(r => r.kind === "node"), checks = W.recs.filter(r => r.kind === "check");
   const miss = new Set(nodes.filter(r => !r.ok).map(r => r.node)), half = new Set(nodes.filter(r => r.ok && r.rok === false).map(r => r.node));
   const right = nodes.filter(r => r.ok).length, cks = checks.filter(r => r.ok).length;
-  const review = W.recs.filter(r => r.kind === "check" ? !r.ok : (!r.ok || r.rok === false)).map(r => {
+  const review = W.recs.filter(r => r.kind === "id" ? r.res !== "ok" : r.kind === "check" ? !r.ok : (!r.ok || r.rok === false)).map(r => {
+    if (r.kind === "id") return `<li><span class="eyebrow">Identify the statement</span> ${r.res === "partial" ? "Partly right." : "Missed."} The statement at issue: <b>“${esc(SPANS[sc.id].key[0])}”</b>.</li>`;
     if (r.kind === "check"){ const ck = CHECKS[r.id]; return `<li><span class="eyebrow">Sequence</span> You picked “${esc(ck.o[r.pick])}.” Next was <b>${esc(ck.o[0])}</b>. ${esc(ck.why)}</li>`; }
     const nd = m.nodes[r.node], a = sc.a[r.node], st = r.type;
     const rs = st === "reason" ? (REASONS[r.node][a].find(x => x[0] === (DRILL_R[sc.id] || {})[r.node]) || [])[1] : st === "cite" ? ruleLabel(CITE[r.node]) : (secondStep(r.node, a) || {}).right ? ruleLabel(CITE[r.node] || "") : "";
@@ -2427,6 +2634,11 @@ document.addEventListener("click", e => {
   if (d.ans !== undefined){ pickAnswer(+d.ans); return; }
   if (d.rs !== undefined){ pickReason(d.rs); return; }
   if (t.id === "wCont"){ continueAfterFb(); return; }
+  if (d.def){ if (!W.defs.has(d.def)) W.defs.add(d.def); else { const box = t.closest(".stepq").querySelector(".defbox"); if (box) box.scrollIntoView({block:"nearest"}); return; } renderDrill(); return; }
+  if (t.id === "idCheck"){ const o = W.sel; if (o) submitId(o); return; }
+  if (t.id === "idSwitch"){ W.idMode = W.idMode === "highlight" ? "sentence" : "highlight"; W.sel = null; renderDrill(); return; }
+  if (d.sent !== undefined){ const r = sentences(W.sc.facts)[+d.sent]; submitId(r); return; }
+  if (d.idmc){ submitId(null, d.idmc); return; }
   if (d.whyKeys){ openWhy(d.whyTitle || "Why?", "", d.whyKeys.split("|")); return; }
   if (t.id === "dHint"){ if (HINTS[D.sc.id] && D.hints < HINTS[D.sc.id].length){ D.hints++; S.hints++; save(); renderDrill(); } return; }
   if (t.id === "dExit"){ D.sc = null; W = null; renderMaps(); return; }
