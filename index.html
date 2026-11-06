@@ -281,6 +281,19 @@ mark.yours{background:var(--bad-soft);color:var(--ink);border-bottom:2px dashed 
 .hint-btn[aria-expanded="true"]{border-style:solid}
 .defbox{display:grid;gap:4px;padding:10px 12px;border-radius:5px;background:var(--route-soft);border-left:4px solid var(--route)}
 .defbox p{margin:0}
+/* facts on the map + model answer */
+.factq{display:block;font-size:13px;line-height:1.45;margin-top:3px;padding-left:8px;border-left:3px solid var(--ok)}
+.factq .eyebrow{font-size:10px;margin-right:4px}
+.factq.half{border-left-color:var(--tag)}.factq.bad{border-left-color:var(--bad)}
+.model{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.ma{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;padding:10px 12px;border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:5px;background:var(--card);font-size:14.5px}
+.ma.half{border-left-color:var(--tag);background:var(--route-soft)}
+.ma.bad{border-left-color:var(--bad);background:var(--bad-soft)}
+.ma.end{border-left-color:var(--ink)}
+.ma-n{font:600 12px/24px var(--f-mono);width:24px;height:24px;text-align:center;border-radius:50%;background:var(--ink);color:var(--bg)}
+.ma .note{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.tag{font:600 10px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:3px;vertical-align:middle}
+.tag.bad{background:var(--bad);color:var(--card)}.tag.half{background:var(--tag);color:var(--on-tag)}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:560px){.panel,.cf-body{padding:16px}.cf-head,.cf-foot{padding-inline:16px}.brand h1{font-size:1.3rem}}
 </style>
@@ -1855,6 +1868,239 @@ const DEFS = {
   cf_prior:["What’s a prior opportunity to cross?","For an absent declarant, the Clause requires unavailability plus an earlier chance for this defendant to cross-examine, as at a preliminary hearing, deposition, or earlier trial."],
   cf_exc:["What are the exceptions to the Clause?","Forfeiture by wrongdoing (the defendant made the witness unavailable intending to prevent testimony), statements not offered for their truth, and possibly dying declarations. “Opening the door” isn’t one."]
 };
+// ===== RELEVANCE MAP (401–403, 104(b), 407–411) =====
+MAPS.relevance = {name:"Relevance", topic:"rel", root:"r_401", blurb:"401 probative? → 104(b) conditional relevance → 407–411 policy exclusions → 403",
+nodes:{
+r_401:{s:"Probative?", rule:"401", q:"Does the evidence have any tendency to make a fact of consequence more or less probable?", o:[["Yes",'r_cond'],["No",'T_irr']]},
+r_cond:{s:"Conditional relevance?", rule:"104(b)", q:"Does its relevance depend on another fact being true, and is there evidence of that fact?", o:[["No: it’s relevant on its own",'r_pol'],["Yes, and a jury could reasonably find the fact",'r_pol'],["Yes, but there’s no evidence of the fact",'T_cond']]},
+r_pol:{s:"Policy exclusion?", rule:"407–411", q:"Does a specific policy rule bar the evidence for the purpose it’s offered?", o:[["No",'r_403'],["Yes",'T_pol']]},
+r_403:{s:"Rule 403", rule:"403", q:"Is the probative value substantially outweighed by a 403 danger?", o:[["Yes",'T_403'],["No",'T_adm']]},
+T_irr:{end:1,kind:'out',label:"Excluded: irrelevant (402)"},
+T_cond:{end:1,kind:'out',label:"Excluded: no evidence of the conditional fact (104(b))"},
+T_pol:{end:1,kind:'out',label:"Excluded for this purpose: policy rule (407–411)"},
+T_403:{end:1,kind:'out',label:"Excluded under 403"},
+T_adm:{end:1,kind:'in',label:"Admissible"}
+}};
+// course order: relevance → character → impeachment → privileges → hearsay → Confrontation
+(function(){ const order = ["relevance","character","impeach","privilege","hearsay","confront"]; const copy = Object.assign({}, MAPS);
+  Object.keys(MAPS).forEach(k => delete MAPS[k]); order.forEach(k => MAPS[k] = copy[k]); })();
+REASONS.r_pol = {1:[["407","407 subsequent remedial measure"],["408","408 compromise offer or negotiation"],["409","409 offer to pay medical expenses"],["410","410 plea or plea discussion"],["411","411 liability insurance"]]};
+REASONS.r_403 = {0:X403};
+CHECKS.r_403 = {q:"The evidence is relevant and no policy rule bars it. What do you check next?",
+  o:["Rule 403: is the probative value substantially outweighed?","Rule 401 again, to measure how relevant it is","Whether it’s hearsay, before anything else","Nothing: relevant evidence is always admissible"],
+  why:"402 makes relevant evidence admissible unless something excludes it. 403 is the general backstop after the specific rules.",rk:["402","403"]};
+STEP_HELP.r_401 = [["401","402"],"Every analysis starts with relevance: any tendency, and a fact of consequence."];
+STEP_HELP.r_cond = [["104(b)"],"Some evidence matters only if another fact is true. The judge asks whether a jury could reasonably find that fact."];
+STEP_HELP.r_pol = [["407","408","409","410","411"],"Policy rules exclude relevant evidence for particular purposes to encourage repairs, settlements, pleas, and insurance."];
+STEP_HELP.r_403 = [["403"],"The last balance: exclude only if a listed danger substantially outweighs probative value."];
+DEFS.r_401 = ["What’s relevant?","Evidence is relevant if it has any tendency to make a fact more or less probable than it would be without the evidence, and the fact is of consequence in determining the action (401). The bar is low: a brick, not a wall."];
+DEFS.r_cond = ["What’s conditional relevance?","When evidence is relevant only if another fact exists (a letter matters only if the defendant wrote it; a motive matters only if he knew), there must be proof sufficient for a jury to find that fact (104(b))."];
+DEFS.r_pol = ["What’s a policy exclusion?","Rules 407–411 exclude certain relevant evidence for certain purposes to serve social policies: subsequent repairs, settlement talks, offers to pay medical bills, plea discussions, and liability insurance."];
+DEFS.r_403 = ["What’s “unfair prejudice”?","An undue tendency to suggest a decision on an improper basis, often an emotional one. 403 also lists confusing the issues, misleading the jury, delay, waste of time, and cumulative evidence."];
+DEFS.k_use[0] = "What’s a 404(b) purpose?";
+
+DRILLS.push(
+{id:"d_rl1",map:"relevance",t:["rel"],lv:1,title:"The 9mm Purchase",
+facts:"Dana is on trial for a murder committed with a 9mm handgun. The prosecution offers a gun-shop receipt showing Dana bought a 9mm pistol two weeks before the shooting. The defense says thousands of people own 9mm pistols.",
+a:{r_401:0,r_cond:0,r_pol:0,r_403:1},
+n:{r_401:"The matching caliber gives the purchase “any tendency” to show means and opportunity. That many people own 9mm pistols goes to weight.",r_403:"Minimal unfair prejudice; buying a gun lawfully isn’t inflammatory."}},
+{id:"d_rl2",map:"relevance",t:["rel"],lv:2,title:"Flight to California",src:"United States v. Myers",
+facts:"Myers is tried for a Florida bank robbery. The prosecution offers evidence that three weeks after the robbery, Myers ran when FBI agents approached him in California. Myers had an unrelated outstanding warrant at the time.",
+a:{r_401:0,r_cond:0,r_pol:0,r_403:0},
+n:{r_401:"Flight can show consciousness of guilt, which is enough for “any tendency.”",r_403:"Each link in the four-inference chain is weak: three weeks passed, and the separate warrant gives another reason to run. The jury may overweight flight as proof of this robbery."}},
+{id:"d_rl3",map:"relevance",t:["rel"],lv:2,title:"The Undelivered News",
+facts:"Kenneth is charged with killing his wife Kristine. The prosecution offers evidence that Kristine planned to tell Kenneth he was not their son’s father, as proof of his motive. There is no evidence Kenneth ever learned of her plan.",
+a:{r_401:0,r_cond:2},
+n:{r_401:"A plan that could anger Kenneth bears on motive.",r_cond:"It shows motive only if Kenneth knew. With no evidence he learned of it, a jury couldn’t find the condition (104(b))."}},
+{id:"d_rl4",map:"relevance",t:["rel"],lv:1,title:"The New Floor Mats",
+facts:"Pat slips on a wet lobby floor at Hotel Corp. A week later, Hotel Corp installs rubber mats. Pat offers the mats to prove Hotel Corp was negligent. Hotel Corp doesn’t dispute that mats were feasible.",
+a:{r_401:0,r_cond:0,r_pol:1},
+n:{r_pol:"407 bars subsequent remedial measures to prove negligence. Feasibility isn’t disputed, so that exception doesn’t open."}},
+{id:"d_rl5",map:"relevance",t:["rel"],lv:3,title:"The Math Instructor",src:"People v. Collins",
+facts:"In a robbery case, the prosecutor calls a math instructor who multiplies probabilities he admits are “illustrative” (yellow car 1/10, ponytail 1/10, bearded man 1/10) and tells the jury there is a 1-in-12-million chance someone other than the defendants did it.",
+a:{r_401:0,r_cond:0,r_pol:0,r_403:0},
+n:{r_401:"Probability evidence can bear on identity, so 401 is met.",r_403:"Invented inputs, unproven independence, and a precise-sounding number: the jury may substitute arithmetic for reasonable doubt."}},
+{id:"d_rl6",map:"relevance",t:["rel"],lv:1,title:"Damaging Is Not Unfair",
+facts:"In a negligence suit after a crash, the plaintiff offers the defendant’s text sent 30 seconds before impact: “late again lol flooring it.” The defense objects that it is extremely prejudicial.",
+a:{r_401:0,r_cond:0,r_pol:0,r_403:1},
+n:{r_401:"Speeding just before impact goes straight to breach.",r_403:"Highly probative; it hurts because it’s strong, not because it invites an improper basis."}}
+);
+DRILL_R.d_rl2 = {r_403:["confuse","unfair"]};
+DRILL_R.d_rl4 = {r_pol:"407"};
+DRILL_R.d_rl5 = {r_403:["confuse","unfair"]};
+Object.assign(HINTS, {
+ d_rl1:["Relevance isn’t sufficiency.","Does the caliber connect the purchase to the crime?"],
+ d_rl2:["Trace the chain from running to guilt.","Which fact gives him another reason to run?"],
+ d_rl3:["The motive matters only if something else is true.","Is there any evidence he knew?"],
+ d_rl4:["When were the mats installed, and why are they offered?","Is feasibility disputed?"],
+ d_rl5:["Where did the numbers come from?","Which 403 danger does false precision create?"],
+ d_rl6:["Damaging or unfairly damaging?","What does 403 mean by “unfair”?"]
+});
+
+// ===== OPENING HIGHLIGHT per map =====
+const ID_CFG = {
+  relevance:{label:"Identify the evidence", q:"What evidence is being offered?", hint:["What’s relevant evidence?","Relevance asks about a specific item of evidence and what it’s offered to prove. Find the exhibit or testimony the proponent wants the jury to consider.",["401"]]},
+  character:{label:"Identify the evidence", q:"What evidence is being offered about the person?", hint:["What’s character evidence?","Character evidence is evidence of a person’s disposition or traits, proved by reputation, opinion, or specific acts. Find the testimony or act being offered about the person.",["404(a)(1)","405(a)"]]},
+  impeach:{label:"Identify the impeaching material", q:"What is being used to attack (or support) the witness’s credibility?", hint:["What’s impeachment?","Impeachment is evidence offered to attack a witness’s credibility: convictions, untruthful acts, reputation or opinion, inconsistent statements, or bias. Find the item being used.",["607"]]},
+  privilege:{label:"Identify the communication", q:"What communication or testimony is claimed to be privileged?", hint:["What’s a privileged communication?","Privileges protect certain communications (or testimony) from disclosure. Find what the holder is trying to keep out, not the underlying facts.",["501"]]},
+  hearsay:{label:"Identify the statement", q:"What out-of-court statement (or conduct) is being offered?", hint:ID_HINT},
+  confront:{label:"Identify the statement", q:"What out-of-court statement is being offered against the accused?", hint:["What’s a declarant’s statement?","The Confrontation Clause concerns statements by people who aren’t testifying at this trial. Find the out-of-court statement the prosecution wants to use against the accused.",["6A","801(a)"]]}
+};
+Object.assign(SPANS, {
+  d_rl1:{key:["a gun-shop receipt showing Dana bought a 9mm pistol two weeks before the shooting","Dana bought a 9mm pistol two weeks before the shooting"],others:["The defense says thousands of people own 9mm pistols."],alt:["The murder weapon itself","Dana’s testimony on the stand denying the shooting"]},
+  d_rl2:{key:["Myers ran when FBI agents approached him in California"],others:["Myers had an unrelated outstanding warrant at the time."],alt:["The bank’s surveillance video of the robbery"]},
+  d_rl3:{key:["Kristine planned to tell Kenneth he was not their son’s father"],others:["There is no evidence Kenneth ever learned of her plan."],alt:["Kenneth’s testimony denying the killing"]},
+  d_rl4:{key:["Hotel Corp installs rubber mats","the mats"],others:["Pat slips on a wet lobby floor at Hotel Corp."],alt:["Pat’s medical bills","Hotel Corp’s liability insurance policy"]},
+  d_rl5:{key:["a 1-in-12-million chance someone other than the defendants did it","multiplies probabilities he admits are “illustrative”"],others:[],alt:["The eyewitness’s description of the getaway car"]},
+  d_rl6:{key:["late again lol flooring it.","the defendant’s text sent 30 seconds before impact"],others:["The defense objects that it is extremely prejudicial."],alt:["The police diagram of the crash","The plaintiff’s medical records"]},
+  d_ch1:{key:["two unrelated bar fights from last year"],others:["has offered no character evidence"],alt:["Vic’s own testimony that he acted in self-defense","The parking-lot brawl itself"]},
+  d_ch2:{key:["a prior burglary by the defendant with the identical signature"],others:["victims bound with purple zip-ties, a jack of spades left on the table"],alt:["The homeowner’s identification of the defendant at trial"]},
+  d_ch3:{key:["testifies that he has a good reputation in the community for honesty","a good reputation in the community for honesty"],others:["A bribery defendant calls a witness"],alt:["The bribe payment itself","The defendant’s own denial on the stand"]},
+  d_ch4:{key:["Last year he found a wallet with $500 and returned it."],others:["In a theft trial"],alt:["The defendant’s reputation for honesty","The stolen property recovered by police"]},
+  d_ch5:{key:["another woman’s testimony that the defendant sexually assaulted her eight years ago","the defendant sexually assaulted her eight years ago"],others:["There was no conviction."],alt:["The complainant’s testimony about the charged assault"]},
+  d_ch6:{key:["for ten years Harold stopped, rolled down his window, and looked both ways at that crossing every morning","a neighbor’s testimony"],others:["There were no eyewitnesses to the fatal crash."],alt:["Harold’s reputation as a careful driver","The railroad’s crossing-signal records"]},
+  d_im1:{key:["convicted six years ago of misdemeanor false swearing","misdemeanor false swearing"],others:[],alt:["The witness’s reputation for untruthfulness","A prior inconsistent statement by the witness","The witness’s friendship with the plaintiff"]},
+  d_im2:{key:["Four years ago he was convicted of felony heroin distribution","convicted of felony heroin distribution"],others:["on trial for heroin distribution"],alt:["Marcus’s testimony on direct"]},
+  d_im3:{key:["lying about a college degree on her job application","the application"],others:["calls the HR director to prove the lie"],alt:["A conviction for fraud"]},
+  d_im4:{key:["a pastor to vouch for its own witness’s excellent reputation for truthfulness","excellent reputation for truthfulness"],others:["Before any cross-examination"],alt:["The witness’s prior consistent statement","The witness’s religious beliefs","A conviction of the witness"]},
+  d_im5:{key:["testified under oath that the defendant handed him the gun","the grand jury transcript"],others:["At trial he says he never saw a gun."],alt:["The gun itself"]},
+  d_im6:{key:["convicted of armed robbery in 2011","the conviction"],others:["released in 2013"],alt:["The witness’s bias against the defendant"]},
+  d_pr1:{key:["interviews mid-level managers about suspected bribes","the interview notes"],others:["the IRS subpoenas the interview notes"],alt:["The bribes themselves","The company’s tax returns"]},
+  d_pr2:{key:["one privileged memo"],others:["60,000 documents"],alt:["The firm’s privilege-review protocol"]},
+  d_pr3:{key:["testify about drug transactions she saw at home","drug transactions she saw at home"],others:["The defendant claims the spousal privilege."],alt:["A letter the defendant wrote to his wife","The drugs seized from the home"]},
+  d_pr4:{key:["an accountant-client privilege","accountant-client"],others:["A state-law contract claim"],alt:["The contract itself"]}
+});
+
+// ===== SUPPORTING FACTS for each step (any listed span is acceptable). "@id" = the statement/evidence already identified (carried forward).
+// Steps not listed are pure judgment calls: the student only makes the call.
+const FACTS = {
+  // relevance
+  d_rl1:{r_401:["a murder committed with a 9mm handgun","committed with a 9mm handgun"]},
+  d_rl2:{r_401:"@id",r_403:["Myers had an unrelated outstanding warrant at the time","an unrelated outstanding warrant","three weeks after the robbery"]},
+  d_rl3:{r_401:["as proof of his motive"],r_cond:["There is no evidence Kenneth ever learned of her plan."]},
+  d_rl4:{r_pol:["A week later, Hotel Corp installs rubber mats","A week later","to prove Hotel Corp was negligent","Hotel Corp doesn’t dispute that mats were feasible."]},
+  d_rl5:{r_403:["probabilities he admits are “illustrative”","he admits are “illustrative”","a 1-in-12-million chance someone other than the defendants did it"]},
+  d_rl6:{r_401:["sent 30 seconds before impact","late again lol flooring it."]},
+  // character
+  d_ch1:{k_use:["“to show he’s a violent person.”","to show he’s a violent person"],k_crim:["has offered no character evidence"]},
+  d_ch2:{k_rel:["Defense: misidentification."],k_use:["victims bound with purple zip-ties, a jack of spades left on the table","with the identical signature"]},
+  d_ch3:{k_crim:["A bribery defendant calls a witness"],k_form:"@id"},
+  d_ch4:{k_crim:["the defendant’s character witness"],k_form:["says on direct","the defendant’s character witness says on direct"]},
+  d_ch5:{k_413:["In a criminal sexual-assault trial","criminal sexual-assault trial"]},
+  d_ch6:{k_use:"@id"},
+  // impeachment
+  d_im1:{i_m:"@id",i_10:["six years ago"],i_cf:["false swearing","misdemeanor false swearing"]},
+  d_im2:{i_m:"@id",i_10:["Four years ago"],i_cf:["felony heroin distribution","convicted of felony heroin distribution"],i_fel:["felony heroin distribution","convicted of felony heroin distribution"],i_who:["Marcus, on trial for heroin distribution, testifies.","on trial for heroin distribution, testifies"]},
+  d_im3:{i_m:"@id",i_608b:"@id",i_ext:["offers the application and calls the HR director","calls the HR director to prove the lie","offers the application"]},
+  d_im4:{i_m:"@id",i_608a:"@id",i_att:["Before any cross-examination"]},
+  d_im5:{i_m:["At trial he says he never saw a gun."],i_pis:["as substantive evidence"],i_801:["Before the grand jury, a witness testified under oath","testified under oath"]},
+  d_im6:{i_m:"@id",i_10:["released in 2013","Trial in 2026."],i_old:["with no advance notice"]},
+  // privileges
+  d_pr1:{p_law:["In a federal tax investigation"],p_ac:["confidentially","in order to give legal advice","Corporate counsel confidentially interviews mid-level managers"],p_waive:["Nothing has been disclosed."]},
+  d_pr2:{p_law:["In a federal case"],p_waive:["a firm’s privilege review misses one privileged memo","The firm demands its return promptly after discovering the error.","promptly after discovering the error"]},
+  d_pr3:{p_law:["In a federal drug prosecution"],p_which:["she saw at home","drug transactions she saw at home"],p_st:["chooses to testify","the defendant’s wife chooses to testify"]},
+  d_pr4:{p_law:["A state-law contract claim","A state-law contract claim is in federal court on diversity jurisdiction."]},
+  // hearsay
+  d_hs3:{h_stmt:"@id",h_truth:["It is offered to prove the store had notice.","to prove the store had notice"]},
+  d_hs4:{h_stmt:"@id",h_ex:["arranging a cocaine sale","Bourjaily takes the cocaine at the meeting"]},
+  d_hs5:{h_stmt:"@id",h_truth:["The prosecution offers the statement as a dying declaration, or under 803(3)."],h_ex:["Mrs. Shepard told her nurse"],h_803:"@id",h_avail:["She later died."],h_804:["while she was talking about recovering","she was talking about recovering"]},
+  d_hs6:{h_stmt:"@id"},
+  d_hs8:{h_stmt:"@id",h_ex:["The defendant told his girlfriend","at his murder trial"]},
+  d_hs9:{h_stmt:"@id",h_truth:["to prove the injury and its cause"],h_ex:["The plaintiff offers it"],h_803:["the plaintiff’s ER doctor testifies that the plaintiff told her","ER doctor"]},
+  d_hs10:{h_stmt:"@id",h_ex:["a key witness"],h_avail:["The witness died before trial."],h_804:["was deposed and cross-examined at length by the defendant’s lawyer"]},
+  d_hs11:{h_stmt:"@id",h_truth:["He offers it to prove how the crash happened.","to prove how the crash happened"],h_ex:["the defendant driver offers his own statement"],h_803:["He made it 20 minutes after the crash, calmly","20 minutes after the crash, calmly"]},
+  // Confrontation
+  d_hs1:{cf_crim:["Michael is charged with assault"],cf_test:["who had received Miranda warnings","gave a recorded statement at the station"],cf_avail:["At trial she invokes the marital privilege.","she invokes the marital privilege"]},
+  d_hs2:{cf_crim:["Davis is charged with violating a protective order"],cf_test:"@id"},
+  d_hs7:{cf_crim:["The prosecution offers the transcript."],cf_test:"@id",cf_avail:["The victim died before trial."],cf_prior:["was cross-examined by defense counsel"]},
+  d_cf1:{cf_crim:["In a drug prosecution"],cf_test:["sworn lab certificates","The certificates were prepared at police request for trial."],cf_avail:["No analyst testifies"],cf_prior:["nothing shows the analysts are unavailable"]},
+  d_cf2:{cf_test:["to an FBI agent"],cf_avail:["the victim testifies and answers questions","At trial, the victim testifies and answers questions"]},
+  d_cf3:{cf_crim:["her later fraud trial"],cf_test:["told police she had assaulted him"],cf_avail:["he was murdered"],cf_exc:["she arranged the killing to keep him from testifying"]},
+  d_cf4:{cf_crim:["offered against the boyfriend"],cf_test:["preschool teacher","A 3-year-old tells his preschool teacher"]},
+  d_cf5:{cf_crim:["the defendant said"]},
+  d_cf6:{cf_avail:["The accomplice doesn’t testify."],cf_exc:["only so the jury can compare the two","so the jury can compare the two"]},
+  d_cf7:{cf_crim:["In a civil wrongful-death suit"]},
+  d_cf8:{cf_test:["told a responding officer"],cf_avail:["Giles shot his ex-girlfriend"],cf_exc:["Nothing suggests he killed her to keep her from testifying."]}
+};
+// A short label for what the highlight should show at each step
+const FACT_ASK = {
+  r_401:"Highlight the fact that makes the evidence probative.", r_cond:"Highlight the fact that decides the condition.", r_pol:"Highlight the fact that triggers (or avoids) the policy rule.", r_403:"Highlight the fact that creates the danger.",
+  k_rel:"Highlight the fact that makes the evidence matter.", k_use:"Highlight the fact that shows what it’s offered to prove.", k_crim:"Highlight the fact that decides whether a door is open.", k_form:"Highlight the fact that shows how it’s being proved.", k_413:"Highlight the fact that brings 413–415 into play.",
+  i_m:"Highlight the impeaching material.", i_10:"Highlight the date that starts the clock.", i_old:"Highlight the fact that decides the 609(b) test.", i_cf:"Highlight the crime’s nature.", i_fel:"Highlight the fact that shows the crime’s grade.", i_who:"Highlight the fact that shows who the witness is.",
+  i_608b:"Highlight the act that bears on truthfulness.", i_ext:"Highlight how the act is being proved.", i_608a:"Highlight the character evidence.", i_att:"Highlight the fact about timing or attack.", i_pis:"Highlight the purpose for which it’s offered.", i_801:"Highlight the circumstances of the prior statement.",
+  p_law:"Highlight the fact that decides which law governs.", p_which:"Highlight the fact that shows what kind of privilege fits.", p_ac:"Highlight the fact showing confidentiality or legal purpose.", p_waive:"Highlight the fact about disclosure.", p_st:"Highlight the fact about the witness-spouse’s choice.",
+  h_stmt:"Highlight the assertion.", h_truth:"Highlight the fact showing why it’s offered.", h_ex:"Highlight the fact that decides 801(d).", h_803:"Highlight the fact that satisfies (or defeats) the exception.", h_avail:"Highlight the fact showing availability.", h_804:"Highlight the fact that satisfies (or defeats) the 804(b) exception.",
+  cf_crim:"Highlight the fact showing the kind of case or declarant.", cf_test:"Highlight the fact showing the statement’s primary purpose.", cf_avail:"Highlight the fact about the declarant at trial.", cf_prior:"Highlight the fact about earlier cross-examination.", cf_exc:"Highlight the fact that triggers (or rules out) the exception."
+};
+
+// ===== PRACTICE HYPOS: the fact that decides the ruling (any listed span is acceptable) =====
+const HYPO_FACTS = {
+ rel1:["a murder committed with a 9mm handgun","Dana bought a 9mm pistol two weeks before the shooting"],
+ rel2:["the defense concedes the victim was stabbed to death and argues only misidentification","eight full-color autopsy photographs"],
+ rel3:["Myers had an unrelated outstanding warrant at the time","three weeks after the robbery"],
+ rel4:["The defense says there is no proof Kenneth ever learned of her plan.","there is no proof Kenneth ever learned of her plan"],
+ rel5:["He assigns probabilities he admits are “illustrative”","probabilities he admits are “illustrative”"],
+ rel6:["sent 30 seconds before impact","late again lol flooring it."],
+ rel7:["A week later, Hotel Corp installs rubber mats.","Hotel Corp’s manager testifies that “mats can’t be used on marble lobbies.”","to prove Hotel Corp was negligent"],
+ rel8:["I’ll pay your hospital bills","I was looking at my phone."],
+ ch1:["“to show he’s a violent person.”","to show he’s a violent person"],
+ ch2:["calls a witness who testifies that Michelson has a good reputation in the community for honesty and being law-abiding","Did you hear that Michelson was arrested in 1927 for receiving stolen goods?"],
+ ch3:["for ten years Harold stopped his truck at that crossing every morning","every morning, rolled down his window, and looked both ways before crossing"],
+ ch4:["The homeowners were bound with purple zip-ties, and the burglar left a single jack of spades on the kitchen table.","using purple zip-ties and leaving a jack of spades"],
+ ch5:["Lee is charged with sexual assault.","Lee sexually assaulted her eight years ago"],
+ ch6:["He calls a witness who testifies that the deceased had a reputation for violence.","the deceased had a reputation for violence"],
+ ch7:["testifies on direct","last year he found a wallet with $500 in it and returned every cent"],
+ ch8:["negligent entrustment","a driver with a known history of reckless driving"],
+ ch9:["the complainant’s bruising came from consensual intercourse with her boyfriend earlier that evening"],
+ im1:["misdemeanor false swearing","convicted six years ago of misdemeanor false swearing"],
+ im2:["Marcus is on trial for distributing heroin.","Four years ago he was convicted of felony heroin distribution"],
+ im3:["released from prison in 2013","gives no advance notice"],
+ im4:["The defense then offers the application and calls the HR director to prove the lie.","offers the application and calls the HR director"],
+ im5:["Before the witness is cross-examined at all"],
+ im6:["informally and not under oath"],
+ im7:["after he struck a cooperation deal in March","a consistent statement to agents in April","Jordan’s consistent statement to a friend in January"],
+ im8:["The prosecution knows that Neumann, if called, will deny hearing the defendant confess.","It calls her anyway."],
+ im9:["The bystander never testifies.","the bystander’s 2022 felony fraud conviction"],
+ im10:["the defendant’s cousin and owes him $8,000","owes him $8,000"],
+ pr1:["General counsel for a corporation interviews mid-level sales managers","so she can advise the company","are told to keep the interviews confidential"],
+ pr2:["after running a privilege-review protocol","it promptly demands the memo back"],
+ pr3:["so the bank won’t file currency reports","how to split $95,000 in cash into deposits under $10,000"],
+ pr4:["His wife is willing to testify for the prosecution","drug transactions she saw at their home"],
+ pr5:["A state-law breach-of-contract case is in federal court on diversity jurisdiction.","on diversity jurisdiction"],
+ hs1:["I accept your offer at $40,000."],
+ hs2:["The plaintiff offers it to show the store had notice.","to show the store had notice"],
+ hs3:["sailed away on it with his family aboard","after inspecting every part of it, sailed away on it with his family aboard"],
+ hs4:["the defendant driver wants to introduce his own statement"],
+ hs5:["says while driving","right now — he just clipped a mailbox!"],
+ hs6:["I’m going to meet Dan at the boathouse tonight."],
+ hs7:["She was improving at the time and talked about recovering.","Dr. Shepard has poisoned me"],
+ hs8:["The guy who did it was my landlord, Earl.","I was hit on the head with a baseball bat."],
+ hs9:["a passing pedestrian’s statement to the officer","The blue car ran the red light."],
+ hs10:["a bank’s monthly account statements","The bank’s records custodian testifies about how the statements are prepared and kept."],
+ hs11:["convicted after a jury trial of felony aggravated battery (punishable by up to 5 years)","felony aggravated battery (punishable by up to 5 years)"],
+ hs12:["On a recorded call, Lonardo tells the informant","My friend will be the buyer — he has questions about quality.","Bourjaily shows up at the parking lot and takes the cocaine."],
+ hs13:["gave a recorded statement at the police station after receiving Miranda warnings","Sylvia invokes the marital privilege and doesn’t testify"],
+ hs14:["He’s here jumpin’ on me again… he’s usin’ his fists."],
+ hs15:["Foster testifies that he remembers making the identification but can’t remember seeing his attacker."],
+ hs16:["it belongs to Williamson — I’m just the driver.","In custody, he tells a DEA agent"],
+ hs17:["was cross-examined by the defendant’s lawyer","the victim died of unrelated causes"],
+ hs18:["Three weeks earlier","Brenda had told a police officer responding to a domestic-violence report"],
+ hs19:["A delivery driver for FreshCo crashes during his route."],
+ hs20:["he can’t remember the plate, even after looking at the log","wrote down the license plate of a getaway car in his logbook minutes after the theft"],
+ mx1:["while crying","his 2021 felony fraud conviction","“to show he does this kind of thing.”"],
+ cf1:["Lamar said in a recorded interview"],
+ cf2:["In a civil wrongful-death suit"],
+ cf3:["The certificates were prepared at police request for use at trial.","sworn “certificates of analysis”"],
+ cf4:["The shooter’s whereabouts are unknown.","bleeding from a gunshot wound"],
+ cf5:["When they arrive, things are calm.","then signs a written affidavit"],
+ cf6:["A preschool teacher notices injuries on 3-year-old L.P. and asks, “Who did this?”","A preschool teacher"],
+ cf7:["he was scheduled to testify in a related case","A week before that court date, Robert was found murdered."],
+ cf8:["Ray, who does not testify, confessed to police: “Evans and I did the job.”","Evans and I did the job."],
+ cf9:["so the jury can see how different the two are","The judge tells the jury not to consider Peele’s confession for its truth."],
+ cf10:["Before she disappeared, Dana texted her best friend"],
+ cf11:["Curly wasn’t a party to Moe’s trial and had no lawyer there."],
+ cf12:["The trial court rules that Darrell “opened the door” by blaming Morris."]
+};
 // ===== APP =====
 const TOPICS = {
   rel:{n:"Relevance",r:"401–403 · 407–411"},
@@ -2047,7 +2293,7 @@ const CITE_MSG = {exact:"Full credit. That’s the controlling rule.", general:"
 // ---------- HYPOS ----------
 const H = {topic:"all", lv:1, deck:[], i:0, stage:"cite", answered:null, order:[], right:0, done:0, cite:null, citeText:"", hints:0, write:null, writeText:"", ctl:null};
 const writes = h => h.lv === 3 || h.t.length > 1;
-function resetCard(){ H.stage = S.pref.cite ? "cite" : "mc"; H.answered = null; H.cite = null; H.citeText = ""; H.hints = 0; H.write = null; H.writeText = ""; H.order = shuffle([0,1,2,3]); if (H.ctl){ H.ctl.abort(); H.ctl = null; } }
+function resetCard(){ H.fact = null; SEL = null; H.hlMode = H.deck[H.i] ? hlMode(H.deck[H.i].lv) : "highlight"; H.stage = S.pref.cite ? "cite" : "mc"; H.answered = null; H.cite = null; H.citeText = ""; H.hints = 0; H.write = null; H.writeText = ""; H.order = shuffle([0,1,2,3]); if (H.ctl){ H.ctl.abort(); H.ctl = null; } }
 function buildDeck(){
   let pool = HYPOS.filter(h => (H.topic === "all" || h.t.includes(H.topic)) && (H.lv === 4 || h.lv === H.lv));
   const unseen = shuffle(pool.filter(h => !(h.id in S.hs))), missed = shuffle(pool.filter(h => S.hs[h.id] === 0)), got = shuffle(pool.filter(h => S.hs[h.id] === 1));
@@ -2100,7 +2346,9 @@ function renderHypoCard(){
         ${done ? whyBtn(`data-why-opt="${oi}"`) : ""}</div>`;
     }).join("")}</div>` : "";
   let writeBox = "";
-  if (H.stage === "write") writeBox = `<div class="stepbox"><span class="n">Step 3 · Explain your ruling</span>
+  const factBox = H.stage === "fact" ? `<div class="stepbox"><span class="n">${S.pref.cite ? "Step 3" : "Step 2"} · Find the deciding fact</span><p class="ask" style="margin:0">Highlight the fact in the hypo that decides this ruling.</p>${hlPanel(H.hlMode)}</div>` : "";
+  const factRes = H.fact && H.stage !== "fact" ? `<div class="citeres ${H.fact.res === "ok" ? "exact" : H.fact.res === "partial" ? "general" : "miss"}"><b>Deciding fact ${H.fact.res === "ok" ? "✓" : H.fact.res === "partial" ? "◐ partly found" : "✗ missed"}</b> · ${esc("“" + h.facts.slice(H.fact.range[0], H.fact.range[1]) + "”")} <span class="muted">(marked in the facts)</span></div>` : "";
+  if (H.stage === "write") writeBox = `<div class="stepbox"><span class="n">${S.pref.cite ? "Step 4" : "Step 3"} · Explain your ruling</span>
       <p class="muted" style="margin:0;font-size:14px">IRAC in 3–6 sentences: the issue, the rule (cite it), how the facts meet or miss each element, the strongest counterargument, and your conclusion.</p>
       <label class="sr" for="writeIn">Your analysis</label><textarea id="writeIn" rows="6" placeholder="Issue: … Rule: … Application: … Conclusion: …">${esc(H.writeText)}</textarea>
       <div class="row"><button class="btn primary" id="writeGo">${SAMPLE ? "Submit for grading" : "Compare with the model answer"}</button><button class="btn ghost small" id="writeSkip">Skip writing</button>
@@ -2121,11 +2369,11 @@ function renderHypoCard(){
     <div class="cf-head"><span class="sticker">Exhibit ${CODE[h.t[0]]}-${String(num).padStart(2,"0")}</span><h3>${esc(h.title)}</h3>
       <span class="lv">${LEVELS[h.lv]}${h.t.length > 1 ? " · " + h.t.map(k => TOPICS[k].n).join(" + ") : ""}${prev === 0 ? " · missed before" : ""}</span></div>
     <div class="cf-body">
-      <p class="facts">${esc(h.facts)}</p>
+      ${H.stage === "fact" ? hlFactsHTML(h.facts, H.hlMode) : H.fact ? markedFacts(h.facts, [H.fact.range], H.fact.res !== "ok" && H.fact.sel ? [H.fact.sel] : []) : `<p class="facts">${esc(h.facts)}</p>`}
       <p class="ask">${esc(h.q)}</p>
       ${step}${citeLine}
       ${H.stage === "mc" && S.pref.cite ? `<span class="n stepn">Step 2 · Pick the ruling</span>` : ""}
-      ${opts}${writeBox}
+      ${opts}${factBox}${factRes}${writeBox}
       ${!done && H.stage !== "selfgrade" ? judgeBox(HINTS[h.id], H.hints, `id="hHint"`) : ""}
       ${done ? `
       <div class="verdict"><span class="stamp ${h.o[ans][1] ? "ok" : "no"}">${h.o[ans][1] ? "Affirmed" : "Reversed"}</span>
@@ -2159,7 +2407,16 @@ function answerHypo(oi){
   const base = Math.round(10 * h.lv * (H.lv === 4 ? 1.5 : 1) * Math.max(0, 1 - 0.25 * H.hints));
   const pts = ok ? base + 2 * Math.min(S.streak, 10) : 0;
   award(pts, ok);
-  H.stage = writes(h) ? "write" : "done"; renderHypoCard();
+  H.stage = HYPO_FACTS[h.id] ? "fact" : writes(h) ? "write" : "done"; SEL = null; renderHypoCard();
+}
+function submitHypoFact(sel){
+  const h = H.deck[H.i], ranges = HYPO_FACTS[h.id].map(t => rangeOf(h.facts, t)), g = gradeRanges(sel, ranges, H.hlMode);
+  let range = ranges[0]; if (g.res !== "wrong"){ let best = 0; ranges.forEach(r => { const ov = Math.max(0, Math.min(sel[1], r[1]) - Math.max(sel[0], r[0])) / (r[1] - r[0]); if (ov > best){ best = ov; range = r; } }); }
+  H.fact = {res:g.res, why:g.why, sel, range: g.res === "ok" ? sel : range};
+  h.t.forEach(k => { S.t[k].fa = (S.t[k].fa || 0) + 1; if (g.res === "ok") S.t[k].fc = (S.t[k].fc || 0) + 1; });
+  S.hf = S.hf || {}; S.hf[h.id] = g.res;
+  const pts = g.res === "ok" ? 2 * h.lv : g.res === "partial" ? h.lv : 0; if (pts) award(pts, null); else save();
+  H.stage = writes(h) ? "write" : "done"; SEL = null; renderHypoCard();
 }
 async function submitWrite(){
   const h = H.deck[H.i]; H.writeText = ($("#writeIn") || {}).value || H.writeText;
@@ -2202,14 +2459,13 @@ function finishWrite(result){
   H.stage = "done"; renderHypoCard();
 }
 
-// ---------- JOURNEY MAPS: answer your way down the path ----------
+// ---------- JOURNEY MAPS: call → reason → supporting fact, down the correct branch ----------
 const D = {map:null, sc:null, compact:true, hints:0};
 let W = null; // walker state for the current case
 function solve(sc){ const m = MAPS[sc.map]; let n = m.root; const seq = []; let guard = 0;
   while (!m.nodes[n].end && guard++ < 40){ const i = sc.a[n]; seq.push([n, i]); n = m.nodes[n].o[i][1]; } return {seq, term:n}; }
 function nodeOf(id){ for (const k in MAPS) if (MAPS[k].nodes[id]) return MAPS[k].nodes[id]; return null; }
 const cleanOf = id => S.ds[id] === 1 || S.bs[id] === 1;  // earlier Build-mode clears still count
-function ruleLabel(k){ const f = findRule(k); if (!f) return k; return /^\d/.test(f.k) ? "FRE " + f.k + " · " + f.r.t : f.r.t; }
 function renderMaps(){
   const v = $("#v-maps");
   if (D.sc) return renderDrill();
@@ -2222,235 +2478,263 @@ function renderMaps(){
     return;
   }
   v.innerHTML = `<div><span class="eyebrow">Rule-pathway drills</span><h2 style="margin-top:6px">Journey maps</h2>
-    <p class="lede">Answer your way down the analysis. At each step, decide the question and pick the rule or reason that supports your answer. A wrong turn stops you, explains the rule, and puts you back on the correct branch, so you always finish the full analysis. The map builds itself as you go.</p></div>
+    <p class="lede">Find the evidence in the facts, then work down the analysis: make each call and highlight the fact that supports it. A wrong turn stops you, shows the right answer and fact, and puts you back on the correct branch. Your map fills in as you go and ends as a model answer: rule → decision → fact.</p></div>
     <div class="maps">${Object.entries(MAPS).map(([k,m]) => { const list = DRILLS.filter(d => d.map === k); const clean = list.filter(d => cleanOf(d.id)).length;
       return `<button class="mcard" data-map="${k}"><span class="eyebrow">${list.length} cases · ${clean} clean</span><h3>${esc(m.name)}</h3><span class="bl">${esc(m.blurb)}</span><span class="bar" style="margin-top:6px"><i style="width:${100*clean/list.length}%;background:var(--ok)"></i></span></button>`; }).join("")}</div>`;
 }
-// ---------- identify-the-statement step + concept hints ----------
-const ABBR = /(?:\bMrs|\bMr|\bMs|\bDr|\bv|\bU\.S|\bNo)\.$/;
+
+// ---- text spans, sentences, highlight grading (shared by journey maps and practice hypos) ----
+const ABBR = /(?:\bMrs|\bMr|\bMs|\bDr|\bv|\bU\.S|\bNo|\bL\.P)\.$/;
 function sentences(t){
   const out = []; let st = 0;
   for (let i = 0; i < t.length; i++){
     if (!".!?".includes(t[i])) continue;
     let j = i + 1; while (j < t.length && "”’\")".includes(t[j])) j++;
     if (j < t.length && t[j] !== " ") continue;
-    if (ABBR.test(t.slice(Math.max(0, i - 4), i + 1))) continue;
+    if (ABBR.test(t.slice(Math.max(0, i - 4), i + 1)) || /\b[A-Z]\.$/.test(t.slice(Math.max(0, i - 2), i + 1))) continue;
     out.push([st, j]); while (j < t.length && t[j] === " ") j++; st = j; i = j - 1;
   }
   if (st < t.length) out.push([st, t.length]);
   return out;
 }
-function spanSet(sc){
-  const sp = SPANS[sc.id]; if (!sp) return null; const f = sc.facts;
-  const rng = t => { const i = f.indexOf(t); return [i, i + t.length]; };
-  return {key: sp.key.map(rng), others: sp.others.map(rng), alt: sp.alt, keyText: sp.key[0], othersText: sp.others};
-}
-function gradeSel(sc, s, e, mode){
-  const sp = spanSet(sc); let best = {cov:0, ratio:99};
-  sp.key.forEach(([ks, ke]) => { const ov = Math.max(0, Math.min(e, ke) - Math.max(s, ks)); const cov = ov / (ke - ks), ratio = (e - s) / (ke - ks);
+const rangeOf = (f, t) => { const i = f.indexOf(t); return i < 0 ? null : [i, i + t.length]; };
+// ~70% coverage of an acceptable span, no more than ~1.5x its length (sentence taps skip the length cap)
+function gradeRanges(sel, ranges, mode){
+  let best = {cov:0, ratio:99};
+  ranges.forEach(([ks, ke]) => { const ov = Math.max(0, Math.min(sel[1], ke) - Math.max(sel[0], ks)); const cov = ov / (ke - ks), ratio = (sel[1] - sel[0]) / (ke - ks);
     if (cov > best.cov || (cov === best.cov && ratio < best.ratio)) best = {cov, ratio}; });
   if (best.cov >= 0.7 && (mode === "sentence" || best.ratio <= 1.5)) return {res:"ok"};
-  const oth = sp.others.findIndex(([os, oe]) => Math.max(0, Math.min(e, oe) - Math.max(s, os)) / (oe - os) >= 0.5);
   if (best.cov >= 0.3) return {res:"partial", why: best.ratio > 1.5 ? "too-long" : "too-short"};
-  if (oth >= 0) return {res:"wrong", why:"other", other: sp.othersText[oth]};
-  return {res:"wrong", why:"none"};
+  return {res:"wrong"};
 }
-function idMode(sc){ if (sc.lv === 1) return "mc"; try { if (window.matchMedia("(pointer:coarse)").matches) return "sentence"; } catch(e){} return "highlight"; }
+function hlMode(lv){ if (lv === 1) return "sentence"; try { if (window.matchMedia("(pointer:coarse)").matches) return "sentence"; } catch(e){} return "highlight"; }
+function hlFactsHTML(f, mode){
+  if (mode === "highlight") return `<p class="facts hl-facts" id="idFacts">${esc(f)}</p>`;
+  return `<p class="facts">${sentences(f).map(([a, b], i) => `<button class="sent" data-sent="${i}">${esc(f.slice(a, b))}</button>`).join(" ")}</p>`;
+}
+function markedFacts(f, good, bad){ // good/bad: arrays of [a,b]; overlapping ranges merge, "good" wins
+  const marks = []; const add = (r, c) => { if (!r) return; marks.push([r[0], r[1], c]); };
+  good.forEach(r => add(r, "keyspan")); bad.forEach(r => { if (!good.some(g => r[0] < g[1] && r[1] > g[0])) add(r, "yours"); });
+  marks.sort((a, b) => a[0] - b[0] || b[1] - a[1]);
+  const merged = []; marks.forEach(m => { const l = merged[merged.length - 1]; if (l && m[0] <= l[1] && l[2] === m[2]) l[1] = Math.max(l[1], m[1]); else if (!l || m[0] >= l[1]) merged.push(m.slice()); });
+  let out = "", p = 0; merged.forEach(([a, b, c]) => { out += esc(f.slice(p, a)) + `<mark class="${c}">${esc(f.slice(a, b))}</mark>`; p = b; });
+  return `<p class="facts">${out + esc(f.slice(p))}</p>`;
+}
+let SEL = null;
+function selOffsets(){
+  const box = $("#idFacts"), sel = window.getSelection(); if (!box || !sel || !sel.rangeCount || sel.isCollapsed) return null;
+  const r = sel.getRangeAt(0); if (!box.contains(r.startContainer) || !box.contains(r.endContainer)) return null;
+  const pre = document.createRange(); pre.selectNodeContents(box); pre.setEnd(r.startContainer, r.startOffset);
+  const s = pre.toString().length, e = s + r.toString().length, t = box.textContent;
+  let a = s, b = e; while (a < b && /\s/.test(t[a])) a++; while (b > a && /\s/.test(t[b - 1])) b--;
+  return b > a ? [a, b] : null;
+}
+document.addEventListener("selectionchange", () => {
+  const box = $("#idFacts"); if (!box) return; const o = selOffsets(); if (!o) return; SEL = o;
+  const pv = $("#selPreview"), go = $("#hlCheck"); if (pv) pv.textContent = "“" + box.textContent.slice(o[0], o[1]) + "”"; if (go) go.disabled = false;
+});
+function hlPanel(mode, ask){
+  const hl = mode === "highlight";
+  return `<p class="muted" style="margin:0;font-size:14px">${hl ? "Click and drag in the facts above to highlight just the words that answer this, then check it." : "Tap the sentence in the facts above that answers this."}</p>
+    ${hl ? `<div class="selbox"><span class="eyebrow">Your highlight</span><span id="selPreview" class="mono">${SEL ? "" : "Nothing highlighted yet"}</span></div>
+      <div class="row"><button class="btn primary" id="hlCheck" ${SEL ? "" : "disabled"}>Check my highlight</button><button class="btn ghost small" id="hlSwitch">Tap a sentence instead</button></div>`
+    : `<div class="row"><button class="btn ghost small" id="hlSwitch">Highlight instead</button></div>`}`;
+}
+
+// ---- walker ----
+function idSpans(sc){ const sp = SPANS[sc.id], f = sc.facts; return {key: sp.key.map(t => rangeOf(f, t)), others: sp.others.map(t => rangeOf(f, t))}; }
+function factSpec(n){ const f = (FACTS[W.sc.id] || {})[n]; if (!f) return null; return f === "@id" ? "@id" : f.map(t => rangeOf(W.sc.facts, t)); }
+function startDrill(id){
+  const sc = DRILLS.find(d => d.id === id); D.sc = sc; D.map = sc.map; D.hints = 0;
+  const m = MAPS[sc.map];
+  W = {sc, m, node:m.root, stage:"identify", recs:[], cur:null, last:null, order:null, done:false, defs:new Set(), idRec:null, idOpts:null, pool:[]};
+  W.idMode = sc.lv === 1 ? "mc" : hlMode(sc.lv); W.hlMode = hlMode(sc.lv); SEL = null;
+  renderMaps(); window.scrollTo(0, 0);
+}
+function enterNode(id){
+  W.node = id; W.cur = null; SEL = null;
+  if (CHECKS[id]) { W.stage = "check"; W.order = shuffle(CHECKS[id].o.map((_, i) => i)); }
+  else { W.stage = "answer"; }
+}
+function reasonStep(node, opt){
+  const rs = REASONS[node] && REASONS[node][opt];
+  if (rs && rs.length >= 2) return {items: shuffle(rs.map(r => ({v:r[0], t:r[1]}))), right: [].concat((DRILL_R[W.sc.id] || {})[node] || [])};
+  return null;
+}
+function reasonText(node, opt){ const rs = REASONS[node] && REASONS[node][opt]; const k = [].concat((DRILL_R[W.sc.id] || {})[node] || [])[0]; return rs && k ? (rs.find(r => r[0] === k) || [])[1] : ""; }
+// identify step
 function idOptions(sc){
   const sp = SPANS[sc.id];
   const opts = [{t:"“" + sp.key[0] + "”", v:"key"}].concat(sp.others.map((o, i) => ({t:"“" + o + "”", v:"o" + i})), sp.alt.map((a, i) => ({t:a, v:"a" + i})));
   return shuffle([opts[0]].concat(shuffle(opts.slice(1)).slice(0, 3)));
 }
-function factsHTML(sc){
-  const f = sc.facts, sp = spanSet(sc);
-  if (W && W.stage === "identify" && W.idMode === "highlight") return `<p class="facts hl-facts" id="idFacts">${esc(f)}</p>`;
-  if (W && W.stage === "identify" && W.idMode === "sentence") return `<p class="facts">${sentences(f).map(([a, b], i) => `<button class="sent" data-sent="${i}">${esc(f.slice(a, b))}</button>`).join(" ")}</p>`;
-  if (W && sp && W.idRec){ // after the step: mark the statement at issue (and the student's highlight if it missed)
-    const [ks, ke] = sp.key[0]; const y = W.idRec.sel;
-    const marks = [[ks, ke, "keyspan"]]; if (y && W.idRec.res !== "ok" && (y[1] <= ks || y[0] >= ke)) marks.push([y[0], y[1], "yours"]);
-    marks.sort((a, b) => a[0] - b[0]); let out = "", p = 0;
-    marks.forEach(([a, b, c]) => { if (a < p) return; out += esc(f.slice(p, a)) + `<mark class="${c}">${esc(f.slice(a, b))}</mark>`; p = b; });
-    return `<p class="facts">${out + esc(f.slice(p))}</p>`;
-  }
-  return `<p class="facts">${esc(f)}</p>`;
-}
-function selOffsets(){
-  const box = $("#idFacts"), sel = window.getSelection(); if (!box || !sel || !sel.rangeCount || sel.isCollapsed) return null;
-  const r = sel.getRangeAt(0); if (!box.contains(r.startContainer) || !box.contains(r.endContainer)) return null;
-  const pre = document.createRange(); pre.selectNodeContents(box); pre.setEnd(r.startContainer, r.startOffset);
-  const s = pre.toString().length, e = s + r.toString().length;
-  let a = s, b = e; const t = W.sc.facts; while (a < b && /\s/.test(t[a])) a++; while (b > a && /\s/.test(t[b - 1])) b--;
-  return b > a ? [a, b] : null;
-}
-document.addEventListener("selectionchange", () => {
-  if (!W || W.stage !== "identify" || W.idMode !== "highlight") return;
-  const o = selOffsets(); if (!o) return; W.sel = o;
-  const pv = $("#selPreview"), go = $("#idCheck"); if (pv) pv.textContent = "“" + W.sc.facts.slice(o[0], o[1]) + "”"; if (go) go.disabled = false;
-});
 function submitId(sel, mcVal){
-  const sc = W.sc; let g;
-  if (mcVal !== undefined){
-    g = mcVal === "key" ? {res:"ok"} : mcVal[0] === "o" ? {res:"wrong", why:"other", other:SPANS[sc.id].others[+mcVal.slice(1)]} : {res:"wrong", why:"alt", alt:SPANS[sc.id].alt[+mcVal.slice(1)]};
-  } else g = gradeSel(sc, sel[0], sel[1], W.idMode);
-  W.idRec = Object.assign({kind:"id", sel:mcVal === undefined ? sel : null, mode:W.idMode}, g);
-  W.recs.push(W.idRec);
-  if (g.res === "ok"){ W.last = {ok:true, text:"Statement identified: “" + SPANS[sc.id].key[0] + "”", note:""}; enterNode(W.m.root); }
-  else { W.stage = "idfb"; }
+  const sc = W.sc, sp = idSpans(sc); let g;
+  if (mcVal !== undefined) g = mcVal === "key" ? {res:"ok"} : mcVal[0] === "o" ? {res:"wrong", why:"other", other:SPANS[sc.id].others[+mcVal.slice(1)]} : {res:"wrong", why:"alt", alt:SPANS[sc.id].alt[+mcVal.slice(1)]};
+  else {
+    g = gradeRanges(sel, sp.key, W.idMode);
+    if (g.res === "wrong"){ const oth = sp.others.findIndex(([os, oe]) => Math.max(0, Math.min(sel[1], oe) - Math.max(sel[0], os)) / (oe - os) >= 0.5); if (oth >= 0) Object.assign(g, {why:"other", other:SPANS[sc.id].others[oth]}); }
+  }
+  W.idRec = Object.assign({kind:"id", sel:mcVal === undefined ? sel : null, mode:W.idMode, range: g.res === "ok" && sel ? sel : sp.key[0]}, g);
+  W.recs.push(W.idRec); W.pool.push(W.idRec.range);
+  if (g.res === "ok"){ W.last = {ok:true, text:ID_CFG[sc.map].label.replace("Identify", "Identified") + ": “" + sc.facts.slice(W.idRec.range[0], W.idRec.range[1]) + "”", note:""}; enterNode(W.m.root); }
+  else W.stage = "idfb";
   renderDrill();
 }
-function idCard(){
-  const sc = W.sc, hint = defToggle("_id");
-  const prompt = `<p class="ask">What out-of-court statement (or conduct) is being offered?</p>`;
-  if (W.idMode === "mc"){
-    if (!W.idOpts) W.idOpts = idOptions(sc);
-    return `<div class="stepq"><div class="row spread"><span class="n">Step 1 · Identify the statement</span>${hint.btn}</div>${prompt}${hint.box}
-      <div style="display:grid;gap:8px">${W.idOpts.map(o => `<button class="choice" data-idmc="${o.v}">${esc(o.t)}</button>`).join("")}</div></div>`;
-  }
-  const hl = W.idMode === "highlight";
-  return `<div class="stepq"><div class="row spread"><span class="n">Step 1 · Identify the statement</span>${hint.btn}</div>${prompt}${hint.box}
-    <p class="muted" style="margin:0;font-size:14px">${hl ? "Click and drag in the facts above to highlight just the statement or conduct, then check it." : "Tap the sentence in the facts above that contains the statement or conduct."}</p>
-    ${hl ? `<div class="selbox"><span class="eyebrow">Your highlight</span><span id="selPreview" class="mono">${W.sel ? esc("“" + sc.facts.slice(W.sel[0], W.sel[1]) + "”") : "Nothing highlighted yet"}</span></div>
-      <div class="row"><button class="btn primary" id="idCheck" ${W.sel ? "" : "disabled"}>Check my highlight</button><button class="btn ghost small" id="idSwitch">Tap a sentence instead</button></div>`
-    : `<div class="row"><button class="btn ghost small" id="idSwitch">Highlight instead</button></div>`}</div>`;
-}
-function idFbCard(){
-  const r = W.idRec, sp = SPANS[W.sc.id], key = sp.key[0];
-  const msg = r.res === "partial"
-    ? (r.why === "too-long" ? "You found it, but your selection runs well past the statement. Highlight only the words (or conduct) being offered." : "You caught part of it. Here is the full statement.")
-    : r.why === "other" ? `“${esc(r.other)}” is something else in the facts. It isn’t what the proponent is offering for its truth.`
-    : r.why === "alt" ? `“${esc(r.alt)}” isn’t the out-of-court statement. ${/testimony|testifies|on the stand/i.test(r.alt) ? "In-court testimony is how the statement reaches the jury; the hearsay is what was said outside court." : "Look for the assertion (or conduct) someone made outside this trial."}`
-    : "That selection doesn’t contain the statement at issue.";
-  return `<div class="fbcard ${r.res === "partial" ? "half" : "bad"}"><span class="eyebrow">Step 1 · Identify the statement</span>
-    <p><b>${r.res === "partial" ? "Partly right." : "Not quite."}</b> ${msg}</p>
-    <p>The statement at issue: <b>“${esc(key)}”</b> (marked in the facts above).</p>
-    <div class="row">${whyBtn(`data-why-keys="801(a)|801(c)" data-why-title="Statement and hearsay"`, "Rule text")}<button class="btn primary" id="wCont">Continue the analysis →</button></div></div>`;
-}
-// concept hints: hidden definitions, opened on request
-function defToggle(key){
-  const d = key === "_id" ? ID_HINT : DEFS[key]; if (!d) return {btn:"", box:""};
-  const open = W.defs.has(key);
-  return {btn:`<button class="hint-btn" data-def="${key}" aria-expanded="${open}">${esc(d[0])}</button>`,
-    box: open ? `<div class="defbox"><span class="eyebrow">Hint · ${esc(d[0])}</span><p>${esc(d[1])}</p><span class="muted" style="font-size:12px">Hint used: this step now earns half points and is logged as assisted for the rule.</span></div>` : ""};
-}
-
-function startDrill(id){
-  const sc = DRILLS.find(d => d.id === id); D.sc = sc; D.map = sc.map; D.hints = 0;
-  const m = MAPS[sc.map];
-  W = {sc, m, node:m.root, stage:null, recs:[], cur:null, last:null, order:null, done:false, defs:new Set(), idRec:null, sel:null, idOpts:null};
-  if (SPANS[sc.id]){ W.stage = "identify"; W.idMode = idMode(sc); } else enterNode(m.root);
-  renderMaps(); window.scrollTo(0, 0);
-}
-function enterNode(id){
-  W.node = id; W.cur = null;
-  if (CHECKS[id]) { W.stage = "check"; W.order = shuffle(CHECKS[id].o.map((_, i) => i)); }
-  else { W.stage = "answer"; }
-}
-function secondStep(node, opt){
-  const rs = REASONS[node] && REASONS[node][opt];
-  if (rs && rs.length >= 2) return {type:"reason", items: shuffle(rs.map(r => ({v:r[0], t:r[1]}))), right: (DRILL_R[W.sc.id] || {})[node]};
-  if (CITE[node]){
-    const right = CITE[node]; const same = Object.keys(W.m.nodes).filter(x => CITE[x]).map(x => CITE[x]);
-    const pool = shuffle([...new Set((CITE_POOL[W.sc.map] || []).concat(same))].filter(k => k !== right && findRule(k) && findRule(k).k !== findRule(right).k));
-    return {type:"cite", items: shuffle([right].concat(pool.slice(0, 3))).map(k => ({v:k, t:ruleLabel(k)})), right};
-  }
-  return null;
-}
+// sequence checks
 function pickCheck(i){
   const id = W.stage === "final" ? "_crim" : W.node, ck = CHECKS[id], ok = i === 0;
   W.recs.push({kind:"check", id, pick:i, ok});
-  if (ok){ W.last = {ok:true, text:`Sequence: ${ck.o[0]}.`, note:ck.why}; afterCheck(id); }
+  if (ok){ W.last = {ok:true, text:`Sequence: ${ck.o[0]}.`, note:ck.why}; if (id === "_crim") finishDrill(); else W.stage = "answer"; }
   else { W.stage = id === "_crim" ? "finalfb" : "checkfb"; W.cur = {id, pick:i}; }
   renderDrill();
 }
-function afterCheck(id){ if (id === "_crim") finishDrill(); else { W.stage = "answer"; } }
+// call → reason → fact
 function pickAnswer(i){
   const n = W.node, right = W.sc.a[n], ok = i === right;
-  W.cur = {node:n, ans:i, ok};
-  if (!ok){ W.cur.second = secondStep(n, right); W.stage = "fb"; renderDrill(); return; }
-  const st = secondStep(n, i);
-  if (st){ W.cur.second = st; W.stage = "reason"; } else { commitNode(); }
+  W.cur = {node:n, ans:i, ok, reason:null, rok:null, fact:null};
+  if (!ok){ W.stage = "fb"; renderDrill(); return; }
+  const st = reasonStep(n, i);
+  if (st){ W.cur.second = st; W.stage = "reason"; } else toFact();
   renderDrill();
 }
 function pickReason(v){
-  const c = W.cur, st = c.second; c.reason = v; c.rok = v === st.right;
+  const c = W.cur; c.reason = v; c.rok = c.second.right.includes(v);
   if (!c.rok){ W.stage = "fb"; renderDrill(); return; }
-  commitNode(); renderDrill();
+  toFact(); renderDrill();
+}
+function toFact(){
+  const n = W.node, spec = factSpec(n);
+  if (!spec){ commitNode(); return; }
+  if (spec === "@id"){ W.cur.fact = {res:"carried", range:W.idRec.range}; commitNode(); return; }
+  const carried = W.pool.find(r => gradeRanges(r, spec, "highlight").res === "ok");
+  if (carried){ W.cur.fact = {res:"carried", range:carried}; commitNode(); return; }
+  W.stage = "fact"; SEL = null;
+}
+function submitFact(sel){
+  const spec = factSpec(W.node), g = gradeRanges(sel, spec, W.hlMode);
+  W.cur.fact = {res:g.res, why:g.why, sel, range: g.res === "ok" ? sel : spec[0]};
+  if (g.res === "ok") commitNode(); else W.stage = "factfb";
+  renderDrill();
 }
 function commitNode(){
   const c = W.cur, n = c.node, nd = W.m.nodes[n], right = W.sc.a[n];
-  const rec = {kind:"node", node:n, ans:c.ans, ok:c.ok, reason:c.reason, rok:c.second ? c.rok : null, type:c.second ? c.second.type : null};
-  if (!c.ok){ rec.rok = null; }
+  if (!c.fact){ const spec = factSpec(n); if (spec) c.fact = {res:"shown", range: spec === "@id" ? W.idRec.range : spec[0]}; }
+  const rec = {kind:"node", node:n, ans:c.ans, ok:c.ok, reason:c.reason, rok:c.second && c.ok ? c.rok : null, fact:c.fact};
   W.recs.push(rec);
-  if (c.ok && rec.rok !== false){
-    const r = c.second ? c.second.items.find(x => x.v === c.reason) : null;
-    W.last = {ok:true, text:`${nd.s} ${nd.o[right][0]}${r ? " · " + r.t : ""}`, note:W.sc.n[n] || ""};
+  if (c.fact && c.fact.range) W.pool.push(c.fact.range);
+  const clean = c.ok && rec.rok !== false && (!c.fact || c.fact.res === "ok" || c.fact.res === "carried");
+  if (clean){
+    const rt = c.second ? (c.second.items.find(x => x.v === c.reason) || {}).t : "";
+    W.last = {ok:true, text:`${nd.s} ${nd.o[right][0]}${rt ? " · " + rt : ""}`, note:(c.fact && c.fact.res === "carried" ? "Fact carried forward: “" + W.sc.facts.slice(c.fact.range[0], c.fact.range[1]) + "”. " : "") + (W.sc.n[n] || "")};
   } else W.last = null;
-  advance(nd.o[right][1]);
-}
-function advance(next){
-  const m = W.m;
-  if (m.nodes[next].end){
+  const next = nd.o[right][1];
+  if (W.m.nodes[next].end){
     W.term = next;
-    if (W.sc.crim && m.nodes[next].kind === "in"){ W.stage = "final"; W.order = shuffle(CHECKS._crim.o.map((_, i) => i)); return; }
+    if (W.sc.crim && W.m.nodes[next].kind === "in"){ W.stage = "final"; W.order = shuffle(CHECKS._crim.o.map((_, i) => i)); return; }
     finishDrill(); return;
   }
   enterNode(next);
 }
 function continueAfterFb(){
   if (W.stage === "idfb"){ W.last = null; enterNode(W.m.root); renderDrill(); return; }
-  if (W.stage === "checkfb"){ W.last = null; afterCheck(W.cur.id); renderDrill(); return; }
+  if (W.stage === "checkfb"){ W.last = null; W.stage = "answer"; renderDrill(); return; }
   if (W.stage === "finalfb"){ finishDrill(); renderDrill(); return; }
   commitNode(); renderDrill();
 }
 function finishDrill(){
   W.stage = "done"; W.done = true;
-  const nodes = W.recs.filter(r => r.kind === "node"), checks = W.recs.filter(r => r.kind === "check");
-  const idr = W.idRec;
-  const clean = nodes.every(r => r.ok && r.rok !== false) && checks.every(r => r.ok) && (!idr || idr.res === "ok");
-  const mult = Math.max(0, 1 - 0.2 * D.hints);
-  const half = k => W.defs.has(k) ? 0.5 : 1;
-  let pts = 0; nodes.forEach(r => { let p = 0; if (r.ok) p += 6; if (r.ok && r.rok === true) p += 3; pts += p * half(r.node); }); checks.forEach(r => { if (r.ok) pts += 4; });
-  if (idr) pts += (idr.res === "ok" ? 6 : idr.res === "partial" ? 3 : 0) * half("_id");
+  const nodes = W.recs.filter(r => r.kind === "node"), checks = W.recs.filter(r => r.kind === "check"), idr = W.idRec;
+  const factOk = r => !r.fact || r.fact.res === "ok" || r.fact.res === "carried";
+  const clean = nodes.every(r => r.ok && r.rok !== false && factOk(r)) && checks.every(r => r.ok) && idr.res === "ok";
+  const mult = Math.max(0, 1 - 0.2 * D.hints), half = k => W.defs.has(k) ? 0.5 : 1;
+  let pts = 0;
+  nodes.forEach(r => { let p = 0; if (r.ok) p += 6; if (r.ok && r.rok === true) p += 3; if (r.fact && r.fact.res === "ok") p += 4; if (r.fact && r.fact.res === "partial") p += 2; pts += p * half(r.node); });
+  checks.forEach(r => { if (r.ok) pts += 4; });
+  pts += (idr.res === "ok" ? 6 : idr.res === "partial" ? 3 : 0) * half("_id");
   pts = Math.round(pts * mult) + (clean ? 15 + 2 * Math.min(S.streak, 10) : 0);
   const prev = S.ds[W.sc.id]; S.ds[W.sc.id] = clean ? 1 : (prev === 1 ? 1 : 0);
   W.sc.t.forEach(t => { S.t[t].da++; if (clean) S.t[t].dc++; });
-  nodes.forEach(r => { const k = (STEP_HELP[r.node] || [[]])[0][0]; if (k) logRule(k, r.ok && r.rok !== false && !W.defs.has(r.node)); });
-  if (idr) logRule("801(c)", idr.res === "ok" && !W.defs.has("_id"));
+  nodes.forEach(r => { const k = (STEP_HELP[r.node] || [[]])[0][0]; if (k) logRule(k, r.ok && r.rok !== false && factOk(r) && !W.defs.has(r.node)); });
+  logRule(ID_CFG[W.sc.map].hint[2][0], idr.res === "ok" && !W.defs.has("_id"));
   S.defHints = S.defHints || {};
-  W.defs.forEach(k => { S.defHints[k] = (S.defHints[k] || 0) + 1; const rk = k === "_id" ? "801(c)" : (STEP_HELP[k] || [[]])[0][0]; if (rk && S.rl[rk]) S.rl[rk].h = (S.rl[rk].h || 0) + 1; });
-  if (CITE_POOL) nodes.forEach(r => { if (r.type === "cite") logRule(CITE[r.node], r.rok === true); });
+  W.defs.forEach(k => { S.defHints[k] = (S.defHints[k] || 0) + 1; const rk = k === "_id" ? ID_CFG[W.sc.map].hint[2][0] : (STEP_HELP[k] || [[]])[0][0]; if (rk && S.rl[rk]) S.rl[rk].h = (S.rl[rk].h || 0) + 1; });
   W.pts = pts; W.clean = clean;
   award(pts, clean);
 }
+// ---- rendering ----
+const q = (f, r) => r ? "“" + f.slice(r[0], r[1]) + "”" : "";
+function factLine(r, f){
+  if (!r.fact) return "";
+  const lab = {ok:"Fact", carried:"Fact (carried forward)", partial:"Fact (you caught part of it)", wrong:"Fact (missed)", shown:"Fact"}[r.fact.res];
+  const cls = r.fact.res === "partial" ? "half" : r.fact.res === "wrong" ? "bad" : "";
+  return `<span class="factq ${cls}"><span class="eyebrow">${lab}</span> ${esc(q(f, r.fact.range))}</span>`;
+}
 function liveMap(){
-  const m = W.m;
+  const m = W.m, f = W.sc.facts;
   const items = W.recs.map(r => {
-    if (r.kind === "id"){ const st = r.res === "ok" ? "ok" : r.res === "partial" ? "half" : "bad"; return `<li class="lnode ${st}"><div class="row spread"><b>Statement</b><span class="mark">${st === "ok" ? "✓" : st === "half" ? "◐" : "✗"}</span></div><span class="edge2">→ “${esc(SPANS[W.sc.id].key[0])}”</span></li>`; }
+    if (r.kind === "id"){ const st = r.res === "ok" ? "ok" : r.res === "partial" ? "half" : "bad"; return `<li class="lnode ${st}"><div class="row spread"><b>${esc(ID_CFG[W.sc.map].label.replace("Identify the ", "").replace(/^./, c => c.toUpperCase()))}</b><span class="mark">${st === "ok" ? "✓" : st === "half" ? "◐" : "✗"}</span></div><span class="factq"><span class="eyebrow">Fact</span> ${esc(q(f, r.range))}</span></li>`; }
     if (r.kind === "check"){ const ck = CHECKS[r.id]; return `<li class="lchk ${r.ok ? "ok" : "bad"}"><span class="eyebrow">Sequence check ${r.ok ? "✓" : "✗"}</span> ${esc(ck.o[0])}</li>`; }
     const nd = m.nodes[r.node], right = W.sc.a[r.node];
-    const st = !r.ok ? "bad" : r.rok === false ? "half" : "ok";
-    const rs = r.type === "reason" ? (REASONS[r.node][right].find(x => x[0] === (DRILL_R[W.sc.id] || {})[r.node]) || [])[1] : r.type === "cite" ? ruleLabel(CITE[r.node]) : "";
-    return `<li class="lnode ${st}"><div class="row spread"><b>${esc(nd.s)}</b><span>${whyBtn(`data-why-node="${r.node}"`)} <span class="mark">${st === "ok" ? "✓" : st === "half" ? "◐" : "✗"}</span></span></div>
+    const factBad = r.fact && (r.fact.res === "partial" || r.fact.res === "wrong");
+    const st = !r.ok ? "bad" : (r.rok === false || factBad) ? "half" : "ok";
+    const rs = reasonText(r.node, right);
+    return `<li class="lnode ${st}"><div class="row spread"><b>${esc(nd.s)} <span class="muted mono" style="font-size:11px">${esc(nd.rule)}</span></b><span>${whyBtn(`data-why-node="${r.node}"`)} <span class="mark">${st === "ok" ? "✓" : st === "half" ? "◐" : "✗"}</span></span></div>
       ${!r.ok ? `<span class="was">You said: ${esc(nd.o[r.ans][0])}</span>` : ""}
-      <span class="edge2">→ ${esc(nd.o[right][0])}${rs ? ` <span class="muted">· ${esc(rs)}</span>` : ""}</span></li>`;
+      <span class="edge2">→ ${esc(nd.o[right][0])}${rs ? ` <span class="muted">· ${esc(rs)}</span>` : ""}</span>${factLine(r, f)}</li>`;
   });
-  if (!W.done && W.stage !== "final" && W.stage !== "finalfb" && W.stage !== "idfb") items.push(`<li class="lnode now"><b>${esc(W.stage === "identify" || W.stage === "idfb" ? "Statement" : m.nodes[W.node].s)}</b><span class="muted" style="font-size:12px">You are here</span></li>`);
+  const nowLabel = W.stage === "identify" ? ID_CFG[W.sc.map].label : m.nodes[W.node] && m.nodes[W.node].s;
+  if (!W.done && !["final","finalfb","idfb"].includes(W.stage)) items.push(`<li class="lnode now"><b>${esc(nowLabel)}</b><span class="muted" style="font-size:12px">You are here</span></li>`);
   if (W.term) items.push(`<li class="lend"><span class="tn ${m.nodes[W.term].kind}">${esc(m.nodes[W.term].label)}</span></li>`);
   return `<div class="panel live"><span class="eyebrow">Your map so far</span><ol class="lmap">${items.join("")}</ol></div>`;
+}
+function factsBlock(){
+  const sc = W.sc, f = sc.facts;
+  if (W.stage === "identify" && W.idMode !== "mc") return hlFactsHTML(f, W.idMode);
+  if (W.stage === "fact") return hlFactsHTML(f, W.hlMode);
+  const good = W.recs.map(r => r.kind === "id" ? r.range : r.fact && r.fact.range).filter(Boolean);
+  const cur = W.cur && W.cur.fact && W.cur.fact.range; if (cur) good.push(cur);
+  if (W.stage === "fb"){ const spec = factSpec(W.node); if (spec) good.push(spec === "@id" ? W.idRec.range : spec[0]); }
+  const bad = W.recs.map(r => r.kind === "id" ? (r.res !== "ok" ? r.sel : null) : r.fact && r.fact.res !== "ok" && r.fact.res !== "carried" ? r.fact.sel : null).filter(Boolean);
+  if (W.cur && W.cur.fact && W.cur.fact.sel && W.cur.fact.res !== "ok") bad.push(W.cur.fact.sel);
+  if (W.stage === "idfb" && W.idRec.sel) bad.push(W.idRec.sel);
+  return markedFacts(f, good, bad);
 }
 function caseHead(){
   const m = MAPS[D.map], sc = D.sc;
   return `<div class="row spread"><button class="btn ghost small" id="dExit">← ${esc(m.name)} cases</button><span class="sticker blue">Journey map · ${LEVELS[sc.lv]}</span></div>
     <article class="casefile"><div class="cf-head"><h3>${esc(sc.title)}</h3>${sc.src ? `<span class="src">${esc(sc.src)}</span>` : ""}</div>
-    <div class="cf-body">${factsHTML(sc)}</div></article>`;
+    <div class="cf-body">${W ? factsBlock() : `<p class="facts">${esc(sc.facts)}</p>`}</div></article>`;
+}
+function defToggle(key){
+  const d = key === "_id" ? ID_CFG[W.sc.map].hint : DEFS[key]; if (!d) return {btn:"", box:""};
+  const open = W.defs.has(key);
+  return {btn:`<button class="hint-btn" data-def="${key}" aria-expanded="${open}">${esc(d[0])}</button>`,
+    box: open ? `<div class="defbox"><span class="eyebrow">Hint · ${esc(d[0])}</span><p>${esc(d[1])}</p><span class="muted" style="font-size:12px">Hint used: this step now earns half points and is logged as assisted for the rule.</span></div>` : ""};
 }
 function stageCard(){
-  const m = W.m, n = W.node, nd = m.nodes[n], sc = W.sc;
+  const m = W.m, n = W.node, nd = m.nodes[n], sc = W.sc, f = sc.facts;
   const stepNo = W.recs.filter(r => r.kind === "node" || r.kind === "id").length + 1;
   const last = W.last ? `<div class="okline"><b>✓ ${esc(W.last.text)}</b>${W.last.note ? `<span>${esc(W.last.note)}</span>` : ""}</div>` : "";
   const judge = judgeBox(HINTS[sc.id], D.hints, `id="dHint"`);
-  if (W.stage === "identify") return idCard();
-  if (W.stage === "idfb") return idFbCard();
+  const cfg = ID_CFG[sc.map];
+  if (W.stage === "identify"){
+    const hint = defToggle("_id");
+    if (W.idMode === "mc"){ if (!W.idOpts) W.idOpts = idOptions(sc);
+      return `<div class="stepq"><div class="row spread"><span class="n">Step 1 · ${esc(cfg.label)}</span>${hint.btn}</div><p class="ask">${esc(cfg.q)}</p>${hint.box}
+        <div style="display:grid;gap:8px">${W.idOpts.map(o => `<button class="choice" data-idmc="${o.v}">${esc(o.t)}</button>`).join("")}</div></div>`; }
+    return `<div class="stepq"><div class="row spread"><span class="n">Step 1 · ${esc(cfg.label)}</span>${hint.btn}</div><p class="ask">${esc(cfg.q)}</p>${hint.box}${hlPanel(W.idMode)}</div>`;
+  }
+  if (W.stage === "idfb"){
+    const r = W.idRec, key = SPANS[sc.id].key[0];
+    const msg = r.res === "partial" ? (r.why === "too-long" ? "You found it, but your selection runs well past it. Highlight only what’s being offered." : "You caught part of it.")
+      : r.why === "other" ? `“${esc(r.other)}” is something else in the facts, not what the proponent is offering.`
+      : r.why === "alt" ? `“${esc(r.alt)}” isn’t it. ${/testimony|testifies|on the stand/i.test(r.alt) ? "In-court testimony is how the evidence reaches the jury; look for what happened or was said outside court." : "Look for the item the proponent is actually offering."}`
+      : "That selection doesn’t contain it.";
+    return `<div class="fbcard ${r.res === "partial" ? "half" : "bad"}"><span class="eyebrow">Step 1 · ${esc(cfg.label)}</span>
+      <p><b>${r.res === "partial" ? "Partly right." : "Not quite."}</b> ${msg}</p><p>The answer: <b>“${esc(key)}”</b> (marked in the facts above).</p>
+      <div class="row">${whyBtn(`data-why-keys="${esc(cfg.hint[2].join("|"))}" data-why-title="${esc(cfg.label)}"`, "Rule text")}<button class="btn primary" id="wCont">Continue the analysis →</button></div></div>`;
+  }
   if (W.stage === "check" || W.stage === "final"){
     const ck = CHECKS[W.stage === "final" ? "_crim" : n];
     return `${last}<div class="stepq seq"><span class="n">Sequence check</span><p class="ask">${esc(ck.q)}</p>
@@ -2459,27 +2743,40 @@ function stageCard(){
   if (W.stage === "checkfb" || W.stage === "finalfb"){
     const ck = CHECKS[W.cur.id];
     return `<div class="fbcard bad"><span class="eyebrow">Sequence check</span><p><b>Not quite.</b> You picked “${esc(ck.o[W.cur.pick])}.” Next comes: <b>${esc(ck.o[0])}</b>.</p><p>${esc(ck.why)}</p>
-      <div class="row">${whyBtn(`data-why-keys="${esc(ck.rk.join("|"))}" data-why-title="${esc(ck.o[0])}"`, "Rule text")}<button class="btn primary" id="wCont">${W.stage === "finalfb" ? "See the full map →" : "Continue →"}</button></div></div>`;
+      <div class="row">${whyBtn(`data-why-keys="${esc(ck.rk.join("|"))}" data-why-title="${esc(ck.o[0])}"`, "Rule text")}<button class="btn primary" id="wCont">${W.stage === "finalfb" ? "See the model answer →" : "Continue →"}</button></div></div>`;
   }
+  const hint = defToggle(n);
+  const head = `<div class="row spread"><span class="n">Step ${stepNo} · ${esc(nd.s)}</span>${hint.btn}</div>`;
   if (W.stage === "answer"){
-    const hint = defToggle(n);
-    return `${last}<div class="stepq"><div class="row spread"><span class="n">Step ${stepNo} · ${esc(nd.s)}</span>${hint.btn}</div><p class="ask">${esc(nd.q)}</p>${hint.box}
+    return `${last}<div class="stepq">${head}<p class="ask">${esc(nd.q)}</p>${hint.box}
       <div style="display:grid;gap:8px">${nd.o.map((o,i) => `<button class="choice" data-ans="${i}">${esc(o[0])}</button>`).join("")}</div>${judge}</div>`;
   }
   if (W.stage === "reason"){
-    const c = W.cur, st = c.second, hint = defToggle(n);
-    return `<div class="stepq"><div class="row spread"><span class="n">Step ${stepNo} · ${esc(nd.s)}</span>${hint.btn}</div>
-      <p class="muted" style="margin:0">${esc(nd.q)}</p>${hint.box}<p class="youans">Your answer: <b>${esc(nd.o[c.ans][0])}</b></p>
-      <p class="ask">${st.type === "reason" ? "Which reason fits these facts?" : "Which rule governs this step?"}</p>
-      <div style="display:grid;gap:8px">${st.items.map(x => `<button class="choice" data-rs="${esc(x.v)}">${esc(x.t)}</button>`).join("")}</div>${judge}</div>`;
+    const c = W.cur;
+    return `<div class="stepq">${head}<p class="muted" style="margin:0">${esc(nd.q)}</p>${hint.box}<p class="youans">Your call: <b>${esc(nd.o[c.ans][0])}</b></p>
+      <p class="ask">Which one fits these facts?</p>
+      <div style="display:grid;gap:8px">${c.second.items.map(x => `<button class="choice" data-rs="${esc(x.v)}">${esc(x.t)}</button>`).join("")}</div>${judge}</div>`;
+  }
+  if (W.stage === "fact"){
+    const c = W.cur, rt = c.reason ? (c.second.items.find(x => x.v === c.reason) || {}).t : "";
+    return `<div class="stepq">${head}<p class="youans">Your call: <b>${esc(nd.o[c.ans][0])}${rt ? " · " + esc(rt) : ""}</b></p>${hint.box}
+      <p class="ask">${esc(FACT_ASK[n] || "Highlight the fact that supports your call.")}</p>${hlPanel(W.hlMode)}${judge}</div>`;
+  }
+  if (W.stage === "factfb"){
+    const c = W.cur;
+    return `<div class="fbcard half"><span class="eyebrow">Step ${stepNo} · ${esc(nd.s)} · ${esc(nd.rule)}</span>
+      <p><b>Right call. ${c.fact.res === "partial" ? (c.fact.why === "too-long" ? "Your highlight runs well past the key fact." : "You caught part of the key fact.") : "That isn’t the fact that decides it."}</b></p>
+      <p>The supporting fact: <b>${esc(q(f, c.fact.range))}</b> (marked above).</p>${sc.n[n] ? `<p>${esc(sc.n[n])}</p>` : ""}
+      <div class="row">${whyBtn(`data-why-node="${n}"`, "Rule text")}<button class="btn primary" id="wCont">Continue →</button></div></div>`;
   }
   if (W.stage === "fb"){
-    const c = W.cur, right = sc.a[n], st = c.second;
-    const rtext = st ? (st.items.find(x => x.v === st.right) || {}).t : "";
-    const head = !c.ok
-      ? `<p><b>Stopped here.</b> You answered “${esc(nd.o[c.ans][0])}.” The correct answer is <b>“${esc(nd.o[right][0])}”</b>${rtext ? `, because: ${esc(rtext)}` : ""}.</p>`
-      : `<p><b>Right answer, wrong ${st.type === "reason" ? "reason" : "rule"}.</b> You picked “${esc((st.items.find(x => x.v === c.reason) || {}).t)}.” ${st.type === "reason" ? "The reason that fits" : "The governing rule"}: <b>${esc(rtext)}</b>.</p>`;
-    return `<div class="fbcard ${c.ok ? "half" : "bad"}"><span class="eyebrow">Step ${stepNo} · ${esc(nd.s)} · ${esc(nd.rule)}</span>${head}
+    const c = W.cur, right = sc.a[n], rtext = reasonText(n, right), spec = factSpec(n);
+    const fr = spec ? (spec === "@id" ? W.idRec.range : spec[0]) : null;
+    const headTxt = !c.ok
+      ? `<p><b>Stopped here.</b> You answered “${esc(nd.o[c.ans][0])}.” The correct call is <b>“${esc(nd.o[right][0])}”</b>${rtext ? `: ${esc(rtext)}` : ""}.</p>`
+      : `<p><b>Right call, wrong reason.</b> You picked “${esc((c.second.items.find(x => x.v === c.reason) || {}).t)}.” The one that fits: <b>${esc(rtext)}</b>.</p>`;
+    return `<div class="fbcard ${c.ok ? "half" : "bad"}"><span class="eyebrow">Step ${stepNo} · ${esc(nd.s)} · ${esc(nd.rule)}</span>${headTxt}
+      ${fr ? `<p>Supporting fact: <b>${esc(q(f, fr))}</b> (marked above).</p>` : ""}
       ${sc.n[n] ? `<p>${esc(sc.n[n])}</p>` : (STEP_HELP[n] ? `<p>${esc(STEP_HELP[n][1])}</p>` : "")}
       <div class="row">${whyBtn(`data-why-node="${n}"`, "Rule text")}<button class="btn primary" id="wCont">Continue down the correct branch →</button></div></div>`;
   }
@@ -2491,26 +2788,33 @@ function renderDrill(){
   v.innerHTML = caseHead() + `<div class="walkgrid"><div class="wmain">${stageCard()}</div>${liveMap()}</div>`;
 }
 function drillResult(){
-  const m = W.m, sc = W.sc, sol = solve(sc);
+  const m = W.m, sc = W.sc, sol = solve(sc), f = sc.facts;
   const nodes = W.recs.filter(r => r.kind === "node"), checks = W.recs.filter(r => r.kind === "check");
-  const miss = new Set(nodes.filter(r => !r.ok).map(r => r.node)), half = new Set(nodes.filter(r => r.ok && r.rok === false).map(r => r.node));
-  const right = nodes.filter(r => r.ok).length, cks = checks.filter(r => r.ok).length;
-  const review = W.recs.filter(r => r.kind === "id" ? r.res !== "ok" : r.kind === "check" ? !r.ok : (!r.ok || r.rok === false)).map(r => {
-    if (r.kind === "id") return `<li><span class="eyebrow">Identify the statement</span> ${r.res === "partial" ? "Partly right." : "Missed."} The statement at issue: <b>“${esc(SPANS[sc.id].key[0])}”</b>.</li>`;
-    if (r.kind === "check"){ const ck = CHECKS[r.id]; return `<li><span class="eyebrow">Sequence</span> You picked “${esc(ck.o[r.pick])}.” Next was <b>${esc(ck.o[0])}</b>. ${esc(ck.why)}</li>`; }
-    const nd = m.nodes[r.node], a = sc.a[r.node], st = r.type;
-    const rs = st === "reason" ? (REASONS[r.node][a].find(x => x[0] === (DRILL_R[sc.id] || {})[r.node]) || [])[1] : st === "cite" ? ruleLabel(CITE[r.node]) : (secondStep(r.node, a) || {}).right ? ruleLabel(CITE[r.node] || "") : "";
-    return `<li><span class="eyebrow">${esc(nd.s)} · ${esc(nd.rule)}</span> ${whyBtn(`data-why-node="${r.node}"`)}<br>${!r.ok ? `You answered “${esc(nd.o[r.ans][0])}.” Correct: <b>${esc(nd.o[a][0])}</b>.` : `Right answer, wrong ${st === "reason" ? "reason" : "rule"}.`}${rs ? ` Supporting: <b>${esc(rs)}</b>.` : ""}${sc.n[r.node] ? `<span class="note">${esc(sc.n[r.node])}</span>` : ""}</li>`;
+  const miss = new Set(nodes.filter(r => !r.ok).map(r => r.node));
+  const half = new Set(nodes.filter(r => r.ok && (r.rok === false || (r.fact && ["partial","wrong"].includes(r.fact.res)))).map(r => r.node));
+  const factsAsked = nodes.filter(r => r.fact && !["carried","shown"].includes(r.fact.res));
+  const right = nodes.filter(r => r.ok).length, cks = checks.filter(r => r.ok).length, fOk = factsAsked.filter(r => r.fact.res === "ok").length;
+  // model answer: identify → each step (rule → decision → fact) → conclusion
+  let i = 0;
+  const steps = W.recs.map(r => {
+    if (r.kind === "id"){ const st = r.res === "ok" ? "" : r.res === "partial" ? "half" : "bad";
+      return `<li class="ma ${st}"><span class="ma-n">${++i}</span><div><b>${esc(ID_CFG[sc.map].label)}</b>${st ? ` <span class="tag ${st}">${r.res === "partial" ? "partly found" : "missed"}</span>` : ""}<span class="factq"><span class="eyebrow">Fact</span> ${esc(q(f, r.range))}</span></div></li>`; }
+    if (r.kind === "check"){ const ck = CHECKS[r.id]; return r.ok ? "" : `<li class="ma half"><span class="ma-n">↳</span><div><b>Sequence</b> <span class="tag half">missed</span> Next was: ${esc(ck.o[0])}. <span class="muted">${esc(ck.why)}</span></div></li>`; }
+    const nd = m.nodes[r.node], a = sc.a[r.node], rs = reasonText(r.node, a);
+    const factBad = r.fact && ["partial","wrong"].includes(r.fact.res);
+    const st = !r.ok ? "bad" : (r.rok === false || factBad) ? "half" : "";
+    const tag = !r.ok ? `<span class="tag bad">missed: you said “${esc(nd.o[r.ans][0])}”</span>` : r.rok === false ? `<span class="tag half">wrong reason</span>` : factBad ? `<span class="tag half">${r.fact.res === "partial" ? "fact partly found" : "fact missed"}</span>` : "";
+    return `<li class="ma ${st}"><span class="ma-n">${++i}</span><div><span class="mono muted" style="font-size:12px">${esc(nd.rule)}</span> ${whyBtn(`data-why-node="${r.node}"`)} ${tag}<br><b>${esc(nd.q)}</b> → ${esc(nd.o[a][0])}${rs ? ` · ${esc(rs)}` : ""}${r.fact ? `<span class="factq ${factBad ? "half" : ""}"><span class="eyebrow">${factBad ? "Correct fact" : r.fact.res === "carried" ? "Fact (carried forward)" : "Fact"}</span> ${esc(q(f, r.fact.range))}</span>` : ""}${sc.n[r.node] ? `<span class="note">${esc(sc.n[r.node])}</span>` : ""}</div></li>`;
   }).join("");
   const head = W.clean
-    ? `<div class="oncourse"><span class="stamp ok" style="display:inline-block;margin-bottom:10px">Affirmed</span><br><b>Clean analysis.</b> Every answer, every supporting rule, and every sequence check was right. Conclusion: <b>${esc(m.nodes[sol.term].label)}</b>.</div>`
-    : `<div class="offcourse"><span class="stamp no" style="display:inline-block;margin-bottom:10px">Reversed</span><br><b>${right} of ${nodes.length} answers right</b>${half.size ? `, ${half.size} with the wrong supporting rule or reason` : ""}${checks.length ? ` · ${cks} of ${checks.length} sequence checks` : ""}. You finished on the correct branch: <b>${esc(m.nodes[sol.term].label)}</b>.</div>`;
+    ? `<div class="oncourse"><span class="stamp ok" style="display:inline-block;margin-bottom:10px">Affirmed</span><br><b>Clean analysis.</b> Every call, reason, fact, and sequence check was right. Conclusion: <b>${esc(m.nodes[sol.term].label)}</b>.</div>`
+    : `<div class="offcourse"><span class="stamp no" style="display:inline-block;margin-bottom:10px">Reversed</span><br><b>${right} of ${nodes.length} calls right</b>${factsAsked.length ? ` · ${fOk} of ${factsAsked.length} facts found` : ""}${checks.length ? ` · ${cks} of ${checks.length} sequence checks` : ""}. Conclusion: <b>${esc(m.nodes[sol.term].label)}</b>.</div>`;
   return `<div class="panel result">${head}
-    ${review ? `<div><span class="eyebrow">Review these steps</span><ol class="walk">${review}</ol></div>` : ""}
-    <div class="row spread"><span class="eyebrow">Completed map</span>
-      <div class="row"><div class="legend"><span><i style="border-color:var(--ok)"></i>correct path</span><span><i style="border-color:var(--bad);border-top-style:dashed"></i>your wrong turn</span><span><i style="border-color:var(--tag)"></i>wrong reason</span></div>
-      <button class="btn small" id="dCompact">${D.compact ? "Show every branch" : "Show only the path"}</button></div></div>
-    <div class="treebox"><div class="tree">${treeHTML(m, sol, {path:nodes.map(r => [r.node, r.ans]), term:sol.term, miss, half})}</div></div>
+    <div><span class="eyebrow">Model answer · rule → decision → fact</span><ol class="model">${steps}<li class="ma end"><span class="ma-n">⚑</span><div><b>${esc(m.nodes[sol.term].label)}</b></div></li></ol></div>
+    <details><summary class="eyebrow" style="cursor:pointer;padding:6px 0">Full decision tree</summary>
+      <div class="row spread" style="margin:8px 0"><div class="legend"><span><i style="border-color:var(--ok)"></i>correct path</span><span><i style="border-color:var(--bad);border-top-style:dashed"></i>your wrong turn</span><span><i style="border-color:var(--tag)"></i>wrong reason or fact</span></div>
+      <button class="btn small" id="dCompact">${D.compact ? "Show every branch" : "Show only the path"}</button></div>
+      <div class="treebox"><div class="tree">${treeHTML(m, sol, {path:nodes.map(r => [r.node, r.ans]), term:sol.term, miss, half})}</div></div></details>
     <div class="row"><button class="btn primary" id="dNext">Next case →</button><button class="btn" id="dRetry">Retry this case</button></div></div>`;
 }
 function treeHTML(m, sol, o){
@@ -2518,15 +2822,15 @@ function treeHTML(m, sol, o){
   const cOpt = {}, sOpt = {}; sol.seq.forEach(([n,i]) => cOpt[n] = i); path.forEach(([n,i]) => sOpt[n] = i);
   const indeg = {}; Object.values(m.nodes).forEach(nd => { if (!nd.end) nd.o.forEach(x => indeg[x[1]] = (indeg[x[1]] || 0) + 1); });
   const shared = id => !m.nodes[id].end && indeg[id] > 1 && id !== m.root;
-  const order = []; const seen = new Set([m.root]); const q = [m.root];
-  while (q.length){ const id = q.shift(); const nd = m.nodes[id]; if (nd.end) continue; nd.o.forEach(x => { if (!seen.has(x[1])){ seen.add(x[1]); q.push(x[1]); if (shared(x[1])) order.push(x[1]); } }); }
+  const order = []; const seen = new Set([m.root]); const qq = [m.root];
+  while (qq.length){ const id = qq.shift(); const nd = m.nodes[id]; if (nd.end) continue; nd.o.forEach(x => { if (!seen.has(x[1])){ seen.add(x[1]); qq.push(x[1]); if (shared(x[1])) order.push(x[1]); } }); }
   const onAny = id => id in cOpt || id in sOpt;
   function render(id){
     const nd = m.nodes[id];
-    if (nd.end){ const c = id === sol.term, s = id === term;
+    if (nd.end){ const c = id === sol.term;
       return `<span class="tn ${nd.kind} ${c ? "c" : ""}">${esc(nd.label)}${c ? `<span class="who">correct</span>` : ""}</span>`; }
     const cls = (id in cOpt ? " c" : "") + (miss.has(id) ? " d" : half.has(id) ? " h" : "");
-    const flag = miss.has(id) ? `<span class="flag">Missed: you answered “${esc(nd.o[sOpt[id]][0])}”</span><br>` : half.has(id) ? `<span class="flag half">Right answer, wrong reason</span><br>` : "";
+    const flag = miss.has(id) ? `<span class="flag">Missed: you answered “${esc(nd.o[sOpt[id]][0])}”</span><br>` : half.has(id) ? `<span class="flag half">Right call, wrong reason or fact</span><br>` : "";
     return `<div class="dn${cls}">${flag}<span class="rq">${esc(nd.rule)} ${whyBtn(`data-why-node="${id}"`)}</span>${esc(nd.q)}</div>
       <ul>${nd.o.map((x,i) => {
         const onC = cOpt[id] === i, onS = sOpt[id] === i; const lc = onC ? "c" : onS ? "w" : "dim";
@@ -2635,9 +2939,16 @@ document.addEventListener("click", e => {
   if (d.rs !== undefined){ pickReason(d.rs); return; }
   if (t.id === "wCont"){ continueAfterFb(); return; }
   if (d.def){ if (!W.defs.has(d.def)) W.defs.add(d.def); else { const box = t.closest(".stepq").querySelector(".defbox"); if (box) box.scrollIntoView({block:"nearest"}); return; } renderDrill(); return; }
-  if (t.id === "idCheck"){ const o = W.sel; if (o) submitId(o); return; }
-  if (t.id === "idSwitch"){ W.idMode = W.idMode === "highlight" ? "sentence" : "highlight"; W.sel = null; renderDrill(); return; }
-  if (d.sent !== undefined){ const r = sentences(W.sc.facts)[+d.sent]; submitId(r); return; }
+  if (t.id === "hlCheck" || d.sent !== undefined){
+    const inHypo = !$("#v-hypos").hidden && H.stage === "fact";
+    const text = inHypo ? H.deck[H.i].facts : W.sc.facts;
+    const r = d.sent !== undefined ? sentences(text)[+d.sent] : SEL; if (!r) return;
+    if (inHypo) submitHypoFact(r); else if (W.stage === "identify") submitId(r); else if (W.stage === "fact") submitFact(r);
+    return; }
+  if (t.id === "hlSwitch"){
+    if (!$("#v-hypos").hidden && H.stage === "fact"){ H.hlMode = H.hlMode === "highlight" ? "sentence" : "highlight"; SEL = null; renderHypoCard(); return; }
+    if (W.stage === "identify") W.idMode = W.idMode === "highlight" ? "sentence" : "highlight"; else W.hlMode = W.hlMode === "highlight" ? "sentence" : "highlight";
+    SEL = null; renderDrill(); return; }
   if (d.idmc){ submitId(null, d.idmc); return; }
   if (d.whyKeys){ openWhy(d.whyTitle || "Why?", "", d.whyKeys.split("|")); return; }
   if (t.id === "dHint"){ if (HINTS[D.sc.id] && D.hints < HINTS[D.sc.id].length){ D.hints++; S.hints++; save(); renderDrill(); } return; }
