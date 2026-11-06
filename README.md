@@ -4,7 +4,7 @@ Evidence Locker is a self-contained Federal Rules of Evidence study trainer. It 
 
 ## Run It
 
-No build step or dependencies are required. Open [Evidence Locker.html](Evidence%20Locker.html) directly in a modern browser.
+No build step or dependencies are required. Open [index.html](index.html) directly in a modern browser.
 
 For a local server, run:
 
@@ -12,20 +12,22 @@ For a local server, run:
 python3 -m http.server
 ```
 
-Then visit `http://localhost:8000/Evidence%20Locker.html`.
+Then visit `http://localhost:8000/`.
 
 ## Study Areas
 
 The trainer covers:
 
-- Relevance and Rule 403 balancing
-- Character evidence
-- Impeachment
-- Privileges
-- Lay and expert opinion
-- Hearsay and the Confrontation Clause
-- Authentication
-- The Best Evidence Rule
+Federal Rules of Evidence through Rule 807, plus the Sixth Amendment, in course order:
+
+- Relevance and Rule 403 balancing (401–403, 407–411)
+- Character evidence (404–406, 412–415)
+- Impeachment (607–613, 806)
+- Privileges (501–502)
+- Hearsay (801–807)
+- The Confrontation Clause (final topic)
+
+Opinion testimony (701–706) and everything after Rule 807 (authentication, best evidence, Articles IX–XI) are out of scope.
 
 ## Main Views
 
@@ -48,12 +50,11 @@ Depending on the problem, you can cite the controlling rule, choose among answer
 
 Follow or construct an evidence decision path for:
 
-- Hearsay and Confrontation
+- Hearsay (statement → truth → 801(d) → 803/804/807 → 403)
 - Character Evidence
 - Impeachment
 - Privileges
-- Lay and Expert Opinion
-- Exhibits, Authentication, and the Best Evidence Rule
+- Confrontation Clause (against the accused? → testimonial? → cross-examined at trial? → unavailable + prior cross? → forfeiture or other exception)
 
 Click-through mode gives immediate route feedback. Build mode lets you arrange decision blocks, choose each branch, and compare your conclusion with the correct path.
 
@@ -69,5 +70,5 @@ The optional writing grader is only available when the surrounding host exposes 
 
 ## Project Files
 
-- [Evidence Locker.html](Evidence%20Locker.html): complete application, including styles, study content, rule explanations, and client-side logic
+- [index.html](index.html): complete application, including styles, study content, rule explanations, and client-side logic
 - [README.md](README.md): project overview and usage instructions
