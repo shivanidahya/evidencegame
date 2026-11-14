@@ -471,6 +471,168 @@ svg.scene{display:block;width:100%;height:auto}
     <div id="why-body"></div>
   </aside>
 </div>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:wght@500;600&display=swap">
+<style id="themecss">
+/* ===== THEME: "The Courtroom" — taken from the reference photo =====
+   Mahogany paneling, limestone columns, a brass seal, slate-blue leather chairs, a pale floor under skylights.
+   Study surfaces stay plain parchment so hypo text and rule language read cleanly; the wood and brass live in the frame
+   (header, mode tiles, stamps) and fully in the escape room. */
+:root{
+  --bg:#f7efe0; --card:#fffbf3; --ink:#2b1608; --muted:#6b5240; --line:#e2cda8; --soft:#f2e6cf;
+  --locker:#52220e; --locker-ink:#fbf1df; --locker-dim:#e2c49a;
+  --tag:#c79a63; --tag2:#3f5a63; --on-tag:#2b1608;
+  --ok:#2f6b3a; --ok-soft:#e2eed9; --bad:#a8321a; --bad-soft:#f8dfd4; --route:#7a5410; --route-soft:#f7e8c5;
+  --mark:#f3d98f;
+  --wood:#a55824; --wood-dk:#703c16; --brass:#c79a63; --brass-dk:#9a7238; --slate:#41565b;
+  --f-display:"EB Garamond", "Garamond", Georgia, serif;
+  --f-carved:"Cinzel", "Trajan Pro", "EB Garamond", Georgia, serif;
+  --f-body:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --r:4px;
+  --scn-wall:#c47a3c;--scn-line:#a25624;--scn-wood:#703c16;--scn-floor:#e7bf83;--scn-metal:#8a4920;--scn-device:#2b1a10;--scn-screen:#41565b;--scn-scan:#5b737a;--scn-red:#c8441c;--scn-paper:#fbf3e1;--scn-ink:#8a6a4a;--scn-bag:#efe3cc;--scn-door:#6b3415;--scn-label:#2b1608;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1a110b; --card:#25180f; --ink:#f3e6cf; --muted:#c7ae8c; --line:#4b3322; --soft:#2f1f13;
+  --locker:#2a1308; --locker-ink:#fbefd9; --locker-dim:#d7b98e;
+  --tag:#d9ab5e; --tag2:#93b7c1; --on-tag:#20120a;
+  --ok:#86c98f; --ok-soft:#1f3322; --bad:#ff8f74; --bad-soft:#45201a; --route:#e8c174; --route-soft:#3b2a13; --mark:#5d4716;
+  --wood:#8a4920; --wood-dk:#3d1d0b; --brass:#d9ab5e; --brass-dk:#b48a45;
+  --scn-wall:#7a4320;--scn-line:#5e3016;--scn-wood:#3d1d0b;--scn-floor:#8f6a43;--scn-metal:#5e3016;--scn-device:#140c07;--scn-screen:#2c3e43;--scn-scan:#46636b;--scn-red:#ff6a47;--scn-paper:#efe2c8;--scn-ink:#8a6a4a;--scn-bag:#cdbfa5;--scn-door:#3d1d0b;--scn-label:#f3e6cf;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#1a110b; --card:#25180f; --ink:#f3e6cf; --muted:#c7ae8c; --line:#4b3322; --soft:#2f1f13;
+  --locker:#2a1308; --locker-ink:#fbefd9; --locker-dim:#d7b98e;
+  --tag:#d9ab5e; --tag2:#93b7c1; --on-tag:#20120a;
+  --ok:#86c98f; --ok-soft:#1f3322; --bad:#ff8f74; --bad-soft:#45201a; --route:#e8c174; --route-soft:#3b2a13; --mark:#5d4716;
+  --wood:#8a4920; --wood-dk:#3d1d0b; --brass:#d9ab5e; --brass-dk:#b48a45;
+  --scn-wall:#7a4320;--scn-line:#5e3016;--scn-wood:#3d1d0b;--scn-floor:#8f6a43;--scn-metal:#5e3016;--scn-device:#140c07;--scn-screen:#2c3e43;--scn-scan:#46636b;--scn-red:#ff6a47;--scn-paper:#efe2c8;--scn-ink:#8a6a4a;--scn-bag:#cdbfa5;--scn-door:#3d1d0b;--scn-label:#f3e6cf;
+  color-scheme:dark }
+
+/* page: pale floor under a skylight */
+html,body{background:var(--bg)}
+body{background-image:linear-gradient(180deg, color-mix(in srgb, #fffdf6 55%, transparent) 0, transparent 340px);background-repeat:no-repeat}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) body{background-image:linear-gradient(180deg, rgba(217,171,94,.07) 0, transparent 340px)} }
+
+/* header: mahogany paneling with vertical grain, brass rail, fluted-column frieze */
+header.top{background:
+  repeating-linear-gradient(90deg, rgba(0,0,0,.07) 0 2px, transparent 2px 9px, rgba(255,255,255,.035) 9px 10px, transparent 10px 23px),
+  linear-gradient(180deg, #6a2f13 0%, var(--locker) 100%);
+  border-bottom:0;box-shadow:inset 0 -3px 0 var(--brass), 0 6px 0 -3px var(--wood-dk)}
+header.top::after{content:"";display:block;height:6px;background:repeating-linear-gradient(90deg, var(--brass) 0 1px, color-mix(in srgb, var(--brass) 55%, var(--locker)) 1px 7px);opacity:.55}
+.brand h1{font-family:var(--f-carved);font-weight:700;letter-spacing:.06em;font-size:1.45rem}
+.brand::before{content:"";width:30px;height:30px;flex:none;align-self:center;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%, var(--locker) 0 34%, var(--brass) 35% 44%, #e7c48c 45% 58%, var(--brass) 59% 100%);box-shadow:0 0 0 2px var(--brass-dk)}
+.brand .eyebrow{color:var(--locker-dim)}
+.chip{border-color:color-mix(in srgb, var(--brass) 55%, transparent);border-radius:3px}
+.chip b{color:#f0cf93}
+nav.tabs a{font:600 13px/1 var(--f-carved);letter-spacing:.08em;text-transform:uppercase;color:var(--locker-dim)}
+nav.tabs a[aria-current="page"]{background:var(--bg);color:var(--ink);box-shadow:inset 0 3px 0 var(--brass)}
+body::before{background:var(--locker)}
+
+/* headings: carved inscription for titles; readable Garamond for questions */
+h2{font-family:var(--f-carved);font-weight:700;letter-spacing:.03em;font-size:1.5rem}
+h3{font-family:var(--f-display);font-weight:600;font-size:1.25rem}
+.eyebrow{color:var(--brass-dk);letter-spacing:.14em}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .eyebrow{color:var(--brass)} }
+.ask{font-family:var(--f-display);font-size:1.18rem;font-weight:600}
+.lede{color:var(--muted)}
+
+/* panels: coffered — a thin inner rule inside the outer border */
+.panel,.casefile,.fcard2,.transcript,.rdoor,.sub,.mcard,.tcard,.scrow,.wirow,.trow{border-color:var(--line);box-shadow:inset 0 0 0 3px var(--card), inset 0 0 0 4px color-mix(in srgb, var(--line) 60%, transparent)}
+.casefile .cf-head{background:linear-gradient(180deg, var(--soft), var(--card));border-bottom:1px solid var(--line)}
+.cf-foot{background:var(--soft)}
+.facts{font-size:1.04rem;line-height:1.65}
+
+/* buttons: mahogany primary, brass-edged secondary */
+.btn{border-radius:3px;border-color:color-mix(in srgb, var(--wood) 45%, var(--line))}
+.btn:hover{border-color:var(--wood)}
+.btn.primary{background:linear-gradient(180deg, #6a2f13, var(--locker));color:var(--locker-ink);border-color:var(--wood-dk);box-shadow:inset 0 1px 0 rgba(255,235,200,.18), 0 1px 0 var(--brass-dk)}
+.btn.primary:hover{filter:brightness(1.12)}
+.pill{border-color:color-mix(in srgb, var(--wood) 35%, var(--line))}
+.pill[aria-pressed="true"]{background:var(--locker);color:var(--locker-ink);border-color:var(--locker);box-shadow:inset 0 -2px 0 var(--brass)}
+.choice{border-color:var(--line)}
+.choice:hover{border-color:var(--wood);background:var(--soft)}
+.hint-btn{border-color:var(--brass-dk);color:var(--route);background:var(--route-soft)}
+.why-btn{border-color:var(--tag2);color:var(--tag2)}
+.why-btn:hover{background:var(--tag2);color:var(--card)}
+
+/* stickers: brass name plates and slate leather */
+.sticker{background:linear-gradient(180deg, #e2bf87, var(--brass));color:var(--on-tag);border:1px solid var(--brass-dk);border-radius:2px}
+.sticker.blue{background:var(--slate);color:#f3ecdf;border-color:#2e3f43}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .sticker.blue{background:#2c3e43;color:#e6eef0} }
+
+/* stamps: the court's ruling, in carved capitals */
+.stamp{font-family:var(--f-carved);letter-spacing:.12em}
+
+/* the step card: framed like the bench */
+.stepq{border:1px solid var(--wood);border-top:4px solid var(--wood);box-shadow:inset 0 0 0 3px var(--card), inset 0 0 0 4px color-mix(in srgb, var(--brass) 45%, transparent)}
+.stepq.seq{border-color:var(--tag2);border-top-color:var(--tag2)}
+
+/* highlighted facts: a brass-yellow marker, unmistakable on parchment */
+mark.keyspan{background:var(--mark);border-bottom:2px solid var(--brass-dk);color:var(--ink)}
+mark.yours{background:var(--bad-soft);border-bottom:2px dashed var(--bad)}
+.hl-facts{outline-color:var(--tag2)}
+.hl-facts::selection{background:var(--mark);color:var(--ink)}
+.sent:hover,.sent:focus-visible{border-color:var(--brass-dk);background:var(--mark)}
+
+/* feedback states */
+.okline{background:var(--ok-soft);border-left-color:var(--ok)}
+.fbcard.bad{background:var(--bad-soft);border-color:var(--bad)}
+.fbcard.half{background:var(--route-soft);border-color:var(--brass-dk)}
+.defbox{background:var(--route-soft);border-left-color:var(--brass-dk)}
+.bench{background:var(--route-soft);border-left-color:var(--brass-dk)}
+.bench .eyebrow{color:var(--route)}
+
+/* side map: a docket ledger with a brass spine */
+.lmap{border-left:2px solid var(--brass)}
+.lmap li::before{border-top-color:var(--brass)}
+.lnode{background:var(--card)}
+.lnode.now{border:2px dashed var(--wood)}
+
+/* home: mode tiles framed in wood, seal-style icons */
+.mode{border-left:6px solid var(--wood);background:linear-gradient(90deg, color-mix(in srgb, var(--soft) 70%, var(--card)) 0, var(--card) 120px)}
+.mode:hover{border-color:var(--wood);border-left-color:var(--wood-dk)}
+.micon{background:radial-gradient(circle, var(--card) 0 60%, color-mix(in srgb, var(--brass) 25%, var(--card)) 61%);color:var(--wood-dk);border-radius:50%;box-shadow:0 0 0 2px var(--brass)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .micon{color:var(--brass)} }
+.mname{font-family:var(--f-carved);font-weight:700;letter-spacing:.04em;font-size:1.15rem}
+.meter>i{background:linear-gradient(90deg, var(--brass-dk), var(--brass))}
+.chain span{background:var(--soft);border:1px solid var(--line)}
+.flags li{border-left-color:var(--brass)}
+
+/* flashcards: a judge's index card with a mahogany header rule */
+.fcard2{border-top:6px solid var(--wood)}
+.fcard2.back{border-top-color:var(--slate)}
+.fcbig{font-family:var(--f-carved);font-weight:700;letter-spacing:.02em}
+.fcq{font-family:var(--f-display)}
+.fcsec blockquote,.fclang,.rb blockquote{border-left-color:var(--brass);background:var(--soft)}
+
+/* weakness map */
+.wtile.shaky{border-color:var(--brass-dk)}
+
+/* escape room: the full courtroom treatment */
+.scenebox{border:3px solid var(--wood-dk);box-shadow:0 0 0 3px var(--brass), 0 10px 24px -12px rgba(43,22,8,.6);border-radius:6px}
+.rdoor{border-top:8px solid var(--wood);background:linear-gradient(180deg, var(--soft), var(--card) 70px)}
+.rdoor.escaped{border-top-color:var(--ok)}
+.seal.on{border-color:var(--brass-dk);background:var(--mark);color:var(--on-tag)}
+.intro{border-top:6px solid var(--wood)}
+.doorway{background:linear-gradient(90deg, var(--wood-dk), var(--wood) 50%, var(--wood-dk))}
+.lockbox{border-color:var(--wood)}
+.keytag .keyart{color:var(--brass-dk)}
+.scene .shade{fill:var(--brass)}.scene .knob,.scene .hole.filled{fill:var(--brass)}
+.scene .tag rect{fill:var(--brass)}.scene .tag.solved rect{fill:var(--slate)}
+#case{background:var(--bg)}
+
+/* transitions: unhurried, like a gavel, never flashy */
+.btn,.pill,.choice,.mode,.sub,.wtile,.scrow{transition:background-color .18s ease, border-color .18s ease, filter .18s ease}
+.mode:hover .marrow{transform:translateX(3px);transition:transform .2s ease}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+/* weakness map: untested reads as blank paper, so shaky (brass) and untested can't be confused */
+.wtile.none,.wtile:not(.weak):not(.shaky):not(.solid){background:transparent;border-style:dashed;color:var(--muted)}
+.dot.none{background:transparent;border-style:dashed}
+/* escape scene architecture from the photo: cornice and limestone columns */
+.scene .cornice{fill:var(--scn-line)}.scene .dentil{fill:var(--scn-wood);opacity:.6}
+.scene .column{fill:#f0d0a3}.scene .flute{stroke:#d8ae73;stroke-width:2}.scene .capital{fill:#fce7bc}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .scene .column{fill:#b89a74} :root:not([data-theme="light"]) .scene .capital{fill:#cdb08a} :root:not([data-theme="light"]) .scene .flute{stroke:#9a7c58} }
+</style>
 <script>
 // ===== PRACTICE HYPOS =====
 // t: topics, lv: 1 Rookie (single issue) · 2 Associate · 3 Trial-Ready (multi-issue / exam style)
@@ -4139,7 +4301,7 @@ function tryRuling(i){
 // ---- scenes ----
 function keySVG(){ return `<svg viewBox="0 0 64 28" width="56" height="24"><circle cx="12" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="4"/><path d="M21 14h38M48 14v8M56 14v6" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`; }
 function gavelSVG(){ return `<svg viewBox="0 0 64 40" width="52" height="32"><rect x="8" y="6" width="26" height="14" rx="3" transform="rotate(-25 21 13)" fill="currentColor"/><path d="M28 18l24 16" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><rect x="4" y="32" width="30" height="6" rx="2" fill="currentColor"/></svg>`; }
-const SLOTS = [[48,62,150,104,44,30],[372,276,120,58,360,248],[508,282,62,52,488,258],[708,300,104,52,690,274]];
+const SLOTS = [[48,62,150,104,44,30],[372,276,120,58,360,248],[508,282,62,52,500,226],[708,300,104,52,690,274]];
 const COURT_SLOTS = [[56,236,110,124,52,206],[192,236,110,124,188,206],[742,236,90,124,724,206]];
 const GLYPHS = {
   monitor:[138,98,`<rect class="device" x="0" y="0" width="138" height="88" rx="6"/><rect class="screen" x="10" y="9" width="118" height="68" rx="3"/>${[0,1,2,3,4,5].map(i => `<line class="scan" x1="12" y1="${14 + i * 11}" x2="126" y2="${14 + i * 11}"/>`).join("")}<text class="rec" x="18" y="24">● REC 14:10</text>`],
@@ -4320,4 +4482,14 @@ document.addEventListener("keydown", e => {
 
 // ---- start (runs last, after every module has loaded) ----
 save(); renderStats(); route();
+// courtroom theme: scene architecture (cornice + fluted columns, as in the photo); drawn behind the furniture
+(function(){
+  const orig = decor;
+  const col = x => `<rect class="capital" x="${x - 4}" y="34" width="34" height="10"/><rect class="column" x="${x}" y="44" width="26" height="241"/>${[6,13,20].map(d => `<line class="flute" x1="${x + d}" y1="50" x2="${x + d}" y2="280"/>`).join("")}<rect class="capital" x="${x - 4}" y="279" width="34" height="8"/>`;
+  window.decor = function(kind){
+    const band = `<rect class="cornice" x="0" y="0" width="1000" height="30"/>${Array.from({length:50}, (_, i) => `<rect class="dentil" x="${i * 20 + 4}" y="22" width="10" height="8"/>`).join("")}`;
+    return orig(kind) + band + (kind === "court" ? col(330) + col(644) : col(236) + col(664));
+  };
+})();
+if (!$("#v-escape").hidden) renderEscape();
 </script>
