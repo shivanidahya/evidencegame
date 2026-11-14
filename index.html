@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><title>Evidence Locker</title>
+<title>Evidence Locker</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -298,27 +298,171 @@ mark.yours{background:var(--bad-soft);color:var(--ink);border-bottom:2px dashed 
 @media (max-width:560px){.panel,.cf-body{padding:16px}.cf-head,.cf-foot{padding-inline:16px}.brand h1{font-size:1.3rem}}
 </style>
 
+<style>
+:root{--scn-wall:#c9d3cc;--scn-line:#a9b7af;--scn-wood:#7a5a3c;--scn-floor:#9c7b5b;--scn-metal:#6b7773;--scn-device:#1f2725;--scn-screen:#2e4a43;--scn-scan:#3f6a5f;--scn-red:#d8402f;--scn-paper:#f7f3e8;--scn-ink:#5d6b66;--scn-bag:#dfe8e3;--scn-door:#5b4330;--scn-label:#2a3330}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--scn-wall:#24302c;--scn-line:#34433e;--scn-wood:#5e4530;--scn-floor:#3a2e24;--scn-metal:#46514d;--scn-device:#0e1312;--scn-screen:#1d3b34;--scn-scan:#2c5a4e;--scn-red:#ff5a47;--scn-paper:#e9e4d6;--scn-ink:#6d7a75;--scn-bag:#b9c6c0;--scn-door:#3d2d20;--scn-label:#c8d4cf}}
+:root[data-theme="dark"]{--scn-wall:#24302c;--scn-line:#34433e;--scn-wood:#5e4530;--scn-floor:#3a2e24;--scn-metal:#46514d;--scn-device:#0e1312;--scn-screen:#1d3b34;--scn-scan:#2c5a4e;--scn-red:#ff5a47;--scn-paper:#e9e4d6;--scn-ink:#6d7a75;--scn-bag:#b9c6c0;--scn-door:#3d2d20;--scn-label:#c8d4cf}
+#room{display:grid;gap:18px}
+.roomhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.roomhead .chip,.chip.dark{color:var(--ink);border-color:var(--line)}
+.roomhead .chip b,.chip.dark b{color:var(--ink)}
+.scenebox{border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--scn-wall)}
+svg.scene{display:block;width:100%;height:auto}
+.scene .wall{fill:var(--scn-wall)}.scene .panel-line{fill:none;stroke:var(--scn-line);stroke-width:2}.scene .rail{fill:var(--scn-wood)}
+.scene .floor{fill:var(--scn-floor)}.scene .board{stroke:var(--scn-line);stroke-width:1.5;opacity:.6}
+.scene .cab{fill:var(--scn-metal)}.scene .drawer{fill:none;stroke:var(--scn-line);stroke-width:2}
+.scene .shelf,.scene .desk{fill:var(--scn-wood)}.scene .lamp{fill:var(--scn-metal)}.scene .shade{fill:var(--tag)}
+.scene .device{fill:var(--scn-device)}.scene .screen{fill:var(--scn-screen)}.scene .scan{stroke:var(--scn-scan);stroke-width:2}
+.scene .rec{fill:var(--scn-red);font:600 11px var(--f-mono)}
+.scene .paper{fill:var(--scn-paper)}.scene .ink{stroke:var(--scn-ink);stroke-width:2}
+.scene .bag{fill:var(--scn-bag);opacity:.85;stroke:var(--scn-line);stroke-width:2}
+.scene .blink{fill:var(--scn-red);animation:blink 1.2s steps(2,start) infinite}
+.scene .clock circle{fill:var(--scn-paper);stroke:var(--scn-wood);stroke-width:5}.scene .clock text{font:600 15px var(--f-mono);fill:var(--scn-label)}
+.scene .clock text{fill:#2a3330}
+.scene .frame{fill:var(--scn-wood)}.scene .leaf{fill:var(--scn-door)}.scene .lockplate{fill:var(--scn-metal)}
+.scene .hole{fill:var(--scn-device)}.scene .hole.filled{fill:var(--tag)}.scene .knob{fill:var(--tag)}
+.scene .exit{font:600 11px var(--f-mono);letter-spacing:.1em;fill:var(--scn-label)}
+.scene .obj{cursor:pointer;outline:none}.scene .obj .hit{fill:transparent}
+.scene .obj.open,.scene .obj.solved{animation:glow 2.6s ease-in-out infinite}
+.scene .obj:hover,.scene .obj:focus-visible{filter:drop-shadow(0 0 10px var(--tag))}
+.scene .obj.done{opacity:.5;animation:none}
+.scene .door.ready{animation:glow 1.6s ease-in-out infinite}
+.scene .tag rect{fill:var(--tag)}.scene .tag text{font:600 12px var(--f-mono);fill:var(--on-tag)}
+.scene .tag.solved rect{fill:var(--tag2)}.scene .tag.solved text{fill:#fff}
+.scene .tag.done rect{fill:var(--ok)}.scene .tag.done text{fill:var(--card)}
+.scene .shake{animation:shake .4s}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 0 transparent)}50%{filter:drop-shadow(0 0 9px var(--tag))}}
+@keyframes blink{to{visibility:hidden}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.evlist{display:grid;gap:8px}
+.evrow{display:flex;gap:10px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:5px;padding:10px 12px;cursor:pointer}
+.evrow:hover{border-color:var(--ink)}.evrow.done{opacity:.7}
+.ring{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.keytag{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:5px;padding:8px 10px;font-size:14px}
+.keytag .keyart{color:var(--tag);display:flex}.keytag.empty{opacity:.45}.keytag.empty .keyart{color:var(--muted)}
+#case{position:fixed;inset:0;z-index:25;background:var(--bg);overflow-y:auto;padding-block:calc(16px + env(safe-area-inset-top,0px)) calc(40px + env(safe-area-inset-bottom,0px))}
+.case-inner{max-width:1100px;display:grid;gap:16px}
+.vhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.lockbox{border:2px solid var(--tag2);border-radius:var(--r);padding:16px;display:grid;gap:10px;background:var(--card)}
+.lockbox.open{border-color:var(--ok)}
+.keyrow{display:flex;gap:12px;align-items:center}.keyrow .keyart{color:var(--tag);display:flex}
+.intro{max-width:680px;margin:6vh auto 0;display:grid;gap:12px;background:var(--card);border:1px solid var(--line);border-top:5px solid var(--tag);border-radius:var(--r);padding:24px}
+.intro p{margin:0}.rules{margin:0;padding-left:20px;display:grid;gap:6px}
+.toggle{display:flex;gap:10px;align-items:center;font-size:15px;cursor:pointer}.toggle input{width:18px;height:18px}
+.transition{display:grid;gap:16px}
+.doorway{height:150px;border-radius:8px;background:var(--scn-door);position:relative;overflow:hidden;border:1px solid var(--line)}
+.doorway .beam{position:absolute;inset:0 30% 0 30%;background:linear-gradient(180deg,var(--tag),transparent);opacity:.75;animation:open 1.4s ease-out both}
+@keyframes open{from{inset:0 50% 0 50%}to{inset:0 30% 0 30%}}
+.report{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14.5px}
+.nextroom{display:grid;gap:8px;border-left:5px solid var(--tag2)}.nextroom p{margin:0}
+</style>
+<style>
+/* ---- portal: mode cards, weakness map, progress ---- */
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+.mode{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--tag);border-radius:var(--r);padding:16px}
+.mode:hover{border-color:var(--ink);border-left-color:var(--tag)}
+.micon{color:var(--locker);display:grid;place-items:center;width:52px;height:52px;border-radius:8px;background:var(--soft)}
+.mbody{display:grid;gap:3px}.mname{font:600 1.25rem/1.15 var(--f-display)}.mline{color:var(--muted);font-size:15px}.mstat{font-size:12px;color:var(--ink);margin-top:4px}
+.marrow{font:600 1.4rem/1 var(--f-display);color:var(--muted)}
+.pms{display:grid;gap:10px;margin-top:4px}.pm{display:grid;gap:4px;font-size:14px}.pm .meter{height:7px}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px}
+.wgroup{display:grid;gap:8px;align-content:start}.wname{font-family:var(--f-display);font-weight:600}
+.wtiles{display:flex;flex-wrap:wrap;gap:5px}
+.wtile{display:inline-flex;gap:6px;align-items:baseline;border:1px solid var(--line);background:var(--soft);color:var(--muted);border-radius:4px;padding:5px 7px;font:600 12px/1 var(--f-mono);cursor:pointer}
+.wtile i{font-style:normal;font-weight:400;font-size:11px}
+.wtile:hover{border-color:var(--ink)}
+.wtile.weak{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+.wtile.shaky{background:var(--route-soft);color:var(--route);border-color:var(--tag)}
+.wtile.solid{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;border:1px solid var(--line)}
+.dot.weak{background:var(--bad)}.dot.shaky{background:var(--tag)}.dot.solid{background:var(--ok)}.dot.none{background:var(--soft)}
+.worknext{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+/* ---- flashcards ---- */
+.fcstats{display:flex;gap:16px;font-size:13px;flex-wrap:wrap}.fcstats b{font-weight:600}
+.fcwrap{display:grid;gap:12px}
+.fcard2{position:relative;min-height:260px;width:100%;border:1px solid var(--line);border-top:5px solid var(--tag);border-radius:var(--r);background:var(--card);cursor:pointer;display:grid;align-content:center;justify-items:center;gap:12px;padding:28px 22px 40px;text-align:center}
+.fcard2.back{justify-items:stretch;text-align:left;border-top-color:var(--tag2)}
+.fcard2:hover{border-color:var(--ink)}
+.fcbig{font:700 clamp(2.2rem,8vw,3.4rem)/1 var(--f-display);text-align:center}
+.fcbig.sm{font-size:1.6rem;text-align:left}
+.fcq{font:600 clamp(1.2rem,4vw,1.6rem)/1.3 var(--f-display);margin:0;max-width:30ch;text-wrap:balance}
+.fcprompt{margin:0;color:var(--muted);font-size:14px}
+.fclang{margin:0;max-width:60ch;text-align:left;padding:10px 14px;border-left:3px solid var(--tag2);background:var(--soft);border-radius:0 4px 4px 0}
+.fclang p{margin:4px 0}
+.fcsec{display:grid;gap:4px}.fcsec blockquote{margin:0;padding:8px 12px;border-left:3px solid var(--tag2);background:var(--soft);border-radius:0 4px 4px 0}
+.fcsec blockquote p{margin:3px 0;font-size:15px}.fcsec p{margin:0}.plain{font-size:1.05rem}
+.fchint{position:absolute;bottom:10px;left:0;right:0;text-align:center;font:11px/1 var(--f-mono);color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+/* ---- activities ---- */
+.subs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:12px}
+.sub{display:grid;gap:6px;text-align:left;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:16px;cursor:pointer;align-content:start}
+.sub:hover{border-color:var(--ink)}.sname{font:600 1.1rem/1.2 var(--f-display)}.sline{color:var(--muted);font-size:14.5px}.sstat{font-size:12px}
+.transcript{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;display:grid;gap:4px}
+.tl{display:grid;grid-template-columns:56px 1fr;gap:10px;align-items:start;padding:4px 0}
+.tl .who{font:600 11px/26px var(--f-mono);letter-spacing:.06em;color:var(--muted)}
+.tl.q span:last-child{color:var(--muted);font-style:italic;padding-top:3px}
+.tline{text-align:left;border:1px solid transparent;border-left:3px solid var(--line);background:transparent;padding:4px 10px;border-radius:0 4px 4px 0;cursor:pointer;font-size:16px}
+.tline:hover:not([disabled]),.tline[aria-expanded="true"]{border-color:var(--tag2);background:var(--soft)}
+.tline[disabled]{cursor:default}
+.tl.ruled .tline{border-left-color:var(--ink)}
+.grounds{margin:2px 0 8px 66px;display:grid;gap:8px;padding:10px 12px;border:2px solid var(--tag2);border-radius:var(--r);background:var(--card)}
+.gbtns{display:flex;flex-wrap:wrap;gap:6px}
+.ruling{margin:2px 0 10px 66px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:10px 12px;border-radius:var(--r);border-left:4px solid}
+.ruling p{margin:3px 0 6px}.ruling.ok{background:var(--ok-soft);border-color:var(--ok)}.ruling.half{background:var(--route-soft);border-color:var(--tag)}.ruling.bad{background:var(--bad-soft);border-color:var(--bad)}
+.ruling.quiet{grid-template-columns:1fr;background:transparent;border-color:var(--ok)}
+.stamp.sm{font-size:.8rem;padding:4px 7px;border-width:2px;letter-spacing:.1em;transform:none;animation:none;white-space:nowrap}
+@media (max-width:560px){.tl{grid-template-columns:1fr;gap:2px}.grounds,.ruling{margin-left:0}.ruling{grid-template-columns:1fr}}
+.wirow{border-radius:var(--r);padding:12px 14px;display:grid;gap:6px;border-left:5px solid;background:var(--card);border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.wirow p{margin:0}.wirow.ok{border-left-color:var(--ok)}.wirow.bad{border-left-color:var(--bad)}
+.rrbar{height:8px;background:var(--soft);border-radius:999px;overflow:hidden}.rrbar i{display:block;height:100%;background:var(--tag2)}
+.rrq{font:600 clamp(1.1rem,3.4vw,1.35rem)/1.4 var(--f-display);margin:0;min-height:4.2em}
+.rrbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}.rrbtns .btn{padding:16px;font:700 1.05rem/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase}
+.rrbtns .btn.right{background:var(--ok);color:var(--card);border-color:var(--ok)}.rrbtns .btn.wrong{background:var(--bad);color:var(--card);border-color:var(--bad)}
+.trow{border-radius:var(--r);padding:12px 14px;display:grid;gap:8px;background:var(--card);border:1px solid var(--line);border-left:5px solid}
+.trow.ok{border-left-color:var(--ok)}.trow.half{border-left-color:var(--tag)}.trow.bad{border-left-color:var(--bad)}.trow p{margin:0}
+/* ---- escape corridor ---- */
+.corridor{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:12px}
+.rdoor{display:grid;gap:6px;align-content:start;justify-items:start;padding:16px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);border-top:6px solid var(--scn-door)}
+.rdoor.escaped{border-top-color:var(--ok)}.rdoor.locked{opacity:.75}.rdoor.inprogress{border-top-color:var(--tag)}
+.rdoor.focus{box-shadow:0 0 0 3px var(--tag2)}
+.seals{display:flex;flex-wrap:wrap;gap:6px}
+.seal{font:600 11px/1 var(--f-mono);letter-spacing:.05em;padding:6px 8px;border-radius:999px;border:1px dashed var(--line);color:var(--muted)}
+.seal.on{border:1px solid var(--ok);background:var(--ok-soft);color:var(--ok)}
+.scene .folder{fill:#d9b25a}.scene .folder2{fill:#e8c870}.scene .binder{fill:#3c5f8a}.scene .ring2{fill:var(--scn-metal)}
+.scene .seal{fill:var(--scn-red)}.scene .zip{fill:none;stroke:#8a4fc4;stroke-width:4;stroke-linecap:round}
+.scene .box{fill:#b89468}.scene .lid{fill:#a07c52}.scene .easel{stroke:var(--scn-wood);stroke-width:6;stroke-linecap:round}
+.scene .exboard{fill:var(--scn-paper);stroke:var(--scn-wood);stroke-width:3}.scene .sticker2{fill:var(--tag)}
+.scene .exlab{font:600 11px var(--f-mono);fill:var(--on-tag);letter-spacing:.08em}.scene .exbig{font:700 34px var(--f-display);fill:#2a3330}
+.scene .walltext{font:600 16px var(--f-mono);letter-spacing:.2em;fill:var(--scn-line)}
+.scene .cork{fill:#b98d5a;stroke:var(--scn-wood);stroke-width:5}.scene .pin{fill:var(--scn-red)}.scene .string{fill:none;stroke:var(--scn-red);stroke-width:2}
+.scene .spine.s0{fill:#7a3b2e}.scene .spine.s1{fill:#2f4f6a}.scene .spine.s2{fill:#5d6b3a}.scene .spine.s3{fill:#8a6a2a}
+.scene .seal2{fill:var(--tag);stroke:var(--scn-wood);stroke-width:4}
+</style>
+
 <header class="top">
   <div class="wrap">
     <div class="row">
       <div class="brand"><h1>Evidence Locker</h1><span class="eyebrow">FRE trainer · Fall 2026</span></div>
       <div class="stats" id="stats"></div>
     </div>
-    <nav class="tabs" aria-label="Sections">
-      <a href="#desk" data-v="desk">The Desk</a>
-      <a href="#hypos" data-v="hypos">Practice Hypos</a>
-      <a href="#maps" data-v="maps">Journey Maps</a>
-      <a href="#review" data-v="review">Quick Review</a>
+    <nav class="tabs" aria-label="Study modes">
+      <a href="#home" data-v="home">Home</a>
+      <a href="#cards" data-v="cards">Flashcards</a>
+      <a href="#maps" data-v="maps">Journey Map</a>
+      <a href="#act" data-v="act">Activities</a>
+      <a href="#escape" data-v="escape">Escape Room</a>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
-  <section class="view" id="v-desk"></section>
-  <section class="view" id="v-hypos" hidden></section>
+  <section class="view" id="v-home"></section>
+  <section class="view" id="v-cards" hidden></section>
   <section class="view" id="v-maps" hidden></section>
-  <section class="view" id="v-review" hidden></section>
+  <section class="view" id="v-act" hidden></section>
+  <section class="view" id="v-hypos" hidden></section>
+  <section class="view" id="v-escape" hidden></section>
 </main>
+<div id="case" hidden><div class="case-inner wrap" id="case-body"></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="why" hidden>
   <button id="why-scrim" aria-label="Close rule panel" tabindex="-1"></button>
@@ -2101,6 +2245,530 @@ const HYPO_FACTS = {
  cf11:["Curly wasn’t a party to Moe’s trial and had no lawyer there."],
  cf12:["The trial court rules that Darrell “opened the door” by blaming Morris."]
 };
+// ===== ESCAPE ROOM PREVIEW · Room 5: The Records Room (Hearsay) =====
+// Four evidence objects, each a hearsay journey-map case. Rule text checked against law.cornell.edu (Nov 2026).
+DRILLS.push(
+{id:"er_notice",map:"hearsay",t:["hs"],lv:2,title:"The Security Recording",
+facts:"In a civil slip-and-fall suit against GreenMart, the plaintiff offers a security-camera recording from 2:10 p.m. in which a shopper tells the store manager, “There’s oil all over aisle 5.” The plaintiff fell in aisle 5 at 2:30. She offers the shopper’s words only to show that GreenMart had notice of the spill.",
+a:{h_stmt:0,h_truth:1,x_403:1},
+n:{h_truth:"Offered to show GreenMart knew about the spill (effect on the listener), not that oil was really there. Whether the shopper was right doesn’t matter, so it isn’t hearsay under 801(c)(2).",x_403:"A 105 instruction limits the jury to the notice purpose."}},
+{id:"er_text",map:"hearsay",t:["hs"],lv:2,title:"The Seized Phone",crim:1,
+facts:"Cole is on trial for burglary. Police seized his girlfriend’s phone, which shows a text Cole sent her the night of the break-in: “got the jewelry, stashing it at my brother’s.” The prosecution offers the text against Cole.",
+a:{h_stmt:0,h_truth:0,h_ex:1,x_403:1},
+n:{h_ex:"Cole’s own statement, offered against him: 801(d)(2)(A). It needn’t have been against his interest when he sent it, and no exception is needed because it isn’t hearsay.",x_403:"Highly probative of the burglary; no unfair prejudice substantially outweighs it."}},
+{id:"er_voicemail",map:"hearsay",t:["hs"],lv:2,title:"The Voicemail",
+facts:"In a civil suit against Metro Transit, the plaintiff offers a voicemail that a bus passenger left her sister seconds after the crash. Sobbing and shouting over sirens, she says: “The bus just blew through the red light and slammed into that car!” The passenger has moved and can’t be found.",
+a:{h_stmt:0,h_truth:0,h_ex:2,h_803:0,x_403:1},
+n:{h_ex:"The passenger isn’t a party and isn’t testifying, so 801(d) doesn’t apply.",h_803:"A startling event (the crash), a statement relating to it, made while she was still under the stress it caused: 803(2). Made seconds after she saw it, it also fits 803(1). Her absence doesn’t matter for 803.",x_403:"Directly probative of fault; nothing unfairly prejudicial substantially outweighs it."}},
+{id:"er_letter",map:"hearsay",t:["hs"],lv:3,title:"The Letter",
+facts:"Ana is on trial for setting fire to her own bakery to collect the insurance. She offers a letter her brother Leo wrote to their cousin: “I set the bakery fire myself. I poured the gasoline on Sunday night.” Subpoenaed to testify, Leo invokes his Fifth Amendment privilege. A hardware-store receipt shows Leo bought two gallons of gasoline that Sunday.",
+a:{h_stmt:0,h_truth:0,h_ex:2,h_803:1,h_avail:0,h_804:0,x_403:1},
+n:{h_ex:"Leo isn’t a party, and the accused is the one offering his statement, so 801(d)(2) can’t help.",h_803:"No 803 exception fits a letter recounting a past act; 803(3) excludes statements of memory offered to prove the fact remembered.",h_avail:"Invoking the Fifth Amendment privilege exempts Leo from testifying: 804(a)(1).",h_804:"Confessing to arson exposes Leo to criminal liability, so a reasonable person would say it only if true: 804(b)(3)(A). Offered in a criminal case to show his criminal liability, it also needs corroborating circumstances that clearly indicate trustworthiness: the gasoline receipt satisfies 804(b)(3)(B).",x_403:"Nothing unfairly prejudicial substantially outweighs it. Confrontation doesn’t apply: the accused is the one offering it."}}
+);
+Object.assign(DRILL_R, {
+  er_notice:{h_stmt:"assert",h_truth:"listener"},
+  er_text:{h_stmt:"assert",h_ex:"own"},
+  er_voicemail:{h_stmt:"assert",h_ex:"none",h_803:["exc","psi"]},
+  er_letter:{h_stmt:"assert",h_ex:"none",h_avail:"priv",h_804:"against"}
+});
+Object.assign(SPANS, {
+  er_notice:{key:["There’s oil all over aisle 5."],others:["The plaintiff fell in aisle 5 at 2:30."],alt:["The store manager’s testimony at trial"]},
+  er_text:{key:["got the jewelry, stashing it at my brother’s."],others:["Police seized his girlfriend’s phone"],alt:["The girlfriend’s testimony at trial about the text"]},
+  er_voicemail:{key:["The bus just blew through the red light and slammed into that car!"],others:["The passenger has moved and can’t be found."],alt:["The sister’s testimony at trial about the call"]},
+  er_letter:{key:["I set the bakery fire myself. I poured the gasoline on Sunday night.","I set the bakery fire myself."],others:["A hardware-store receipt shows Leo bought two gallons of gasoline that Sunday."],alt:["Ana’s testimony denying the fire"]}
+});
+Object.assign(FACTS, {
+  er_notice:{h_stmt:"@id",h_truth:["She offers the shopper’s words only to show that GreenMart had notice of the spill.","only to show that GreenMart had notice of the spill"]},
+  er_text:{h_stmt:"@id",h_ex:["a text Cole sent her","The prosecution offers the text against Cole."]},
+  er_voicemail:{h_stmt:"@id",h_ex:["a bus passenger"],h_803:["Sobbing and shouting over sirens","seconds after the crash"]},
+  er_letter:{h_stmt:"@id",h_ex:["her brother Leo"],h_avail:["Leo invokes his Fifth Amendment privilege","invokes his Fifth Amendment privilege"],h_804:["A hardware-store receipt shows Leo bought two gallons of gasoline that Sunday.","Leo bought two gallons of gasoline that Sunday"]}
+});
+Object.assign(HINTS, {
+  er_notice:["What does the plaintiff need these words to prove?","Notice is not truth."],
+  er_text:["Who wrote the text, and who is offering it?","801(d)(2)(A)."],
+  er_voicemail:["What was happening when she spoke?","A startling event, and stress that hadn’t worn off."],
+  er_letter:["Leo won’t testify. Which article does that open?","A confession to arson, plus something that backs it up."]
+});
+
+// Room layout: each object holds one case; solving it, then entering the decisive rule number, earns a key.
+const ROOM = {
+  n:5, of:6, name:"The Records Room", topic:"Hearsay", minutes:12, penalty:30,
+  brief:"The Courtroom’s case file is locked behind this door. Four pieces of evidence are scattered around the room. Each one is sealed: analyze it, then enter the rule that decided it to open the lock and take its key. Four keys open the door.",
+  next:{name:"The Courtroom", topic:"Confrontation Clause", text:"A multi-issue trial built from evidence you found in earlier rooms: the voicemail, Cole’s text, Leo’s letter, and a station-house recording. Every statement must clear the hearsay rules, then the Sixth Amendment. Solve it to escape."},
+  objs:[
+    {id:"monitor", drill:"er_notice", name:"Security monitor", item:"Security-camera recording", lock:"DVR passcode",
+     prompt:"The DVR takes a rule number. Which rule’s definition kept the shopper’s words outside the hearsay ban?", accept:["FRE 801(c)(2)","FRE 801(c)"], decisive:"h_truth", key:"Brass key"},
+    {id:"phone", drill:"er_text", name:"Seized cell phone", item:"Text message", lock:"Evidence-bag seal",
+     prompt:"The seal opens with the rule that let Cole’s own words in.", accept:["FRE 801(d)(2)(A)"], decisive:"h_ex", key:"Locker key"},
+    {id:"machine", drill:"er_voicemail", name:"Answering machine", item:"Voicemail", lock:"Tape-door combination",
+     prompt:"The tape door opens with the exception that admits the voicemail.", accept:["FRE 803(2)","FRE 803(1)"], decisive:"h_803", key:"Tape key"},
+    {id:"letter", drill:"er_letter", name:"Letter on the desk", item:"Leo’s letter", lock:"Wall safe",
+     prompt:"The wall safe takes the exception that admits Leo’s confession.", accept:["FRE 804(b)(3)"], decisive:"h_804", key:"Safe key"}
+  ]
+};
+// ===== PORTAL CONTENT: flashcards, interactive activities, escape rooms =====
+// Rule language checked against law.cornell.edu/rules/fre (Nov 2026). Scope: FRE 401–807 (not 701–706) plus the Confrontation Clause.
+
+// ---- verbatim excerpts for rule entries that only had a summary ----
+RULES["404(b)(3)"].q = ["In a criminal case, the prosecutor must:", "provide reasonable notice of any such evidence that the prosecutor intends to offer at trial, so that the defendant has a fair opportunity to meet it;", "articulate in the notice the permitted purpose for which the prosecutor intends to offer the evidence and the reasoning that supports the purpose; and", "do so in writing before trial — or in any form during trial if the court, for good cause, excuses lack of pretrial notice."];
+RULES["415"].q = ["In a civil case involving a claim for relief based on a party’s alleged sexual assault or child molestation, the court may admit evidence that the party committed any other sexual assault or child molestation.", "The evidence may be considered as provided in Rules 413 and 414."];
+RULES["803(8)"].q = ["the office’s activities;", "a matter observed while under a legal duty to report, but not including, in a criminal case, a matter observed by law-enforcement personnel; or", "in a civil case or against the government in a criminal case, factual findings from a legally authorized investigation;", "the opponent does not show that the source of information or other circumstances indicate a lack of trustworthiness."];
+RULES["804(a)"].q = ["A declarant is considered to be unavailable as a witness if the declarant:", "is exempted from testifying about the subject matter of the declarant’s statement because the court rules that a privilege applies;", "refuses to testify about the subject matter despite a court order to do so;", "testifies to not remembering the subject matter;", "cannot be present or testify at the trial or hearing because of death or a then-existing infirmity, physical illness, or mental illness; or", "is absent from the trial or hearing and the statement’s proponent has not been able, by process or other reasonable means, to procure: …", "But this subdivision (a) does not apply if the statement’s proponent procured or wrongfully caused the declarant’s unavailability as a witness in order to prevent the declarant from attending or testifying."];
+CARDS.push(["FRE 801(d)(2)(A)", "Not hearsay: a statement offered against a party that the party made in an individual or representative capacity.", "hs"]);
+
+// ---- flashcards: concept prompt + one-line plain English for every card ----
+const FC_META = {
+"FRE 104(a)":["Who decides whether a hearsay foundation or a privilege has been shown, and by what standard?","The judge decides admissibility questions by a preponderance, and isn’t bound by the evidence rules except privilege."],
+"FRE 104(b)":["What’s conditional relevance?","If relevance hinges on a fact, there must be enough proof for a jury to find that the fact exists."],
+"FRE 105":["What must the court do when evidence is admissible for one purpose but not another?","On request, the judge limits the evidence to its proper use and instructs the jury."],
+"FRE 106":["What’s the rule of completeness?","If one side uses part of a statement, the other side can bring in the rest that fairness requires, even over a hearsay objection."],
+"FRE 401":["What’s the test for relevant evidence?","Any tendency to make a fact of consequence more or less likely. A low bar."],
+"FRE 403":["When can a judge exclude relevant evidence because of its dangers?","Only when a danger like unfair prejudice substantially outweighs probative value. The balance favors admission."],
+"FRE 404(a)(1)":["Can character evidence show that a person acted in line with that character?","No. Character can’t prove that a person acted in character on a particular occasion."],
+"FRE 404(a)(2)(A)":["When can the accused offer evidence of his own good character?","The accused may offer his own pertinent trait; then the prosecution may rebut it."],
+"FRE 404(a)(2)(B)":["When can the accused offer evidence of the victim’s character?","The accused may offer the victim’s pertinent trait; then the prosecution may rebut it and offer the accused’s same trait."],
+"FRE 404(a)(2)(C)":["When can the prosecution show that a homicide victim was peaceful?","In a homicide case, to rebut evidence that the victim was the first aggressor."],
+"FRE 404(b)(2)":["For what purposes can other crimes or acts come in?","Non-propensity purposes: motive, opportunity, intent, preparation, plan, knowledge, identity, absence of mistake, or lack of accident."],
+"FRE 404(b)(3)":["What notice must the prosecutor give before offering other-acts evidence?","Reasonable notice, in writing before trial, stating the permitted purpose and the reasoning behind it."],
+"FRE 405(a)":["How do you prove character when character evidence is admissible?","By reputation or opinion. Specific acts only on cross-examination."],
+"FRE 405(b)":["When can specific instances prove character?","When character itself is an essential element of a charge, claim, or defense."],
+"FRE 406":["How does habit differ from character, and what can it prove?","Habit is a specific, regular response. It can show conduct on the occasion, with or without corroboration or an eyewitness."],
+"FRE 407":["Can a safety fix made after an accident prove negligence?","No. Later remedial measures can’t prove negligence or a defect, but can show ownership, control, or feasibility if disputed, or impeach."],
+"FRE 408":["Can a settlement offer prove liability?","No. Compromise offers and statements made in negotiations can’t prove or disprove a disputed claim or impeach by inconsistency."],
+"FRE 409":["Can an offer to pay medical bills prove liability?","No, but only the offer is protected. Statements made along with it aren’t."],
+"FRE 410":["What plea-related evidence is barred against the defendant?","Withdrawn guilty pleas, nolo pleas, statements in plea proceedings, and plea talks with a prosecutor that didn’t end in a guilty plea."],
+"FRE 411":["Can liability insurance prove fault?","No, but it can show agency, ownership, control, or a witness’s bias."],
+"FRE 412":["What’s the rape-shield rule?","In sex-offense cases, a victim’s other sexual behavior or predisposition is generally inadmissible, with narrow exceptions."],
+"FRE 413":["In a sexual-assault prosecution, can other sexual assaults show propensity?","Yes. The court may admit them for any relevant purpose, including propensity, still subject to 403."],
+"FRE 415":["Does the 413/414 propensity rule apply in civil cases?","Yes, in civil cases based on alleged sexual assault or child molestation."],
+"FRE 501":["Where does federal privilege law come from?","Federal common law, but state privilege law governs claims where state law supplies the rule of decision."],
+"FRE 502(b)":["When doesn’t an accidental disclosure waive a privilege?","When it was inadvertent, the holder took reasonable steps to prevent it, and promptly took reasonable steps to fix it."],
+"FRE 502(a)":["When does a waiver reach undisclosed material on the same subject?","Only if the waiver was intentional, the material concerns the same subject, and fairness requires considering them together."],
+"FRE 607":["Can a party impeach its own witness?","Yes. Any party may attack any witness’s credibility."],
+"FRE 608(a)":["How can a witness’s character for truthfulness be attacked or supported?","By reputation or opinion about truthfulness. Support is allowed only after an attack."],
+"FRE 608(b)":["Can you prove a witness’s past lies with documents or other witnesses?","No. You can ask about untruthful acts on cross, but you can’t prove them with extrinsic evidence."],
+"FRE 609(a)(1)(B)":["When can the accused’s felony conviction be used to impeach him?","Only if its probative value outweighs its prejudicial effect to him. This reverse balance favors exclusion."],
+"FRE 609(a)(2)":["Which convictions must be admitted to impeach, whatever the punishment?","Crimes whose elements required proving a dishonest act or false statement. No balancing."],
+"FRE 609(b)":["What’s the rule for convictions more than 10 years old?","Admitted only if specific facts make probative value substantially outweigh prejudice, and after written notice."],
+"FRE 613(b)":["When is extrinsic evidence of a prior inconsistent statement allowed?","Only if the witness can explain or deny it and the other side can question the witness about it."],
+"FRE 801(a)":["What’s a “statement” under the hearsay rule?","An oral or written assertion, or conduct the person intended as an assertion."],
+"FRE 801(c)":["What’s hearsay?","An out-of-court statement offered to prove the truth of what it asserts."],
+"FRE 801(d)(1)(A)":["When is a testifying witness’s prior inconsistent statement not hearsay?","When it was given under penalty of perjury at a trial, hearing, other proceeding, or deposition."],
+"FRE 801(d)(1)(B)":["When is a testifying witness’s prior consistent statement not hearsay?","When offered to rebut a charge of recent fabrication or improper motive, or to rehabilitate on another ground."],
+"FRE 801(d)(1)(C)":["Is a witness’s earlier identification of a person hearsay?","No, if the witness testifies and can be cross-examined about it."],
+"FRE 801(d)(2)(A)":["When is a party’s own statement admissible against that party?","Whenever the other side offers it. It needn’t have been against interest when made."],
+"FRE 801(d)(2)(D)":["When is an employee’s statement admissible against the employer?","When it concerns a matter within the scope of the job and was made while the employee still worked there."],
+"FRE 801(d)(2)(E)":["When is a coconspirator’s statement admissible against a party?","When it was made during and in furtherance of the conspiracy."],
+"FRE 803(1)":["What’s a present sense impression?","A description of an event made while or immediately after the declarant perceived it."],
+"FRE 803(2)":["What’s an excited utterance?","A statement about a startling event, made while the declarant was still under the stress of excitement it caused."],
+"FRE 803(3)":["When does a statement of the declarant’s state of mind come in?","When it describes the declarant’s then-existing mind, emotion, or physical condition. Memory offered to prove the fact remembered doesn’t count (except about the declarant’s will)."],
+"FRE 803(4)":["When do statements made to a doctor come in?","When made for, and reasonably pertinent to, medical diagnosis or treatment."],
+"FRE 803(5)":["What’s recorded recollection?","A record the witness made or adopted while the memory was fresh. It may be read to the jury, but it becomes an exhibit only if the adverse party offers it."],
+"FRE 803(6)":["What makes a business record admissible?","Made at or near the time by someone with knowledge, kept as a regular practice, shown by a custodian or certification, and not shown untrustworthy."],
+"FRE 803(8)":["When do public records come in?","Records of an office’s activities, matters observed under a legal duty (except police observations in criminal cases), and investigative findings in civil cases."],
+"FRE 803(22)":["When can a prior conviction prove a fact essential to the judgment?","After a trial or guilty plea (not nolo) for a crime punishable by more than a year. The prosecution can use it, except to impeach, only if it was against the defendant."],
+"FRE 804(a)":["When is a declarant unavailable?","Privilege, refusal despite a court order, lack of memory, death or illness, or absence despite reasonable efforts, unless the proponent caused it."],
+"FRE 804(b)(1)":["When does former testimony come in?","If the declarant is unavailable and the party it’s offered against (or, in a civil case, a predecessor) had an opportunity and similar motive to develop it."],
+"FRE 804(b)(2)":["What’s a dying declaration?","In a homicide prosecution or a civil case, a statement about the cause of death, made while believing death was imminent."],
+"FRE 804(b)(3)":["What’s a statement against interest?","A statement so against the declarant’s interest that a reasonable person would make it only if true. In criminal cases, it needs corroboration."],
+"FRE 804(b)(6)":["What’s forfeiture by wrongdoing?","A party who wrongfully caused the declarant’s unavailability, intending that result, can’t object to the declarant’s statements on hearsay grounds."],
+"FRE 805":["How do you handle hearsay within hearsay?","Each layer must satisfy its own exception or exclusion."],
+"FRE 806":["Can a hearsay declarant who never testifies be impeached?","Yes. Once the statement is admitted, the declarant’s credibility can be attacked as if the declarant had testified."],
+"FRE 807":["When does the residual exception apply?","When the statement has sufficient guarantees of trustworthiness, is more probative than other reasonably available evidence, and notice is given."],
+"Crawford v. Washington":["What did Crawford hold?","An absent witness’s testimonial statements are barred unless the witness is unavailable and the defendant had a prior chance to cross-examine."],
+"Davis v. Washington":["How did Davis separate testimonial from nontestimonial police questioning?","A primary purpose of meeting an ongoing emergency means nontestimonial. A primary purpose of proving past events for prosecution means testimonial."],
+"Michigan v. Bryant":["How does Bryant apply the primary-purpose test?","Objectively, looking at both parties and all the circumstances. An ongoing threat, like an armed shooter at large, can make a statement nontestimonial."],
+"Melendez-Diaz v. Massachusetts":["Are forensic lab certificates testimonial?","Yes. Sworn certificates made for trial require the analyst’s live testimony."],
+"Bullcoming v. New Mexico":["Can a substitute analyst testify about another analyst’s certified report?","No. The defendant has the right to confront the analyst who made the certification."],
+"Ohio v. Clark":["Are a child’s statements to a teacher testimonial?","Usually not. They’re made to protect the child, not to build a prosecution."],
+"Giles v. California":["When does forfeiture by wrongdoing defeat the Confrontation Clause?","Only when the defendant intended to keep the witness from testifying."],
+"Bruton v. United States":["What’s the problem with a codefendant’s confession at a joint trial?","A nontestifying codefendant’s confession that names the defendant can’t be cured by a limiting instruction."],
+"Hemphill v. New York":["Can “opening the door” waive the Confrontation right?","No. A court can’t admit testimonial hearsay because the defense created a misleading impression."],
+"Crawford n.9 / Tennessee v. Street":["Does the Clause apply when a statement isn’t offered for its truth?","No. The Clause doesn’t bar a statement used for another purpose, such as rebuttal, with a limiting instruction."]
+};
+
+// ---- objection grounds used by the transcripts ----
+const GROUNDS = {
+  rel:"Irrelevant (401/402)", u403:"Unfair prejudice (403)", char:"Improper character evidence (404(a)/405)", acts:"Other acts for propensity (404(b))",
+  policy:"Policy exclusion (407–411)", priv:"Privileged (501/502)", imp:"Improper impeachment (608/609/613)", hs:"Hearsay (802)", cf:"Confrontation Clause (6th Am.)"
+};
+
+// ---- ACTIVITY 1: click-to-object transcripts ----
+// Each testimony line: r = {ground: [verdict, why]} for grounds with a specific ruling; d = the ruling for any other ground.
+// A line is objectionable if any ground is "S" (sustained). k = rule keys logged for mastery.
+const TRANSCRIPTS = [
+{id:"tr_rel", t:"rel", title:"Diaz v. Harbor Grocery", setup:"Civil negligence trial. Ms. Diaz slipped on spilled detergent in aisle 7 and broke her wrist. The store denies negligence. Nobody disputes that the store owns and controls the aisle or that warning signs were feasible.",
+ hint:["Watch for evidence that’s relevant but barred for policy reasons.","Three lines run into Rules 407, 408, and 411."],
+ lines:[
+  {w:"Q", s:"Ms. Diaz, where were you on the afternoon of March 3?"},
+  {w:"A", s:"Shopping at Harbor Grocery. I slipped on blue liquid in aisle 7 and broke my wrist.", d:["O","Her own account of the fall goes to what happened. Nothing to exclude."], k:["401"]},
+  {w:"A", s:"Right after I fell, the store manager ran over and said, “Our stock boy spilled that detergent an hour ago and never cleaned it up.”", r:{hs:["O","Overruled. The manager is the store’s employee speaking about a matter within the scope of his job: an opposing party’s statement under 801(d)(2)(D), so not hearsay."]}, d:["O","Overruled. This is the store’s own employee admitting the hazard, which is highly probative and not barred by any policy rule (no offer to pay was made)."], k:["801(d)(2)(D)"]},
+  {w:"Q", s:"What did the store do after your fall?"},
+  {w:"A", s:"The next week, they put “Caution: Wet Floor” signs in every aisle.", r:{policy:["S","Sustained. A safety measure taken after the fall can’t prove negligence (407). Ownership, control, and feasibility aren’t disputed, so no exception opens."]}, d:["S","Sustained, but on a different ground: this is a subsequent remedial measure offered to prove negligence (407)."], k:["407"]},
+  {w:"A", s:"Then the manager called and offered me $5,000 if I’d drop the claim.", r:{policy:["S","Sustained. An offer to compromise a disputed claim can’t prove liability (408)."]}, d:["S","Sustained, but the ground is 408: a compromise offer can’t prove the validity of the claim."], k:["408"]},
+  {w:"Q", s:"Does Harbor Grocery carry liability insurance?"},
+  {w:"A", s:"Yes, with State Mutual.", r:{policy:["S","Sustained. Insurance can’t prove that the store acted negligently (411). It isn’t offered for agency, ownership, control, or bias."]}, d:["S","Sustained, but the ground is 411: liability insurance can’t prove fault."], k:["411"]},
+  {w:"Q", s:"How did the fall affect your work?"},
+  {w:"A", s:"I’m a pianist. I couldn’t perform for six months.", d:["O","Overruled. Lost work goes to damages, a fact of consequence (401)."], k:["401"]}
+ ]},
+{id:"tr_char", t:"char", title:"State v. Bryce", setup:"Assault trial. Bryce admits punching Owen outside a bar but claims self-defense: Owen came at him first. Bryce and Owen had never met before that night, so Bryce knew nothing about Owen’s past.",
+ hint:["Track who opened which door, and with what method of proof.","Under 405(a), character comes in by reputation or opinion on direct; specific acts only on cross."],
+ lines:[
+  {w:"PROS", s:"Mr. Owen, what happened outside the bar?"},
+  {w:"A", s:"Bryce punched me twice and I went down.", d:["O","Overruled. The victim’s account of the attack is direct evidence."], k:["401"]},
+  {w:"A", s:"Everybody around here knows Bryce. He’s a hothead who starts fights.", r:{char:["S","Sustained. The prosecution is using Bryce’s violent character to show he acted violently that night (404(a)(1)). Bryce hasn’t opened any door."], acts:["S","Sustained. It’s propensity reasoning, though the precise ground is 404(a)(1): character offered to prove conduct in conformity."]}, d:["S","Sustained, but the ground is character evidence: 404(a)(1) bars proving that Bryce acted violently because he’s a violent person."], k:["404(a)(1)"]},
+  {w:"DEF", s:"(Defense case) Ms. Nina Park, do you have an opinion about Owen’s character for violence?"},
+  {w:"A", s:"Yes. In my opinion he’s an aggressive, violent man.", r:{char:["O","Overruled. In a criminal case the accused may offer the victim’s pertinent trait (404(a)(2)(B)), and opinion is a proper method (405(a)). Aggression is pertinent to self-defense."]}, d:["O","Overruled. The accused may offer the victim’s pertinent trait by opinion (404(a)(2)(B), 405(a))."], k:["404(a)(2)(B)"]},
+  {w:"DEF", s:"Tell the jury about the time in 2023 when Owen broke a man’s jaw."},
+  {w:"A", s:"He picked a fight outside a bar and broke the guy’s jaw.", r:{char:["S","Sustained. On direct, character must be proved by reputation or opinion, not specific acts (405(a)). Character isn’t an element of self-defense, so 405(b) doesn’t apply, and Bryce didn’t know about the incident, so it can’t show his fear."]}, d:["S","Sustained, but the ground is 405(a): a specific instance can’t prove the victim’s character on direct."], k:["405(a)"]},
+  {w:"PROS", s:"(Rebuttal) Detective, does Bryce have a reputation in the community for violence?"},
+  {w:"A", s:"Yes. He’s known for violence.", r:{char:["O","Overruled. Once the accused attacks the victim’s trait, the prosecution may offer evidence of the accused’s same trait (404(a)(2)(B)(ii)), by reputation (405(a))."]}, d:["O","Overruled. The defense opened this door by attacking Owen’s character for violence (404(a)(2)(B)(ii))."], k:["404(a)(2)(B)"]},
+  {w:"PROS", s:"And Detective, Bryce was convicted of assault in 2019, wasn’t he?"},
+  {w:"A", s:"Yes, he was.", r:{char:["S","Sustained. Even with the door open, the prosecution proves Bryce’s trait on direct by reputation or opinion, not specific acts (405(a))."], acts:["S","Sustained. Offered to show he’s violent, the conviction is propensity (404(b)(1)); and on direct, character proof is limited to reputation or opinion (405(a))."]}, d:["S","Sustained, but on character grounds: on direct, specific acts can’t prove Bryce’s trait (405(a))."], k:["405(a)"]}
+ ]},
+{id:"tr_imp", t:"imp", title:"Kim v. Rapid Freight", setup:"Civil trial over an intersection crash. Lena Hart, a non-party eyewitness, testified for the plaintiff that the truck ran a red light. The defense cross-examines her.",
+ hint:["Sort the convictions under 609, then watch for extrinsic evidence.","608(b) allows questions but not extrinsic proof; bias and prior inconsistent statements on a central fact are different."],
+ lines:[
+  {w:"DEF", s:"Ms. Hart, you were convicted of felony mail fraud in 2021, weren’t you?"},
+  {w:"A", s:"Yes.", r:{u403:["O","Overruled. Fraud’s elements require a false statement or dishonest act, so 609(a)(2) requires admission. No 403 balancing applies."], imp:["O","Overruled. A crime with a dishonest act or false statement as an element must be admitted (609(a)(2))."]}, d:["O","Overruled. Under 609(a)(2), the court must admit a conviction for a crime of dishonesty."], k:["609(a)(2)"]},
+  {w:"DEF", s:"And you were convicted of misdemeanor shoplifting in 2023?"},
+  {w:"A", s:"Yes.", r:{imp:["S","Sustained. Shoplifting isn’t a crime of dishonesty under 609(a)(2), and a misdemeanor isn’t punishable by more than a year, so 609(a)(1) doesn’t reach it."]}, d:["S","Sustained, but the ground is 609: a misdemeanor theft isn’t admissible to impeach."], k:["609(a)(2)"]},
+  {w:"DEF", s:"Isn’t it true you lied about your income on a 2022 loan application?"},
+  {w:"A", s:"No, that’s not true.", r:{imp:["O","Overruled. On cross, the court may allow questions about specific acts probative of untruthfulness (608(b)), given a good-faith basis."]}, d:["O","Overruled. 608(b) allows this question on cross."], k:["608(b)"]},
+  {w:"DEF", s:"The defense calls the bank’s loan officer to prove that Ms. Hart lied on that application."},
+  {w:"A", s:"(Loan officer) She overstated her income by $40,000.", r:{imp:["S","Sustained. 608(b) bars extrinsic evidence to prove specific instances of untruthfulness. The examiner had to take her answer."]}, d:["S","Sustained, but the ground is 608(b): no extrinsic evidence of untruthful acts."], k:["608(b)"]},
+  {w:"DEF", s:"Ms. Hart, the plaintiff is your sister-in-law, isn’t she?"},
+  {w:"A", s:"Yes.", r:{imp:["O","Overruled. Bias is always a proper subject of impeachment and isn’t limited by 608(b)."], rel:["O","Overruled. A family tie to the plaintiff makes bias more likely: relevant to credibility."]}, d:["O","Overruled. Bias is always fair game on cross."], k:["607"]},
+  {w:"DEF", s:"Last month you told our investigator the light was green for the truck, didn’t you?"},
+  {w:"A", s:"I don’t remember saying that.", d:["O","Overruled. Asking about a prior inconsistent statement on cross is proper (613)."], k:["613(b)"]},
+  {w:"DEF", s:"The defense calls the investigator to testify that Ms. Hart told him the light was green."},
+  {w:"A", s:"(Investigator) She said the light was green for the truck.", r:{hs:["O","Overruled. Offered to show she said something different, not that the light was green, so it isn’t hearsay. Extrinsic proof is allowed under 613(b): she had a chance to explain or deny, and the light’s color is central, not collateral."], imp:["O","Overruled. 613(b) allows extrinsic evidence of a prior inconsistent statement once the witness can explain or deny it."]}, d:["O","Overruled. Proper impeachment under 613(b)."], k:["613(b)"]}
+ ]},
+{id:"tr_priv", t:"priv", title:"United States v. Hale", setup:"Federal tax-evasion trial, so federal common law governs privilege (501). Hale’s wife has agreed to testify for the prosecution. Before trial, the court found a prima facie showing that Hale used his lawyer to help hide income this year (crime-fraud).",
+ hint:["Ask who holds each privilege and whether federal law recognizes it.","One relationship gets no federal privilege at all, and one communication falls in the crime-fraud exception."],
+ lines:[
+  {w:"PROS", s:"(To Hale’s accountant) What did Mr. Hale tell you when you prepared his returns?"},
+  {w:"A", s:"He said the offshore deposits were gifts from his uncle.", r:{priv:["O","Overruled. Federal common law recognizes no accountant-client privilege."]}, d:["O","Overruled. These are Hale’s own statements (801(d)(2)(A)), and no federal privilege covers an accountant."], k:["501"]},
+  {w:"PROS", s:"(To Hale’s former lawyer) What did Mr. Hale tell you in 2023 when he asked for advice about the offshore account he already had?"},
+  {w:"A", s:"He told me how much was in it and asked whether he had to report it.", r:{priv:["S","Sustained. It’s a confidential communication to a lawyer for legal advice about past conduct: attorney-client privilege."]}, d:["S","Sustained, but the ground is privilege: confidential communication to a lawyer for legal advice."], k:["501"]},
+  {w:"PROS", s:"Did Mr. Hale ask you this year to help him create backdated invoices to hide income from the IRS?"},
+  {w:"A", s:"Yes, he did.", r:{priv:["O","Overruled. Communications in furtherance of an ongoing or future crime or fraud aren’t privileged. The court already found a prima facie showing (Zolin)."]}, d:["O","Overruled. The crime-fraud exception removes the privilege."], k:["501"]},
+  {w:"PROS", s:"(To Hale’s wife) What did your husband tell you, alone at home, about the offshore account?"},
+  {w:"A", s:"He told me not to tell anyone it existed.", r:{priv:["S","Sustained. A confidential communication between spouses during the marriage is privileged, and either spouse may assert it."]}, d:["S","Sustained, but the ground is the marital communications privilege."], k:["501"]},
+  {w:"PROS", s:"What did you see him put in the home safe?"},
+  {w:"A", s:"Bank statements from the Caymans.", r:{priv:["O","Overruled. These are observations, not communications. The adverse spousal testimony privilege belongs to the witness-spouse (Trammel), and she chose to testify."]}, d:["O","Overruled. What she saw isn’t a communication, and she holds the testimonial privilege (Trammel)."], k:["Trammel"]},
+  {w:"PROS", s:"(To Hale’s psychotherapist) What did Mr. Hale say in therapy about the money?"},
+  {w:"A", s:"He said he was terrified of being caught.", r:{priv:["S","Sustained. Federal common law recognizes a psychotherapist-patient privilege (Jaffee v. Redmond)."]}, d:["S","Sustained, but the ground is the psychotherapist-patient privilege (Jaffee)."], k:["Jaffee"]}
+ ]},
+{id:"tr_hs", t:"hs", title:"Estate of Lin v. Apex Trucking", setup:"Wrongful-death trial. An Apex truck hit Ms. Lin’s car at an intersection. She was hospitalized and was recovering until a sudden complication two weeks later. Civil case, so the Confrontation Clause doesn’t apply.",
+ hint:["For each statement: who said it, and what is it offered to prove?","Two statements are opposing-party or 803 statements; one is a calm account given days later."],
+ lines:[
+  {w:"Q", s:"(To a bystander) What did the truck driver say right after the crash?"},
+  {w:"A", s:"He said, “I was looking at my phone. I never saw her.”", r:{hs:["O","Overruled. The driver is Apex’s employee, speaking about his driving on the job: 801(d)(2)(D), not hearsay."]}, d:["O","Overruled. An opposing party’s statement through its employee (801(d)(2)(D))."], k:["801(d)(2)(D)"]},
+  {w:"Q", s:"(To the paramedic) What did Ms. Lin tell you in the ambulance?"},
+  {w:"A", s:"She said, “My chest hurts and I can’t breathe.”", r:{hs:["O","Overruled. Statements of present symptoms made for treatment fit 803(4) (and 803(3))."]}, d:["O","Overruled. Admissible under 803(4)."], k:["803(4)"]},
+  {w:"Q", s:"(To the nurse) What did Ms. Lin say during a routine check two days later?"},
+  {w:"A", s:"She calmly said, “The light was red for the truck.”", r:{hs:["S","Sustained. Who had the red light isn’t pertinent to treatment (not 803(4)); two days later and calm, it isn’t 803(1) or (2); it’s memory, so 803(3) excludes it; and she didn’t believe death was imminent (not 804(b)(2))."]}, d:["S","Sustained, but the ground is hearsay: offered for its truth, with no exception."], k:["802"]},
+  {w:"Q", s:"(To Ms. Lin’s friend) What did she say the morning of the crash?"},
+  {w:"A", s:"She said, “I’m driving to Denver today to see my mother.”", r:{hs:["O","Overruled. A statement of then-existing intent, offered to show she acted on it, fits 803(3) (Hillmon)."]}, d:["O","Overruled. 803(3) state of mind: her plan."], k:["803(3)"]},
+  {w:"Q", s:"(To the investigating officer) What did the gas-station clerk tell you when you interviewed him the next day?"},
+  {w:"A", s:"That the truck was going about 70.", r:{hs:["S","Sustained. The clerk’s statement is offered for its truth, the clerk isn’t testifying, and no exception fits. 803(8) doesn’t cover a bystander’s statement repeated by an officer."]}, d:["S","Sustained, but the ground is hearsay."], k:["802"]},
+  {w:"Q", s:"Officer, what did the printout from the truck’s onboard speed recorder show?"},
+  {w:"A", s:"68 miles per hour at impact.", r:{hs:["O","Overruled. Machine output isn’t a person’s assertion, so it isn’t a “statement” under 801(a)."]}, d:["O","Overruled. Machine-generated data isn’t hearsay."], k:["801(a)"]}
+ ]},
+{id:"tr_cf", t:"conf", title:"State v. Marsh", setup:"Criminal assault trial. The victim, Dana, doesn’t testify. Each statement must clear the hearsay rules and the Confrontation Clause.",
+ hint:["For each statement, first ask whether it’s testimonial.","An ongoing emergency, a casual text, and the defendant’s own words don’t trigger the Clause."],
+ lines:[
+  {w:"PROS", s:"The State plays Dana’s 911 call, made while the attack was happening."},
+  {w:"A", s:"(Recording) “He’s hitting me! Please send someone now!”", r:{cf:["O","Overruled. Its primary purpose was to get help with an ongoing emergency, so it’s nontestimonial (Davis)."], hs:["O","Overruled. A statement made under the stress of a startling event: 803(2) (and 803(1))."]}, d:["O","Overruled. An excited utterance, and nontestimonial."], k:["Davis"]},
+  {w:"PROS", s:"(To the detective) What did Dana tell you at the station two days later?"},
+  {w:"A", s:"That Marsh attacked her with a baseball bat.", r:{cf:["S","Sustained. A structured police interview about past events is testimonial; Dana doesn’t testify, and Marsh never cross-examined her (Crawford)."], hs:["S","Sustained. A calm narrative two days later fits no exception. (The Confrontation Clause bars it too.)"]}, d:["S","Sustained, on Confrontation and hearsay grounds."], k:["Crawford"]},
+  {w:"PROS", s:"The State offers a sworn certificate from the state crime lab: “The blood on the bat matches the defendant.” The analyst won’t testify."},
+  {w:"A", s:"(Certificate read to the jury)", r:{cf:["S","Sustained. A sworn forensic certificate made for trial is testimonial (Melendez-Diaz). The analyst must testify."], hs:["S","Sustained on hearsay grounds as well, but the decisive objection is Confrontation (Melendez-Diaz)."]}, d:["S","Sustained, but the ground is Confrontation: the analyst must testify (Melendez-Diaz)."], k:["Melendez-Diaz"]},
+  {w:"PROS", s:"(To Dana’s friend) What did Dana text you the next morning?"},
+  {w:"A", s:"“Marsh hurt me again last night.”", r:{cf:["O","Overruled on that ground: a casual text to a friend isn’t testimonial. But hearsay is the real problem."], hs:["S","Sustained. Offered for its truth, a next-morning account of a past event fits no exception (not 803(1), (2), or (3))."]}, d:["S","Sustained, but on hearsay grounds. (A casual text isn’t testimonial.)"], k:["802"]},
+  {w:"PROS", s:"(To the arresting officer) What did Marsh say after his arrest?"},
+  {w:"A", s:"“I hit her, but only once.”", r:{cf:["O","Overruled. The declarant is the accused. A defendant can’t confront himself."], hs:["O","Overruled. His own statement, offered against him: 801(d)(2)(A)."]}, d:["O","Overruled. An opposing party’s statement."], k:["801(d)(2)(A)"]},
+  {w:"PROS", s:"The State reads Dana’s preliminary-hearing testimony. Marsh’s lawyer cross-examined her there. She has since died of an unrelated illness."},
+  {w:"A", s:"(Transcript read to the jury)", r:{cf:["O","Overruled. Testimonial, but Dana is unavailable and Marsh had a prior opportunity to cross-examine her (Crawford)."], hs:["O","Overruled. Former testimony of an unavailable declarant, with a similar motive to cross: 804(b)(1)."]}, d:["O","Overruled. Former testimony, and the Clause is satisfied."], k:["804(b)(1)"]}
+ ]}
+];
+
+// ---- ACTIVITY 2: "what if" fact toggles + spot the change ----
+// Each set: a base case and ruling; toggles change one fact and ask for the new ruling; spot = a variant where only one change matters.
+const WHATIF = [
+{id:"wi_rel", t:"rel", title:"The Rubber Mats", k:["407"],
+ base:"Pat slips on a wet lobby floor at Hotel Corp. A week later, Hotel Corp installs rubber mats. Pat offers the mats to prove Hotel Corp was negligent.",
+ ruling:"Excluded under 407: a subsequent remedial measure can’t prove negligence.",
+ toggles:[
+  {label:"What if Hotel Corp says it had no control over the lobby; the landlord did?", o:["Still excluded under 407","Admissible to prove control, which is now disputed, with a 105 limiting instruction","Admissible to prove negligence"], a:1, why:"407 lets a later measure in to prove ownership or control when disputed. The jury is told not to use it as proof of negligence (105).", k:["407","105"]},
+  {label:"What if Hotel Corp argues mats weren’t feasible because they would jam the revolving door?", o:["Still excluded under 407","Admissible to prove feasibility, which Hotel Corp now disputes","Admissible only to impeach"], a:1, why:"Feasibility of precautions, if disputed, is a permitted purpose under 407.", k:["407"]},
+  {label:"What if the mats were installed a week before Pat’s fall, then removed?", o:["Excluded under 407","407 doesn’t apply: the measure came before the injury","Excluded under 411"], a:1, why:"407 covers only measures taken after the injury or harm. An earlier measure is judged under 401–403.", k:["407","401"]}
+ ],
+ spot:{text:"Pat slips on a wet lobby floor at Hotel Corp on a rainy Tuesday. A week later, Hotel Corp installs rubber mats. Pat offers the mats to prove that Hotel Corp, not the building’s owner, controlled the lobby, which Hotel Corp denies.", key:2,
+  why:"The purpose changed: control is now disputed, so 407’s exception lets the mats in for that purpose. The rainy Tuesday changes nothing legally.", ruling:"Admissible to prove control, with a 105 instruction."}},
+{id:"wi_char", t:"char", title:"The Purple Zip-Ties", k:["404(b)(2)"],
+ base:"Ray is charged with a home burglary in which the victims were bound with purple zip-ties and a jack of spades was left on the table. The prosecution offers Ray’s prior burglary, with the same zip-ties and the same jack of spades, to prove identity. Ray says he wasn’t there. The prosecution gave written notice before trial.",
+ ruling:"Admissible for identity under 404(b)(2): a distinctive signature, subject to 403 and a 105 instruction.",
+ toggles:[
+  {label:"What if the only similarity is that both burglaries happened at night?", o:["Still admissible to prove identity","Excluded: without a distinctive signature, it only shows propensity (404(b)(1))","Admissible under 413"], a:1, why:"Identity through modus operandi requires a signature distinctive enough to point to the same person. Nighttime burglary is generic, so the only inference left is propensity.", k:["404(b)(1)"]},
+  {label:"What if the prosecution gave no notice before trial and shows no good cause?", o:["Still admissible: notice is optional","Can’t come in unless the prosecution meets the 404(b)(3) notice requirement","Admissible because Ray didn’t object before trial"], a:1, why:"In a criminal case, the prosecutor must give reasonable written notice before trial, stating the purpose and reasoning, unless the court excuses it for good cause (404(b)(3)).", k:["404(b)(3)"]},
+  {label:"What if the only proof that Ray committed the prior burglary is an anonymous tip?", o:["Still admissible: the court needn’t find he did it","Excluded: a jury couldn’t reasonably find by a preponderance that Ray did the prior act (Huddleston, 104(b))","Admissible under 404(a)(2)"], a:1, why:"Under Huddleston, other-acts evidence comes in only if a jury could reasonably find by a preponderance that the defendant committed the act. An anonymous tip alone doesn’t get there.", k:["Huddleston","104(b)"]}
+ ],
+ spot:{text:"Ray is charged with a home burglary in which the victims were bound with purple zip-ties and a jack of spades was left on the table. The prosecution offers Ray’s prior burglary of a corner store, with the same zip-ties and the same jack of spades. It offers the prior burglary to show that Ray is the kind of person who commits burglaries. The prosecution gave written notice before trial.", key:2,
+  why:"The stated purpose is now propensity, which 404(b)(1) forbids. A store instead of a home doesn’t change the signature.", ruling:"Excluded under 404(b)(1)."}},
+{id:"wi_imp", t:"imp", title:"The Witness’s Record", k:["609(a)(1)(A)"],
+ base:"In a 2026 civil fraud trial, the defense impeaches the plaintiff’s witness with her 2019 conviction for burglary, a felony punishable by up to 10 years. She was released in 2020.",
+ ruling:"Admissible under 609(a)(1)(A), subject to 403: a felony, within 10 years, against a witness who isn’t the accused.",
+ toggles:[
+  {label:"What if the witness is the defendant in his own criminal trial?", o:["Admissible subject to 403","Admissible only if probative value outweighs the prejudicial effect to the defendant (609(a)(1)(B))","Automatically admissible"], a:1, why:"For the accused, the balance flips: the conviction comes in only if its probative value outweighs prejudice to him.", k:["609(a)(1)(B)"]},
+  {label:"What if the conviction was for misdemeanor perjury (maximum six months)?", o:["Excluded: it’s a misdemeanor","Must be admitted: a false statement is an element (609(a)(2))","Admissible only if probative value outweighs prejudice"], a:1, why:"Crimes of dishonesty or false statement must be admitted regardless of punishment. No balancing.", k:["609(a)(2)"]},
+  {label:"What if she was convicted in 2010 and released in 2012?", o:["Admissible subject to 403","Admissible only if specific facts make probative value substantially outweigh prejudice, with written notice (609(b))","Never admissible"], a:1, why:"More than 10 years have passed since conviction or release, whichever is later, so 609(b)’s stricter test and notice requirement apply.", k:["609(b)"]}
+ ],
+ spot:{text:"In a 2026 civil fraud trial, the defense impeaches the plaintiff’s witness with her 2019 conviction for shoplifting, a misdemeanor punishable by up to 6 months. She was released in 2019, after a week in county jail.", key:0,
+  why:"A misdemeanor without a dishonesty element isn’t admissible under 609(a)(1) or (a)(2). The release details don’t matter.", ruling:"Excluded under 609."}},
+{id:"wi_priv", t:"priv", title:"The CEO’s Email", k:["501"],
+ base:"In a federal securities case, the CEO emails the company’s outside lawyer asking whether a planned stock sale is legal. No one else sees the email. The SEC subpoenas it.",
+ ruling:"Privileged: a confidential communication with a lawyer for legal advice.",
+ toggles:[
+  {label:"What if the CEO copies a reporter on the email?", o:["Still privileged","Not privileged: sharing it with an outsider destroys confidentiality","Not privileged: crime-fraud","Not privileged: no federal accountant privilege"], a:1, why:"Disclosure to a third party outside the privilege means the communication was never confidential, so there’s no privilege.", k:["501"]},
+  {label:"What if the CEO asks how to hide the sale from regulators, and the court finds a prima facie showing of planned fraud?", o:["Still privileged","Not privileged: sharing it with an outsider destroys confidentiality","Not privileged: crime-fraud","Not privileged: no federal accountant privilege"], a:2, why:"Communications seeking help with a future or ongoing crime or fraud fall outside the privilege (Zolin sets the threshold showing).", k:["501","Zolin"]},
+  {label:"What if the CEO emails the company’s accountant instead of its lawyer?", o:["Still privileged","Not privileged: sharing it with an outsider destroys confidentiality","Not privileged: crime-fraud","Not privileged: no federal accountant privilege"], a:3, why:"Federal common law recognizes no accountant-client privilege, and this is a federal claim.", k:["501"]}
+ ],
+ spot:{text:"In a federal securities case, the CEO emails the company’s outside lawyer asking whether a planned stock sale is legal. Her executive assistant, who manages her inbox, also reads the email. Later, the CEO forwards the lawyer’s reply to a reporter. The SEC subpoenas both emails in March.", key:2,
+  why:"Forwarding the advice to a reporter waives the privilege. An assistant who helps with the communication doesn’t break confidentiality, and the subpoena date doesn’t matter.", ruling:"Privilege waived by disclosure to the reporter."}},
+{id:"wi_hs", t:"hs", title:"The Voicemail", k:["803(2)"],
+ base:"In a civil suit over a bus crash, the plaintiff offers a voicemail a passenger left her sister seconds after the crash, sobbing: “The bus just blew through the red light!” The passenger can’t be found.",
+ ruling:"Admissible: an excited utterance (803(2)), and also a present sense impression (803(1)).",
+ toggles:[
+  {label:"What if the passenger wrote it calmly in a letter three days later?", o:["Admissible as an excited utterance","Admissible as a present sense impression","Excluded: hearsay, and no 803 or 804 exception fits"], a:2, why:"Three days later and calm, the stress and timing are gone. Her absence makes her unavailable, but no 804(b) exception covers this.", k:["802","803(2)"]},
+  {label:"What if the passenger is the bus driver and the plaintiff offers it against the bus company?", o:["Excluded","Admissible as an opposing party’s statement: an employee within the scope of employment (801(d)(2)(D))","Admissible only as an excited utterance"], a:1, why:"A driver’s statement about his own driving, made while employed, is the company’s statement under 801(d)(2)(D). It’s not hearsay at all.", k:["801(d)(2)(D)"]},
+  {label:"What if the passenger testifies at trial and is cross-examined?", o:["It’s no longer hearsay because she testifies","Still hearsay, but still admissible as an excited utterance","Excluded: she must testify from memory"], a:1, why:"A testifying declarant’s earlier statement is still hearsay unless 801(d)(1) applies. 803 exceptions apply whether or not the declarant is available.", k:["801(c)","803(2)"]}
+ ],
+ spot:{text:"In a civil suit over a bus crash, the plaintiff offers a voicemail a passenger left her sister the next morning, in a calm voice: “The bus blew through the red light.” The passenger can’t be found and is believed to live in Canada.", key:0,
+  why:"The next morning and calm, the statement is no longer an excited utterance or a present sense impression. Where she lives doesn’t change anything.", ruling:"Excluded: hearsay with no exception."}},
+{id:"wi_cf", t:"conf", title:"The Station-House Statement", k:["Crawford"],
+ base:"Marsh is on trial for assault. Two days after the attack, the victim gave a recorded statement to a detective at the station describing what Marsh did. The victim doesn’t testify. The prosecution offers the recording.",
+ ruling:"Barred by the Confrontation Clause: testimonial, with no cross-examination (Crawford).",
+ toggles:[
+  {label:"What if the prosecution instead offers the victim’s preliminary-hearing testimony, where Marsh’s lawyer cross-examined her, and she has since died?", o:["Still barred","Clause satisfied: she’s unavailable and Marsh had a prior opportunity to cross (Crawford)","Barred: preliminary hearings never count"], a:1, why:"Testimonial statements are admissible when the declarant is unavailable and the defendant had a prior opportunity to cross-examine. The hearsay route is 804(b)(1).", k:["Crawford","804(b)(1)"]},
+  {label:"What if it’s the victim’s 911 call made during the attack instead?", o:["Still barred","Nontestimonial: the primary purpose was meeting an ongoing emergency (Davis)","Barred unless she testifies"], a:1, why:"Statements to 911 to get help during an ongoing emergency are nontestimonial, so the Clause isn’t triggered.", k:["Davis"]},
+  {label:"What if Marsh threatened to kill the victim if she testified, and she fled the state?", o:["Still barred","Marsh forfeited the right: he caused her absence intending to keep her from testifying (Giles)","Barred unless the court finds she was lying"], a:1, why:"Forfeiture by wrongdoing applies when the defendant wrongfully caused the absence intending to prevent testimony (Giles; 804(b)(6)).", k:["Giles","804(b)(6)"]}
+ ],
+ spot:{text:"Marsh is on trial for assault. During the attack, the victim called 911 from a locked bathroom, whispering that Marsh was breaking down the door. The victim, who has moved to Oregon, doesn’t testify. The prosecution offers the recording.", key:1,
+  why:"A call for help during an ongoing emergency is nontestimonial (Davis). Her move to Oregon only explains her absence, which doesn’t matter once the statement is nontestimonial.", ruling:"No Confrontation problem; the hearsay route is 803(1) or 803(2)."}}
+];
+
+// ---- ACTIVITY 3: rapid ruling rounds ----
+const RULINGS = [
+ {t:"rel", q:"Plaintiff offers the defendant’s repair of the brakes after the crash, to prove the brakes were defective.", a:"S", k:"407", why:"Subsequent remedial measure offered to prove a defect (407)."},
+ {t:"rel", q:"Plaintiff offers the defendant’s offer of $10,000 “to make this go away,” to prove fault.", a:"S", k:"408", why:"Compromise offer offered to prove liability (408)."},
+ {t:"rel", q:"Defendant offered to pay the plaintiff’s hospital bills and added, “I ran the light.” Plaintiff offers “I ran the light.” Objection under 409.", a:"O", k:"409", why:"409 protects only the offer to pay, not statements that come with it."},
+ {t:"rel", q:"Plaintiff offers that the defendant carries liability insurance, to show he drove carelessly.", a:"S", k:"411", why:"Insurance can’t prove negligence (411)."},
+ {t:"rel", q:"Defendant shows that a plaintiff’s witness works for the plaintiff’s insurer, to show bias. Objection under 411.", a:"O", k:"411", why:"411 allows insurance evidence to prove a witness’s bias."},
+ {t:"rel", q:"Murder trial: the prosecution offers that the defendant bought a gun of the same caliber a week earlier. Objection: irrelevant.", a:"O", k:"401", why:"Access to a gun of the murder caliber has some tendency to show opportunity (401)."},
+ {t:"char", q:"Robbery trial: before the defense offers any character evidence, a prosecution witness says the defendant “has a reputation as a thief.”", a:"S", k:"404(a)(1)", why:"Character offered to prove conduct in conformity; no door opened (404(a)(1))."},
+ {t:"char", q:"Homicide trial: after the defense claims the victim attacked first, the prosecution offers the victim’s reputation for peacefulness.", a:"O", k:"404(a)(2)(C)", why:"404(a)(2)(C) allows it in a homicide case to rebut first-aggressor evidence."},
+ {t:"char", q:"Fraud trial: a defense witness testifies to the defendant’s reputation for honesty.", a:"O", k:"404(a)(2)(A)", why:"The accused may offer a pertinent trait by reputation (404(a)(2)(A), 405(a))."},
+ {t:"char", q:"Same trial, on direct: the witness adds, “He once returned $500 he found.”", a:"S", k:"405(a)", why:"Specific instances aren’t allowed on direct to prove character (405(a))."},
+ {t:"char", q:"Sexual-assault prosecution: the prosecution offers the defendant’s prior sexual assault. Objection: propensity.", a:"O", k:"413", why:"413 allows other sexual assaults for any relevant purpose, subject to 403."},
+ {t:"char", q:"Negligence case: plaintiff offers that the defendant is “a careless person” to show he was careless that day.", a:"S", k:"404(a)(1)", why:"Character can’t prove conduct on a particular occasion, civil or criminal (404(a)(1))."},
+ {t:"imp", q:"Cross of a civil witness: “You were convicted of embezzlement four years ago?” Objection under 403.", a:"O", k:"609(a)(2)", why:"Embezzlement is a crime of dishonesty: it must be admitted, with no 403 balancing (609(a)(2))."},
+ {t:"imp", q:"Cross: “You were convicted of misdemeanor assault last year?”", a:"S", k:"609(a)(2)", why:"A misdemeanor without a dishonesty element can’t impeach under 609."},
+ {t:"imp", q:"Cross: “Didn’t you falsify your timesheets at your last job?”", a:"O", k:"608(b)", why:"608(b) allows questions on cross about untruthful acts."},
+ {t:"imp", q:"After the witness denies falsifying timesheets, the examiner offers the timesheets.", a:"S", k:"608(b)", why:"No extrinsic evidence of specific untruthful acts (608(b))."},
+ {t:"imp", q:"A party impeaches its own witness by showing bias. Objection: you can’t impeach your own witness.", a:"O", k:"607", why:"Any party may impeach any witness (607)."},
+ {t:"imp", q:"On direct, before any attack, a party offers its witness’s reputation for truthfulness.", a:"S", k:"608(a)", why:"Truthful character may be supported only after it has been attacked (608(a))."},
+ {t:"priv", q:"Federal tax prosecution: the government asks the defendant’s accountant what the defendant told her. Objection: privilege.", a:"O", k:"501", why:"Federal common law recognizes no accountant-client privilege."},
+ {t:"priv", q:"Federal case: the government asks the defendant’s lawyer what the defendant confided while seeking legal advice.", a:"S", k:"501", why:"Attorney-client privilege."},
+ {t:"priv", q:"Federal drug trial: the defendant’s wife chooses to testify about what she saw. He objects under the spousal privilege.", a:"O", k:"Trammel", why:"The witness-spouse holds the adverse testimony privilege (Trammel)."},
+ {t:"priv", q:"Diversity contract case; the state recognizes a reporter’s privilege. A reporter is asked to name a source.", a:"S", k:"501", why:"State law supplies the rule of decision, so state privilege law applies (501)."},
+ {t:"priv", q:"Federal case: the government asks the defendant’s psychotherapist what he said in therapy.", a:"S", k:"Jaffee", why:"Psychotherapist-patient privilege (Jaffee)."},
+ {t:"priv", q:"Despite a careful review, a firm accidentally produced one privileged memo and promptly asked for it back. The other side offers it.", a:"S", k:"502(b)", why:"Inadvertent, with reasonable precautions and a prompt fix: no waiver (502(b))."},
+ {t:"hs", q:"Plaintiff offers the defendant’s own email: “We knew the part was defective.” Objection: hearsay.", a:"O", k:"801(d)(2)(A)", why:"A party’s own statement offered against it isn’t hearsay."},
+ {t:"hs", q:"“My neighbor told me the defendant ran the red light,” offered to prove he ran it.", a:"S", k:"802", why:"Out-of-court statement offered for its truth, with no exception."},
+ {t:"hs", q:"Witness testifies the victim screamed, “He’s got a knife!” as the attack began.", a:"O", k:"803(2)", why:"Excited utterance (803(2))."},
+ {t:"hs", q:"A patient told her doctor, “I fell off a ladder and my wrist hurts.”", a:"O", k:"803(4)", why:"Made for, and pertinent to, diagnosis and treatment (803(4))."},
+ {t:"hs", q:"To show the defendant was warned, a coworker’s statement to him: “The brakes are failing.” Objection: hearsay.", a:"O", k:"801(c)", why:"Offered for its effect on the listener (notice), not its truth."},
+ {t:"hs", q:"Deposition testimony of a now-dead witness, offered against a party who had no notice of the deposition and didn’t attend.", a:"S", k:"804(b)(1)", why:"804(b)(1) requires that the party it’s offered against had an opportunity and similar motive to develop it."},
+ {t:"conf", q:"Prosecution offers a sworn lab certificate; the analyst won’t testify. Objection: Confrontation.", a:"S", k:"Melendez-Diaz", why:"Testimonial (Melendez-Diaz)."},
+ {t:"conf", q:"Prosecution offers a 911 call made during an ongoing attack; the caller doesn’t testify. Objection: Confrontation.", a:"O", k:"Davis", why:"Nontestimonial: ongoing emergency (Davis)."},
+ {t:"conf", q:"Prosecution offers an absent witness’s recorded station-house statement to police. Objection: Confrontation.", a:"S", k:"Crawford", why:"Testimonial, with no cross-examination (Crawford)."},
+ {t:"conf", q:"Prosecution offers the defendant’s own confession. Objection: Confrontation.", a:"O", k:"801(d)(2)(A)", why:"The accused can’t confront himself; the Clause doesn’t apply."},
+ {t:"conf", q:"Civil case: plaintiff offers an absent witness’s police interview. Objection: Confrontation Clause.", a:"O", k:"6A", why:"The Clause applies only in criminal prosecutions. (Hearsay is a separate question.)"},
+ {t:"conf", q:"The defendant killed the victim to stop her from testifying. The prosecution offers her statement to police. Objection: Confrontation.", a:"O", k:"Giles", why:"Forfeiture by wrongdoing: he intended to prevent her testimony (Giles)."}
+];
+
+// ---- ACTIVITY 4: choose-your-own-trial ----
+// Every move is a legal call. "g" = 2 sound, 1 partly sound, 0 unsound. Wrong moves don’t end the trial; they change what the jury hears.
+const TRIAL = {
+ id:"trial_reyes", title:"State v. Reyes", role:"You represent the defendant.",
+ setup:"Reyes is charged with assault for punching Tate in a bar parking lot. Reyes says Tate swung a beer bottle at him first. Reyes and Tate had never met. Reyes has a 2020 felony drug-possession conviction and a 2018 misdemeanor conviction for filing a false police report.",
+ start:"n1",
+ nodes:{
+  n1:{h:"Motion in limine", t:"char", text:"The prosecution moves to admit Reyes’s 2021 fistfight with a different man “to show that Reyes is a violent person.” Your response:",
+   c:[
+    {l:"Oppose it under 404(b)(1): it’s offered for propensity.", g:2, set:{fightOut:1}, res:"Motion denied. The prosecution’s own stated purpose is propensity, which 404(b)(1) forbids. The fight stays out.", k:["404(b)(1)"], next:"n2"},
+    {l:"Oppose it only under 403: it’s too prejudicial.", g:1, set:{fightOut:1}, res:"Motion denied, but the decisive ground was 404(b)(1), not 403. When the purpose is propensity, you don’t need to win a balancing test; lead with the categorical bar.", k:["404(b)(1)","403"], next:"n2"},
+    {l:"Concede it’s admissible to show intent and ask for a limiting instruction.", g:0, set:{fightIn:1}, res:"The fight comes in with a 105 instruction. That was a mistake: Reyes admits the punch and claims self-defense, and an unrelated fight with a stranger only shows intent through propensity reasoning.", k:["404(b)(2)","105"], next:"n2"}
+   ]},
+  n2:{h:"The defense case: character", t:"char", text:"You can call witnesses who know Tate and Reyes. What character evidence do you offer?",
+   c:[
+    {l:"A witness’s opinion that Tate is violent and aggressive.", g:2, set:{doorTate:1}, res:"Admitted. The accused may offer the victim’s pertinent trait (404(a)(2)(B)), and opinion is a proper method (405(a)). But you’ve opened a door: the prosecution may now offer evidence of Reyes’s same trait.", k:["404(a)(2)(B)","405(a)"], next:"n3a"},
+    {l:"A witness’s testimony that Reyes has a reputation for being peaceful.", g:2, set:{doorReyes:1}, res:"Admitted under 404(a)(2)(A) and 405(a). The prosecution may now rebut, including by asking your witness about relevant specific acts on cross.", k:["404(a)(2)(A)","405(a)"], next:"n3b"},
+    {l:"Testimony that Tate broke a man’s jaw in 2023.", g:0, res:"Objection sustained. On direct, character is proved by reputation or opinion, not specific acts (405(a)). Character isn’t an element of self-defense, and Reyes didn’t know about the incident, so it can’t show his fear either.", k:["405(a)"], next:"n3c"},
+    {l:"No character evidence.", g:2, res:"The doors stay closed. Neither side may use Reyes’s or Tate’s character to prove conduct.", k:["404(a)(1)"], next:"n3c"}
+   ]},
+  n3a:{h:"Prosecution rebuttal", t:"char", text:"The prosecution calls a neighbor to testify that Reyes has a reputation for violence. Your move:",
+   c:[
+    {l:"Object: the defense never offered evidence of Reyes’s own character.", g:0, res:"Overruled. When the accused offers evidence of the victim’s trait, the prosecution may offer evidence of the accused’s same trait (404(a)(2)(B)(ii)).", k:["404(a)(2)(B)"], next:"n4"},
+    {l:"Don’t object; cross-examine the neighbor about how well she knows Reyes’s reputation.", g:2, res:"Right call. The testimony is admissible under 404(a)(2)(B)(ii), so your best move is to test the basis for the reputation on cross.", k:["404(a)(2)(B)"], next:"n4"}
+   ]},
+  n3b:{h:"Prosecution cross", t:"char", text:"On cross, the prosecutor asks your character witness: “Have you heard that Reyes was in a fistfight in 2021?” The prosecutor has a good-faith basis. Your move:",
+   c:[
+    {l:"Object: it’s inadmissible other-acts evidence (404(b)).", g:0, res:"Overruled. On cross of a character witness, the court may allow inquiry into relevant specific instances of conduct (405(a)). It tests the witness’s knowledge of the reputation.", k:["405(a)"], next:"n4"},
+    {l:"Let the question stand, and ask for a limiting instruction that it goes only to the witness’s credibility.", g:2, res:"Right call. The question is permitted under 405(a), and a 105 instruction keeps the jury from treating the fight as proof that Reyes is violent.", k:["405(a)","105"], next:"n4"}
+   ]},
+  n3c:{h:"Prosecution rebuttal", t:"char", text:"The prosecution calls Tate’s pastor to testify that Tate has a reputation for peacefulness. You haven’t attacked Tate’s character. Your move:",
+   c:[
+    {l:"Object: the defense hasn’t opened the door, and 404(a)(2)(C) applies only in homicide cases.", g:2, res:"Sustained. The prosecution can offer the victim’s peacefulness only to rebut the defense’s attack on the victim’s character, or in a homicide case to rebut first-aggressor evidence. Neither applies.", k:["404(a)(2)(C)"], next:"n4"},
+    {l:"Don’t object: self-defense always lets the prosecution show the victim was peaceful.", g:0, res:"That’s wrong. Outside homicide cases, 404(a)(2)(C)’s first-aggressor rule doesn’t apply, and you never attacked Tate’s character. An objection would have kept this out.", k:["404(a)(2)(C)"], next:"n4"}
+   ]},
+  n4:{h:"Does Reyes testify?", t:"imp", text:"Reyes wants to tell the jury about the bottle. If he testifies, the prosecution will try to impeach him with his 2020 felony drug conviction and his 2018 misdemeanor false-report conviction. What’s your advice?",
+   c:[
+    {l:"Testify. The false-report conviction must come in, but the drug felony comes in only if its probative value outweighs the prejudice to him, which is a hard test to meet.", g:2, set:{testified:1}, res:"Correct analysis. The false-report conviction has a false statement as an element, so 609(a)(2) requires admission. The drug felony faces 609(a)(1)(B)’s reverse balance, and drug possession says little about truthfulness, so it’s likely excluded.", k:["609(a)(2)","609(a)(1)(B)"], next:"n5"},
+    {l:"Testify. Both convictions will be excluded because he’s the accused.", g:0, set:{testified:1}, res:"Wrong prediction. Being the accused changes the test for felonies (609(a)(1)(B)), but a crime of false statement must be admitted for any witness (609(a)(2)). The jury hears about the false report.", k:["609(a)(2)"], next:"n5"},
+    {l:"Don’t testify: if he stays off the stand, the prosecution will offer both convictions in its case-in-chief anyway.", g:0, res:"Wrong premise. 609 impeaches a witness. If Reyes doesn’t testify, his credibility isn’t at issue, and using the convictions to show he’s violent would be propensity (404(b)(1)). He stays off the stand, and the jury never hears his account of the bottle.", k:["609(a)(1)(B)","404(b)(1)"], next:"n5"}
+   ]},
+  n5:{h:"The 911 call", t:"conf", text:"The prosecution plays the bartender’s 911 call, made as he watched from the doorway: “A guy just knocked a man out cold in the parking lot. Send an ambulance!” The bartender has moved abroad and doesn’t testify. Your move:",
+   c:[
+    {l:"Object on hearsay grounds.", g:0, res:"Overruled. He described the event as he watched it: a present sense impression (803(1)), and likely an excited utterance (803(2)).", k:["803(1)"], next:"n6"},
+    {l:"Object under the Confrontation Clause.", g:0, res:"Overruled. A 911 call made to get help during an ongoing emergency is nontestimonial (Davis), so the Clause isn’t triggered.", k:["Davis"], next:"n6"},
+    {l:"Don’t object. In closing, point out that the call says nothing about who started the fight.", g:2, res:"Right call. Both objections would fail (803(1) and 803(2); Davis), and the call doesn’t contradict self-defense.", k:["803(1)","Davis"], next:"n6"}
+   ]},
+  n6:{h:"The text message", t:"hs", text:"The prosecution offers Reyes’s text to a friend an hour before the fight: “Tate’s at the bar. Going to make him pay.” Reyes’s next text, a minute later, said: “jk, just going to talk to him about the money.” Your move:",
+   c:[
+    {l:"Object on hearsay grounds.", g:0, res:"Overruled. Reyes’s own statement offered against him isn’t hearsay (801(d)(2)(A)).", k:["801(d)(2)(A)"], next:"n7"},
+    {l:"Object under 403: it’s too damaging.", g:0, res:"Overruled. It’s damaging because it’s probative, not because it invites a decision on an improper basis. Damaging isn’t unfair.", k:["403"], next:"n7"},
+    {l:"Invoke the rule of completeness: the jury must hear the follow-up text at the same time.", g:2, res:"Granted. Under 106, when one party introduces part of a statement, the other may require any other statement that in fairness ought to be considered at the same time, over a hearsay objection (2023 amendment).", k:["106","801(d)(2)(A)"], next:"n7"}
+   ]},
+  n7:{h:"The detective’s interview", t:"conf", text:"The detective testifies that Tate’s friend Lou, interviewed at the station the next day, said: “Tate never had a bottle.” Lou refuses to testify at trial despite a court order. Your move:",
+   c:[
+    {l:"Object under the Confrontation Clause.", g:2, res:"Sustained. A station-house interview about past events is testimonial. Lou is unavailable, and Reyes never had a chance to cross-examine him (Crawford).", k:["Crawford"], next:"end"},
+    {l:"Object on hearsay grounds.", g:2, res:"Sustained. Lou is unavailable (804(a)(2)), but no 804(b) exception covers a witness interview, and nothing in 803 fits. (The Confrontation Clause would bar it too.)", k:["802","804(a)"], next:"end"},
+    {l:"Don’t object; you’ll impeach Lou instead.", g:0, res:"The statement comes in unchallenged. Both a hearsay and a Confrontation objection would have kept it out. (806 would let you attack Lou’s credibility, but the jury still hears that Tate had no bottle.)", k:["Crawford","806"], next:"end"}
+   ]}
+ }
+};
+
+// ---- ESCAPE ROOMS ----
+// Rooms 1–4 reuse verified journey-map cases. The Courtroom chains each exhibit through the hearsay map and then the Confrontation map.
+const CT_FACTS = {
+ call:"State v. Cole, a burglary trial. At 11:52 p.m., the Jacksons’ neighbor, Rosa Ortiz, called 911 from her window: “A man in a red hoodie is climbing out the Jacksons’ back window right now, carrying a box!” Officers arrived four minutes later. Ortiz died of a stroke before trial. The prosecution offers the 911 recording against Cole.",
+ text:"State v. Cole, a burglary trial. The prosecution offers the text recovered in the Records Room: the night of the burglary, Cole texted his girlfriend, “got the jewelry, stashing it at my brother’s.” Cole doesn’t testify. He objects under the hearsay rules and the Confrontation Clause.",
+ dev:"State v. Cole, a burglary trial. After Cole’s arrest, detectives questioned his brother Dev at the station. After Miranda warnings, Dev said in a recorded interview: “I helped Cole carry the jewelry out of the Jacksons’ house, and I hid it in my garage.” Police found the jewelry in Dev’s garage. Called at Cole’s trial, Dev invokes his Fifth Amendment privilege. The prosecution offers the recording as a statement against Dev’s penal interest. Cole has never cross-examined Dev."
+};
+DRILLS.push(
+ {id:"ct_call_h", map:"hearsay", t:["hs"], lv:2, title:"Exhibit A · The 911 Call (hearsay)", crim:1, esc:1, facts:CT_FACTS.call,
+  a:{h_stmt:0,h_truth:0,h_ex:2,h_803:0,x_403:1},
+  n:{h_ex:"Ortiz isn’t a party and doesn’t testify, so no 801(d) category fits.", h_803:"She described the scene while she was watching it: 803(1). The urgency also supports 803(2). Her death doesn’t matter under 803.", x_403:"No, it stays in. It shows a burglar leaving with a box, which is highly probative, and nothing unfairly prejudicial substantially outweighs it."}},
+ {id:"ct_call_c", map:"confront", t:["conf"], lv:2, title:"Exhibit A · The 911 Call (Confrontation)", esc:1, facts:CT_FACTS.call,
+  a:{cf_crim:0,cf_test:1},
+  n:{cf_crim:"Offered against Cole in a criminal case; the declarant is Ortiz.", cf_test:"She called 911 to report a burglary in progress. Its primary purpose was to meet an ongoing emergency, so it’s nontestimonial (Davis), and Ortiz’s death doesn’t matter."}},
+ {id:"ct_text_h", map:"hearsay", t:["hs"], lv:1, title:"Exhibit B · Cole’s Text (hearsay)", crim:1, esc:1, facts:CT_FACTS.text,
+  a:{h_stmt:0,h_truth:0,h_ex:1,x_403:1},
+  n:{h_ex:"Cole’s own statement, offered against him: 801(d)(2)(A).", x_403:"No, it stays in. Damaging because it’s probative, not unfair."}},
+ {id:"ct_text_c", map:"confront", t:["conf"], lv:1, title:"Exhibit B · Cole’s Text (Confrontation)", esc:1, facts:CT_FACTS.text,
+  a:{cf_crim:1},
+  n:{cf_crim:"The declarant is the accused. Cole can’t confront himself."}},
+ {id:"ct_dev_h", map:"hearsay", t:["hs"], lv:3, title:"Exhibit C · Dev’s Recording (hearsay)", crim:1, esc:1, facts:CT_FACTS.dev,
+  a:{h_stmt:0,h_truth:0,h_ex:2,h_803:1,h_avail:0,h_804:0,x_403:1},
+  n:{h_ex:"Dev isn’t a party, and he doesn’t testify, so 801(d) can’t help.", h_803:"No 803 exception covers a narrative of past events given to police.", h_avail:"Invoking the Fifth Amendment privilege makes Dev unavailable: 804(a)(1).", h_804:"Admitting he carried and hid stolen jewelry exposes Dev to criminal liability, and finding the jewelry in his garage corroborates it (804(b)(3)(B)). Argue the limit: under Williamson, only the self-inculpatory parts qualify, and a custodial statement naming someone else gets close scrutiny.", x_403:"No, it stays in under the hearsay rules. The Sixth Amendment is the real problem."}},
+ {id:"ct_dev_c", map:"confront", t:["conf"], lv:3, title:"Exhibit C · Dev’s Recording (Confrontation)", esc:1, facts:CT_FACTS.dev,
+  a:{cf_crim:0,cf_test:0,cf_avail:1,cf_prior:1,cf_exc:3},
+  n:{cf_test:"A recorded, Mirandized station-house interview about past events is the core of “testimonial” (Crawford).", cf_avail:"Dev invokes the Fifth and never takes the stand.", cf_prior:"Dev is unavailable, but Cole never had a chance to cross-examine him.", cf_exc:"Dev’s silence comes from his own privilege, not from anything Cole did, so there’s no forfeiture. A hearsay exception (804(b)(3)) can’t cure the constitutional problem. This is Crawford."}}
+);
+Object.assign(DRILL_R, {
+ ct_call_h:{h_stmt:"assert",h_ex:"none",h_803:["psi","exc"]}, ct_call_c:{cf_test:"emerg"},
+ ct_text_h:{h_stmt:"assert",h_ex:"own"}, ct_text_c:{},
+ ct_dev_h:{h_stmt:"assert",h_ex:"none",h_avail:"priv",h_804:"against"}, ct_dev_c:{cf_test:"police"}
+});
+Object.assign(SPANS, {
+ ct_call_h:{key:["A man in a red hoodie is climbing out the Jacksons’ back window right now, carrying a box!"],others:["Officers arrived four minutes later."],alt:["An officer’s testimony describing the open back window"]},
+ ct_text_h:{key:["got the jewelry, stashing it at my brother’s."],others:["Cole doesn’t testify."],alt:["The girlfriend’s testimony that Cole seemed nervous"]},
+ ct_dev_h:{key:["I helped Cole carry the jewelry out of the Jacksons’ house, and I hid it in my garage.","I helped Cole carry the jewelry out of the Jacksons’ house"],others:["Police found the jewelry in Dev’s garage."],alt:["Dev’s silence when he takes the Fifth"]}
+});
+SPANS.ct_call_c = SPANS.ct_call_h; SPANS.ct_text_c = SPANS.ct_text_h; SPANS.ct_dev_c = SPANS.ct_dev_h;
+Object.assign(FACTS, {
+ ct_call_h:{h_stmt:"@id", h_ex:["the Jacksons’ neighbor, Rosa Ortiz"], h_803:"@id"},
+ ct_call_c:{cf_crim:["The prosecution offers the 911 recording against Cole."], cf_test:["called 911 from her window"]},
+ ct_text_h:{h_stmt:"@id", h_ex:["Cole texted his girlfriend"]},
+ ct_text_c:{cf_crim:["Cole texted his girlfriend"]},
+ ct_dev_h:{h_stmt:"@id", h_ex:["his brother Dev"], h_avail:["Dev invokes his Fifth Amendment privilege"], h_804:["Police found the jewelry in Dev’s garage."]},
+ ct_dev_c:{cf_crim:["The prosecution offers the recording as a statement against Dev’s penal interest."], cf_test:["detectives questioned his brother Dev at the station","After Miranda warnings"], cf_avail:["Dev invokes his Fifth Amendment privilege"], cf_prior:["Cole has never cross-examined Dev."]}
+});
+Object.assign(HINTS, {
+ ct_call_h:["What was Ortiz doing while she spoke?","She narrated the scene as it happened."],
+ ct_call_c:["Why did Ortiz call 911?","A burglary in progress is an ongoing emergency."],
+ ct_text_h:["Who wrote the text, and who offers it?","801(d)(2)(A)."],
+ ct_text_c:["Who is the declarant?","Can Cole confront himself?"],
+ ct_dev_h:["Dev won’t testify. Which article does that open?","He admitted his own role in a crime, and police found the jewelry."],
+ ct_dev_c:["Where, and why, was Dev questioned?","Did Cole ever get to cross-examine Dev?"]
+});
+DRILLS.forEach(d => { if (/^er_/.test(d.id)) d.esc = 1; });
+
+const ROOMS = [
+ {id:"intake", n:1, topic:"rel", name:"The Intake Desk", seal:"Relevance seal", minutes:10, penalty:30, decor:"intake",
+  brief:"Every exhibit enters the Evidence Locker here. Three items are flagged at intake. Run each through relevance, the policy rules, and 403, then enter the rule that decided it to open its lock.",
+  objs:[
+   {id:"invoice", drill:"d_rl4", name:"Maintenance invoice", item:"Invoice for rubber mats", lock:"Intake drawer", glyph:"folder", slot:0,
+    prompt:"The drawer opens with the rule that kept the mats out as proof of negligence.", accept:["FRE 407"], decisive:"r_pol", key:"Drawer key"},
+   {id:"memo", drill:"d_rl3", name:"Motive memo", item:"Evidence of Kristine’s plan", lock:"File-cabinet lock", glyph:"letter", slot:1,
+    prompt:"The cabinet opens with the rule on relevance that depends on a fact.", accept:["FRE 104(b)"], decisive:"r_cond", key:"Cabinet key"},
+   {id:"report", drill:"d_rl2", name:"FBI arrest report", item:"Report of Myers’s flight", lock:"Report binder clasp", glyph:"binder", slot:3,
+    prompt:"The clasp opens with the rule that excluded the flight evidence.", accept:["FRE 403"], decisive:"r_403", key:"Binder key"}
+  ]},
+ {id:"detective", n:2, topic:"char", name:"The Detective’s Office", seal:"Character seal", minutes:10, penalty:30, decor:"detective",
+  brief:"A detective’s office full of other people’s pasts. Decide what each item can prove, and how, before the evidence can leave the room.",
+  objs:[
+   {id:"zipties", drill:"d_ch2", name:"Evidence bag", item:"Purple zip-ties", lock:"Evidence-bag seal", glyph:"bag", slot:0,
+    prompt:"The seal opens with the subdivision that lists the purpose the prior burglary was admitted for.", accept:["FRE 404(b)(2)"], decisive:"k_use", key:"Bag-seal key"},
+   {id:"wallet", drill:"d_ch4", name:"The returned wallet", item:"Character witness’s story", lock:"Desk drawer", glyph:"folder", slot:1,
+    prompt:"The drawer opens with the rule that limits how character is proved on direct.", accept:["FRE 405(a)"], decisive:"k_form", key:"Desk key"},
+   {id:"log", drill:"d_ch6", name:"Neighbor’s statement", item:"Ten years at the crossing", lock:"Corkboard padlock", glyph:"binder", slot:3,
+    prompt:"The padlock opens with the rule that let the routine in.", accept:["FRE 406"], decisive:"k_use", key:"Padlock key"}
+  ]},
+ {id:"witness", n:3, topic:"imp", name:"The Witness Room", seal:"Impeachment seal", minutes:10, penalty:30, decor:"witness",
+  brief:"Witnesses wait here before they testify. Their files hold the material to attack them. Decide what’s fair game before the door opens.",
+  objs:[
+   {id:"docket", drill:"d_im1", name:"Court docket", item:"False-swearing conviction", lock:"Docket box", glyph:"box", slot:0,
+    prompt:"The box opens with the subdivision that required the conviction to come in.", accept:["FRE 609(a)(2)"], decisive:"i_cf", key:"Docket key"},
+   {id:"resume", drill:"d_im3", name:"Job application", item:"The padded résumé", lock:"Locker combination", glyph:"letter", slot:1,
+    prompt:"The locker opens with the rule that barred the HR director’s testimony.", accept:["FRE 608(b)"], decisive:"i_ext", key:"Locker key"},
+   {id:"transcript", drill:"d_im5", name:"Grand jury transcript", item:"The turncoat’s testimony", lock:"Sealed envelope", glyph:"binder", slot:3,
+    prompt:"The envelope opens with the rule that made the prior statement substantive evidence.", accept:["FRE 801(d)(1)(A)"], decisive:"i_801", key:"Envelope key"}
+  ]},
+ {id:"counsel", n:4, topic:"priv", name:"Counsel’s Office", seal:"Privilege seal", minutes:10, penalty:30, decor:"counsel",
+  brief:"Confidential files from three cases. Decide what stays behind the privilege wall and what has to be turned over.",
+  objs:[
+   {id:"notes", drill:"d_pr1", name:"Interview notes", item:"Internal investigation", lock:"File safe", glyph:"folder", slot:0,
+    prompt:"The safe opens with the Supreme Court case that protects these employee interviews.", accept:["Upjohn"], decisive:"p_ac", key:"Safe key"},
+   {id:"memo2", drill:"d_pr2", name:"Produced memo", item:"The accidental production", lock:"Document-box lock", glyph:"box", slot:1,
+    prompt:"The box opens with the subdivision that prevented waiver.", accept:["FRE 502(b)"], decisive:"p_waive", key:"Box key"},
+   {id:"wife", drill:"d_pr3", name:"Witness subpoena", item:"The willing wife", lock:"Bookshelf latch", glyph:"letter", slot:3,
+    prompt:"The latch opens with the case that gives the witness-spouse the privilege.", accept:["Trammel"], decisive:"p_st", key:"Latch key"}
+  ]},
+ Object.assign({id:"records", topic:"hs", seal:"Hearsay seal", decor:"records"}, (({n, name, minutes, penalty, brief}) => ({n, name, minutes, penalty, brief}))(ROOM),
+  {objs:ROOM.objs.map((o, i) => Object.assign({}, o, {glyph:o.id, slot:[0,2,3,1][i]}))}),
+ {id:"court", n:6, topic:"conf", name:"The Courtroom", seal:"Verdict", minutes:15, penalty:30, decor:"court", final:1,
+  brief:"State v. Cole goes to trial. Three exhibits, including Cole’s text from the Records Room. Each must clear the hearsay rules and then the Sixth Amendment. Rule on all three to close the case and escape.",
+  objs:[
+   {id:"exA", drills:["ct_call_h","ct_call_c"], name:"Exhibit A", item:"The 911 call", lock:"Ruling", glyph:"exhibit", label:"A", slot:0, ruling:0, key:"Ruling A"},
+   {id:"exB", drills:["ct_text_h","ct_text_c"], name:"Exhibit B", item:"Cole’s text", lock:"Ruling", glyph:"exhibit", label:"B", slot:1, ruling:0, key:"Ruling B"},
+   {id:"exC", drills:["ct_dev_h","ct_dev_c"], name:"Exhibit C", item:"Dev’s station-house recording", lock:"Ruling", glyph:"exhibit", label:"C", slot:3, ruling:2, key:"Ruling C"}
+  ]}
+];
+const RULING_OPTS = ["Admitted: it clears the hearsay rules and the Confrontation Clause", "Excluded: hearsay with no exception (802)", "Excluded: barred by the Confrontation Clause", "Excluded under 403"];
 // ===== BALANCING-TEST WORDING (Rule 403 and the two 609 balances) =====
 // Each balancing step states the test in the rule's own direction, and every answer button says what happens next.
 // 403 favors admission: "Yes" (substantially outweighed) means the court may exclude; "No" means the evidence stays in.
@@ -2182,13 +2850,15 @@ let SAMPLE = null;
 
 // ---------- state (v1 shape kept; new fields added, nothing removed) ----------
 const KEY = "evidence-locker-v1";
-const blankT = () => ({hc:0,ha:0,dc:0,da:0,cc:0,ca:0});
-function fresh(){ const t = {}; TKEYS.forEach(k => t[k] = blankT()); return {v:1,pts:0,streak:0,best:0,t,hs:{},ds:{},bs:{},sprint:0,known:{},rl:{},hints:0,pref:{cite:true},rlFilled:true,scope2:true}; }
+const blankT = () => ({hc:0,ha:0,dc:0,da:0,cc:0,ca:0,ac:0,aa:0});
+function fresh(){ const t = {}; TKEYS.forEach(k => t[k] = blankT()); return {v:1,pts:0,streak:0,best:0,t,hs:{},ds:{},bs:{},sprint:0,known:{},rl:{},hints:0,pref:{cite:true,topic:"all"},rlFilled:true,scope2:true,fc:{},fcMig:true,act:{tr:{},wi:{},rr:0,rrBest:0,trial:{}},esc:{rooms:{},cur:null}}; }
 function load(){
   try { const s = JSON.parse(localStorage.getItem(KEY));
     if (s && s.v === 1){
       TKEYS.forEach(k => { s.t[k] = Object.assign(blankT(), s.t[k] || {}); });
-      s.bs = s.bs || {}; s.rl = s.rl || {}; s.hints = s.hints || 0; s.pref = Object.assign({cite:true}, s.pref || {}); s.known = s.known || {}; s.ds = s.ds || {}; s.hs = s.hs || {};
+      s.bs = s.bs || {}; s.rl = s.rl || {}; s.hints = s.hints || 0; s.pref = Object.assign({cite:true,topic:"all"}, s.pref || {});
+      s.fc = s.fc || {}; s.act = Object.assign({tr:{},wi:{},rr:0,rrBest:0,trial:{}}, s.act || {}); s.esc = Object.assign({rooms:{},cur:null}, s.esc || {});
+      if (!s.fcMig){ Object.keys(s.known || {}).forEach(k => { s.fc[k] = {b:2, due:Date.now(), n:1, lapse:0}; }); s.fcMig = true; } s.known = s.known || {}; s.ds = s.ds || {}; s.hs = s.hs || {};
       if (!s.rlFilled){ backfillRules(s); s.rlFilled = true; }
       if (!s.scope2){ pruneScope(s); s.scope2 = true; }
       return s; } } catch(e){}
@@ -2228,7 +2898,7 @@ function renderStats(){
   const r = rank(S.pts);
   $("#stats").innerHTML = `<span class="chip">Rank <b>${r.name}</b></span><span class="chip">Points <b>${S.pts}</b></span><span class="chip">Streak <b>×${S.streak}</b></span><span class="chip">Best <b>×${S.best}</b></span>`;
 }
-function acc(k){ const t = S.t[k]; const a = t.ha + t.da, c = t.hc + t.dc; return {a, c, p: a ? Math.round(100 * c / a) : null}; }
+function acc(k){ const t = S.t[k]; const a = t.ha + t.da + (t.aa || 0), c = t.hc + t.dc + (t.ac || 0); return {a, c, p: a ? Math.round(100 * c / a) : null}; }
 
 // ---------- "Why?" drawer ----------
 function ruleBlock(raw){
@@ -2250,15 +2920,21 @@ function closeWhy(){ $("#why").hidden = true; }
 const whyBtn = (attrs, label = "Why?") => `<button class="why-btn" ${attrs}>${label}</button>`;
 
 // ---------- routing ----------
-const VIEWS = ["desk","hypos","maps","review"];
+const VIEWS = ["home","cards","maps","act","hypos","escape"];
+const ALIAS = {desk:"home", review:"cards"};
+const TABOF = {hypos:"act"};
 function route(){
-  let v = (location.hash || "#desk").slice(1); if (!VIEWS.includes(v)) v = "desk";
+  let v = (location.hash || "#home").slice(1); v = ALIAS[v] || v; if (!VIEWS.includes(v)) v = "home";
   VIEWS.forEach(x => { $("#v-" + x).hidden = x !== v; });
-  document.querySelectorAll("nav.tabs a").forEach(a => { if (a.dataset.v === v) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
-  if (v === "desk") renderDesk();
+  const tab = TABOF[v] || v;
+  document.querySelectorAll("nav.tabs a").forEach(a => { if (a.dataset.v === tab) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+  if (v !== "escape" && typeof escLeave === "function") escLeave();
+  if (v === "home") renderHome();
   if (v === "hypos") renderHypos();
   if (v === "maps") renderMaps();
-  if (v === "review") renderReview();
+  if (v === "cards") renderCards();
+  if (v === "act") renderAct();
+  if (v === "escape") renderEscape();
   window.scrollTo(0, 0);
 }
 window.addEventListener("hashchange", route);
@@ -2270,58 +2946,7 @@ function weakest(){
   TKEYS.forEach(k => { const a = acc(k); const score = a.a >= 2 ? a.p : (a.a === 0 ? 101 : 100); if (!best || score < best.s) best = {k, s:score}; });
   return best && best.s <= 100 ? best.k : TKEYS.reduce((m,k) => acc(k).a < acc(m).a ? k : m, TKEYS[0]);
 }
-function renderDesk(){
-  const r = rank(S.pts);
-  const pct = r.next ? Math.round(100 * (S.pts - r.at) / (r.next[0] - r.at)) : 100;
-  const w = weakest(), wa = acc(w);
-  const totalA = TKEYS.reduce((s,k) => s + acc(k).a, 0);
-  const citeA = TKEYS.reduce((s,k) => s + S.t[k].ca, 0), citeC = TKEYS.reduce((s,k) => s + S.t[k].cc, 0);
-  $("#v-desk").innerHTML = `
-  <div>
-    <span class="eyebrow">Case file · Federal Rules of Evidence</span>
-    <h2 style="margin-top:6px">Look at the facts. Know where to go in the FRE, and why.</h2>
-    <p class="lede">Cite the rule, rule on the objection, and build the route through the FRE yourself. Every attempt is logged by topic and by rule, so your weak spots rise to the top.</p>
-  </div>
-  <div class="grid2">
-    <div class="panel rankbar">
-      <span class="eyebrow">Your rank</span>
-      <div class="row spread"><h3>${r.name}</h3><span class="mono muted">${r.next ? `${S.pts} / ${r.next[0]} to ${r.next[1]}` : `${S.pts} pts · top rank`}</span></div>
-      <div class="meter"><i style="width:${pct}%"></i></div>
-      <span class="muted" style="font-size:14px">Points come from correct rulings, citations (partial credit counts), written analysis, and journey maps. Building a path pays more than clicking through. Each Judge hint costs a share of the case’s points.</span>
-    </div>
-    <div class="panel" style="display:grid;gap:10px">
-      <span class="eyebrow">Work this file next</span>
-      <h3>${TOPICS[w].n} <span class="mono muted" style="font-size:.8rem">${TOPICS[w].r}</span></h3>
-      <span class="muted" style="font-size:14px">${totalA === 0 ? "No attempts logged yet. Start anywhere; this card will point at your weakest topic once you have a record." : wa.a ? `${wa.p}% accuracy over ${wa.a} attempts. Your lowest file.` : "Untouched so far."}</span>
-      <div class="row"><button class="btn primary" data-go-hypo="${w}">Drill ${TOPICS[w].n} hypos</button><button class="btn" data-go-map="${mapFor(w)}">Run a journey map</button></div>
-    </div>
-  </div>
-  <div class="panel" style="display:grid;gap:14px">
-    <div class="row spread"><span class="eyebrow">Accuracy by topic · hypos + journey maps</span><span class="mono muted" style="font-size:12px">${totalA} attempts · citations ${citeA ? Math.round(100 * citeC / citeA) + "%" : "—"}</span></div>
-    <div class="topics">${TKEYS.map(k => {
-      const a = acc(k), t = S.t[k];
-      const col = a.p === null ? "var(--line)" : a.p >= 80 ? "var(--ok)" : a.p >= 60 ? "var(--tag)" : "var(--bad)";
-      const badge = a.a >= 2 && a.p < 60 ? `<span class="badge weak">Weak area</span>` : a.a >= 4 && a.p >= 85 ? `<span class="badge good">Solid</span>` : TOPICS[k].final ? `<span class="badge thin">Final topic</span>` : TOPICS[k].thin ? `<span class="badge thin">Light in your notes</span>` : "";
-      return `<button class="tcard" data-go-hypo="${k}"><span class="nm">${TOPICS[k].n}</span><span class="rr">${TOPICS[k].r}</span>
-        <span class="acc"><span>${a.p === null ? "—" : a.p + "%"}</span><span class="muted">H ${t.hc}/${t.ha} · M ${t.dc}/${t.da}</span></span>
-        <span class="bar"><i style="width:${a.p || 0}%;background:${col}"></i></span>${badge}</button>`;
-    }).join("")}</div>
-  </div>
-  <div class="panel" style="display:grid;gap:10px">
-    <span class="eyebrow">The exam order from your notes</span>
-    <div class="chain"><span>Charges</span><em>→</em><span>Defense</span><em>→</em><span>Contested evidence</span><em>→</em><span>401/402</span><em>→</em><span>403</span><em>→</em><span>404 · bad act?</span><em>→</em><span>105</span><em>→</em><span>Hearsay</span><em>→</em><span>6th Am.</span></div>
-    <span class="muted" style="font-size:14px">Your professor grades the reasoning, not the conclusion: IRAC, and argue both sides. Every explanation in the game follows this order.</span>
-  </div>
-  <div class="panel" style="display:grid;gap:12px">
-    <span class="eyebrow">Margin notes · where your outline and the current FRE differ</span>
-    <ul class="flags">${FLAGS.map(f => `<li><b>${esc(f[0])}</b><p>${esc(f[1])}</p></li>`).join("")}</ul>
-  </div>
-  <div class="row spread">
-    <span class="muted" style="font-size:13px">${HYPOS.length} hypos · ${DRILLS.length} journey maps · ${CARDS.length} rule cards · ${Object.keys(RULES).length} rule entries. Progress is saved in this browser.</span>
-    <div class="confirm" id="resetbox">${confirmReset ? `<span class="muted" style="font-size:14px">Erase all points and history?</span><button class="btn small" id="resetYes">Erase</button><button class="btn small ghost" id="resetNo">Keep</button>` : `<button class="btn small ghost" id="resetAsk">Reset progress</button>`}</div>
-  </div>`;
-}
-function mapFor(k){ return {rel:"character",char:"character",imp:"impeach",priv:"privilege",hs:"hearsay",conf:"confront"}[k]; }
+function mapFor(k){ return {rel:"relevance",char:"character",imp:"impeach",priv:"privilege",hs:"hearsay",conf:"confront"}[k]; }
 
 // ---------- CITATION GRADING ----------
 // 1 = exact (or more specific than the key) · 0.5 = right rule, not specific enough · 0.25 = right rule number, different subdivision · 0 = miss
@@ -2356,13 +2981,11 @@ function renderHypos(){
   if (!H.deck.length) buildDeck();
   const counts = {}; [1,2,3].forEach(l => counts[l] = HYPOS.filter(h => h.lv === l && (H.topic === "all" || h.t.includes(H.topic))).length);
   counts[4] = HYPOS.filter(h => H.topic === "all" || h.t.includes(H.topic)).length;
-  $("#v-hypos").innerHTML = `
-  <div><span class="eyebrow">Practice hypos</span><h2 style="margin-top:6px">Rule on the objection</h2>
+  $("#v-hypos").innerHTML = `<div><a class="btn ghost small" href="#act">← Activities</a></div>
+  <div><span class="eyebrow">Activity · Practice hypos</span><h2 style="margin-top:6px">Rule on the objection</h2>
   <p class="lede">Cite the controlling rule, pick the ruling, and on multi-issue cases write your analysis. Then see the full breakdown, including why each tempting answer fails.</p></div>
   <div class="panel" style="display:grid;gap:12px;padding:14px 16px">
-    <div class="filters"><span class="eyebrow lbl">File</span>
-      <button class="pill" data-ht="all" aria-pressed="${H.topic === "all"}">All topics</button>
-      ${TKEYS.map(k => `<button class="pill" data-ht="${k}" aria-pressed="${H.topic === k}">${TOPICS[k].n}</button>`).join("")}</div>
+    ${topicPills()}
     <div class="filters"><span class="eyebrow lbl">Level</span>
       ${[1,2,3,4].map(l => `<button class="pill" data-hl="${l}" aria-pressed="${H.lv === l}" title="${LVDESC[l]}">${LEVELS[l]} <span class="muted">(${counts[l]})</span></button>`).join("")}
       <button class="pill" id="citeToggle" aria-pressed="${S.pref.cite}" style="margin-left:auto">Cite the rule first: ${S.pref.cite ? "on" : "off"}</button></div>
@@ -2519,20 +3142,25 @@ function solve(sc){ const m = MAPS[sc.map]; let n = m.root; const seq = []; let 
   while (!m.nodes[n].end && guard++ < 40){ const i = sc.a[n]; seq.push([n, i]); n = m.nodes[n].o[i][1]; } return {seq, term:n}; }
 function nodeOf(id){ for (const k in MAPS) if (MAPS[k].nodes[id]) return MAPS[k].nodes[id]; return null; }
 const cleanOf = id => S.ds[id] === 1 || S.bs[id] === 1;  // earlier Build-mode clears still count
+const JD = () => DRILLS.filter(d => !d.esc);
+const MAP_TOPIC = {relevance:"rel",character:"char",impeach:"imp",privilege:"priv",hearsay:"hs",confront:"conf"};
 function renderMaps(){
+  if (ESC_ON()) return escRenderDrill();
   const v = $("#v-maps");
   if (D.sc) return renderDrill();
   if (D.map){
-    const m = MAPS[D.map], list = DRILLS.filter(d => d.map === D.map);
+    const m = MAPS[D.map], list = JD().filter(d => d.map === D.map);
     v.innerHTML = `<div><button class="btn ghost small" id="mBack">← All maps</button></div>
       <div><span class="eyebrow">Journey map</span><h2 style="margin-top:6px">${esc(m.name)}</h2><p class="lede mono" style="font-size:13px">${esc(m.blurb)}</p></div>
       <div class="row"><button class="btn primary" id="mRandom">Random unsolved case</button></div>
       <div class="sclist">${list.map(d => { const st = cleanOf(d.id) ? 1 : (d.id in S.ds || d.id in S.bs) ? 0 : null; return `<button class="scrow" data-sc="${d.id}"><span class="sticker blue">${LEVELS[d.lv]}</span><span>${esc(d.title)}${d.src ? ` <span class="muted" style="font-size:13px">· ${esc(d.src)}</span>` : ""}</span><span class="st" style="color:${st === 1 ? "var(--ok)" : st === 0 ? "var(--bad)" : "var(--muted)"}">${st === 1 ? "Clean path" : st === 0 ? "Missed steps" : "Open"}</span></button>`; }).join("")}</div>`;
     return;
   }
-  v.innerHTML = `<div><span class="eyebrow">Rule-pathway drills</span><h2 style="margin-top:6px">Journey maps</h2>
+  const tp = S.pref.topic, shown = Object.entries(MAPS).filter(([k]) => tp === "all" || MAP_TOPIC[k] === tp);
+  v.innerHTML = `<div><span class="eyebrow">Mode 2 · Rule-pathway drills</span><h2 style="margin-top:6px">Journey Map</h2>
     <p class="lede">Find the evidence in the facts, then work down the analysis: make each call and highlight the fact that supports it. A wrong turn stops you, shows the right answer and fact, and puts you back on the correct branch. Your map fills in as you go and ends as a model answer: rule → decision → fact.</p></div>
-    <div class="maps">${Object.entries(MAPS).map(([k,m]) => { const list = DRILLS.filter(d => d.map === k); const clean = list.filter(d => cleanOf(d.id)).length;
+    ${topicBar()}
+    <div class="maps">${shown.map(([k,m]) => { const list = JD().filter(d => d.map === k); const clean = list.filter(d => cleanOf(d.id)).length;
       return `<button class="mcard" data-map="${k}"><span class="eyebrow">${list.length} cases · ${clean} clean</span><h3>${esc(m.name)}</h3><span class="bl">${esc(m.blurb)}</span><span class="bar" style="margin-top:6px"><i style="width:${100*clean/list.length}%;background:var(--ok)"></i></span></button>`; }).join("")}</div>`;
 }
 
@@ -2597,11 +3225,13 @@ function hlPanel(mode, ask){
 // ---- walker ----
 function idSpans(sc){ const sp = SPANS[sc.id], f = sc.facts; return {key: sp.key.map(t => rangeOf(f, t)), others: sp.others.map(t => rangeOf(f, t))}; }
 function factSpec(n){ const f = (FACTS[W.sc.id] || {})[n]; if (!f) return null; return f === "@id" ? "@id" : f.map(t => rangeOf(W.sc.facts, t)); }
-function startDrill(id){
+function startDrill(id, carry){
   const sc = DRILLS.find(d => d.id === id); D.sc = sc; D.map = sc.map; D.hints = 0;
   const m = MAPS[sc.map];
   W = {sc, m, node:m.root, stage:"identify", recs:[], cur:null, last:null, order:null, done:false, defs:new Set(), idRec:null, idOpts:null, pool:[]};
   W.idMode = sc.lv === 1 ? "mc" : hlMode(sc.lv); W.hlMode = hlMode(sc.lv); SEL = null;
+  if (carry){ W.idRec = {kind:"id", res:"ok", mode:"carried", sel:null, range:carry}; W.recs.push(W.idRec); W.pool.push(carry);
+    W.last = {ok:true, text:"Statement carried over from your hearsay analysis: “" + sc.facts.slice(carry[0], carry[1]) + "”", note:""}; enterNode(m.root); }
   renderMaps(); window.scrollTo(0, 0);
 }
 function enterNode(id){
@@ -2714,6 +3344,7 @@ function finishDrill(){
   W.defs.forEach(k => { S.defHints[k] = (S.defHints[k] || 0) + 1; const rk = k === "_id" ? ID_CFG[W.sc.map].hint[2][0] : (STEP_HELP[k] || [[]])[0][0]; if (rk && S.rl[rk]) S.rl[rk].h = (S.rl[rk].h || 0) + 1; });
   W.pts = pts; W.clean = clean;
   award(pts, clean);
+  if (ESC_ON()) escOnFinish();
 }
 // ---- rendering ----
 const q = (f, r) => r ? "“" + f.slice(r[0], r[1]) + "”" : "";
@@ -2836,6 +3467,7 @@ function stageCard(){
   return "";
 }
 function renderDrill(){
+  if (ESC_ON()) return escRenderDrill();
   const v = $("#v-maps");
   if (W.done){ v.innerHTML = caseHead() + drillResult(); return; }
   v.innerHTML = caseHead() + `<div class="walkgrid"><div class="wmain">${stageCard()}</div>${liveMap()}</div>`;
@@ -2902,29 +3534,7 @@ function treeHTML(m, sol, o){
 // ---------- QUICK REVIEW ----------
 const R = {mode:"cards", topic:"all", deck:[], i:0, flip:false, reverse:false, sp:null};
 function cardDeck(){ const pool = CARDS.filter(c => R.topic === "all" || c[2] === R.topic); R.deck = shuffle(pool.filter(c => !S.known[c[0]])).concat(shuffle(pool.filter(c => S.known[c[0]]))); R.i = 0; R.flip = false; }
-function renderReview(){
-  if (!R.deck.length) cardDeck();
-  const known = CARDS.filter(c => S.known[c[0]]).length;
-  $("#v-review").innerHTML = `<div><span class="eyebrow">Quick review</span><h2 style="margin-top:6px">Rule numbers and key language</h2>
-    <p class="lede">Flip cards to lock in the operative words, or run a 60-second sprint matching language to rule numbers.</p></div>
-    <div class="panel" style="display:grid;gap:12px;padding:14px 16px">
-      <div class="filters"><span class="eyebrow lbl">Mode</span><button class="pill" data-rm="cards" aria-pressed="${R.mode === "cards"}">Flashcards</button><button class="pill" data-rm="sprint" aria-pressed="${R.mode === "sprint"}">Rule-number sprint</button>
-        <span class="mono muted" style="font-size:12px;margin-left:auto">${known}/${CARDS.length} marked known · best sprint ${S.sprint}</span></div>
-      ${R.mode === "cards" ? `<div class="filters"><span class="eyebrow lbl">File</span><button class="pill" data-rt="all" aria-pressed="${R.topic === "all"}">All</button>${TKEYS.map(k => `<button class="pill" data-rt="${k}" aria-pressed="${R.topic === k}">${TOPICS[k].n}</button>`).join("")}
-        <button class="pill" id="rRev" aria-pressed="${R.reverse}" style="margin-left:auto">Show language first</button></div>` : ""}
-    </div><div id="rbody"></div>`;
-  R.mode === "cards" ? renderFlash() : renderSprint();
-}
-function renderFlash(){
-  const b = $("#rbody"); if (!R.deck.length){ b.innerHTML = `<div class="panel">No cards in this file.</div>`; return; }
-  if (R.i >= R.deck.length){ b.innerHTML = `<div class="panel" style="display:grid;gap:10px"><h3>Deck finished</h3><div class="row"><button class="btn primary" id="rAgain">Shuffle again</button></div></div>`; return; }
-  const c = R.deck[R.i]; const front = R.reverse ? c[1] : c[0], back = R.reverse ? c[0] : c[1];
-  b.innerHTML = `<div class="flash"><button class="fcard" id="rFlip" aria-label="Flip card">
-      ${!R.flip ? (R.reverse ? `<span class="back">${esc(front)}</span>` : `<span class="front">${esc(front)}</span>`) : (R.reverse ? `<span class="front">${esc(back)}</span>` : `<span class="back">${esc(back)}</span>`)}
-      <span class="hint">${R.flip ? TOPICS[c[2]].n : "Tap to flip"}</span></button></div>
-    <div class="row spread"><span class="mono muted" style="font-size:12px">Card ${R.i + 1} of ${R.deck.length}${S.known[c[0]] ? " · known" : ""}</span>
-      <div class="row">${R.flip && findRule(c[0]) ? whyBtn(`data-rule="${esc(c[0])}"`, "Rule text") : ""}<button class="btn" id="rMiss" ${R.flip ? "" : "disabled"}>Again</button><button class="btn primary" id="rKnow" ${R.flip ? "" : "disabled"}>Got it</button></div></div>`;
-}
+function renderReview(){ if (!$("#v-act").hidden) renderAct(); }
 function spQuestion(){
   const c = CARDS[Math.floor(Math.random() * CARDS.length)];
   const same = shuffle(CARDS.filter(x => x[0] !== c[0] && x[2] === c[2])), other = shuffle(CARDS.filter(x => x[0] !== c[0] && x[2] !== c[2]));
@@ -2965,12 +3575,12 @@ document.addEventListener("click", e => {
   if (d.rule){ openWhy("Rule text", "", [d.rule]); return; }
   if (d.whyNode){ const nd = nodeOf(d.whyNode); const help = STEP_HELP[d.whyNode] || [[], ""]; openWhy(nd.s + " · " + nd.rule, help[1] + " " + "Question: " + nd.q, help[0]); return; }
   if (d.whyOpt !== undefined){ const h = H.deck[H.i]; const o = h.o[+d.whyOpt]; openWhy(o[1] ? "Why this answer is right" : "Why this answer is wrong", o[2], h.r); return; }
-  if (d.goHypo){ H.topic = d.goHypo; H.lv = 4; H.deck = []; location.hash = "#hypos"; if (location.hash === "#hypos") route(); return; }
+  if (d.goHypo){ setTopic(d.goHypo); H.lv = 4; H.deck = []; location.hash = "#hypos"; if (location.hash === "#hypos") route(); return; }
   if (d.goMap){ D.map = d.goMap; D.sc = null; location.hash = "#maps"; route(); return; }
-  if (t.id === "resetAsk"){ confirmReset = true; renderDesk(); return; }
-  if (t.id === "resetNo"){ confirmReset = false; renderDesk(); return; }
-  if (t.id === "resetYes"){ S = fresh(); save(); confirmReset = false; H.deck = []; R.deck = []; renderStats(); renderDesk(); toast("Progress erased"); return; }
-  if (d.ht){ H.topic = d.ht; H.deck = []; renderHypos(); return; }
+  if (t.id === "resetAsk"){ confirmReset = true; renderHome(); return; }
+  if (t.id === "resetNo"){ confirmReset = false; renderHome(); return; }
+  if (t.id === "resetYes"){ S = fresh(); save(); confirmReset = false; H.deck = []; R.deck = []; FC.q = null; renderStats(); renderHome(); toast("Progress erased"); return; }
+  if (d.ht){ setTopic(d.ht); renderHypos(); return; }
   if (d.hl){ H.lv = +d.hl; H.deck = []; renderHypos(); return; }
   if (t.id === "citeToggle"){ S.pref.cite = !S.pref.cite; save(); if (H.stage === "cite" && !S.pref.cite) H.stage = "mc"; renderHypos(); return; }
   if (t.id === "citeGo"){ submitCite(false); return; }
@@ -2986,7 +3596,7 @@ document.addEventListener("click", e => {
   if (d.map){ D.map = d.map; D.sc = null; renderMaps(); return; }
   if (t.id === "mBack"){ D.map = null; renderMaps(); return; }
   if (d.sc){ startDrill(d.sc); return; }
-  if (t.id === "mRandom"){ const list = DRILLS.filter(x => x.map === D.map); const open = list.filter(x => !cleanOf(x.id)); const pick = shuffle(open.length ? open : list)[0]; startDrill(pick.id); return; }
+  if (t.id === "mRandom"){ const list = JD().filter(x => x.map === D.map); const open = list.filter(x => !cleanOf(x.id)); const pick = shuffle(open.length ? open : list)[0]; startDrill(pick.id); return; }
   if (d.cp !== undefined){ pickCheck(+d.cp); return; }
   if (d.ans !== undefined){ pickAnswer(+d.ans); return; }
   if (d.rs !== undefined){ pickReason(d.rs); return; }
@@ -3008,14 +3618,7 @@ document.addEventListener("click", e => {
   if (t.id === "dExit"){ D.sc = null; W = null; renderMaps(); return; }
   if (t.id === "dCompact"){ D.compact = !D.compact; renderDrill(); return; }
   if (t.id === "dRetry"){ startDrill(D.sc.id); return; }
-  if (t.id === "dNext"){ const list = DRILLS.filter(x => x.map === D.map && x.id !== D.sc.id); const open = list.filter(x => !cleanOf(x.id)); const pick = shuffle(open.length ? open : list)[0]; if (pick) startDrill(pick.id); else { D.sc = null; renderMaps(); } return; }
-  if (d.rm){ R.mode = d.rm; if (R.mode === "cards" && R.sp){ clearInterval(R.sp.timer); R.sp = null; } renderReview(); return; }
-  if (d.rt){ R.topic = d.rt; cardDeck(); renderReview(); return; }
-  if (t.id === "rRev"){ R.reverse = !R.reverse; R.flip = false; renderReview(); return; }
-  if (t.id === "rFlip"){ R.flip = !R.flip; renderFlash(); return; }
-  if (t.id === "rKnow"){ S.known[R.deck[R.i][0]] = 1; logRule(bare(R.deck[R.i][0]), true); save(); R.i++; R.flip = false; renderReview(); return; }
-  if (t.id === "rMiss"){ const c = R.deck[R.i]; delete S.known[c[0]]; logRule(bare(c[0]), false); save(); R.deck.push(c); R.i++; R.flip = false; renderFlash(); return; }
-  if (t.id === "rAgain"){ cardDeck(); renderFlash(); return; }
+  if (t.id === "dNext"){ const list = JD().filter(x => x.map === D.map && x.id !== D.sc.id); const open = list.filter(x => !cleanOf(x.id)); const pick = shuffle(open.length ? open : list)[0]; if (pick) startDrill(pick.id); else { D.sc = null; renderMaps(); } return; }
   if (t.id === "spGo"){ startSprint(); return; }
   if (d.sp){ pickSprint(d.sp); return; }
 });
@@ -3026,6 +3629,695 @@ document.addEventListener("keydown", e => {
   if (!$("#v-hypos").hidden && H.stage === "done" && e.key === "Enter"){ const b = $("#hNext"); if (b) b.click(); }
 });
 
+// start-up call moved to the end of the last module (escape2.js)
+// ===== PORTAL: home, shared topic filter, weakness map, flashcards (spaced repetition), interactive activities =====
+H.topic = S.pref.topic;
+function setTopic(t){ S.pref.topic = t; save(); H.topic = t; H.deck = []; FC.q = null; A.tr = null; A.wi = null; A.rr = null; }
+function topicPills(note){
+  const t = S.pref.topic;
+  return `<div class="filters"><span class="eyebrow lbl">Topic</span><button class="pill" data-topic="all" aria-pressed="${t === "all"}">All topics</button>${TKEYS.map(k => `<button class="pill" data-topic="${k}" aria-pressed="${t === k}">${TOPICS[k].n}</button>`).join("")}${note ? `<span class="muted" style="font-size:12px;margin-left:auto">${note}</span>` : ""}</div>`;
+}
+function topicBar(note){ return `<div class="panel" style="padding:12px 16px">${topicPills(note)}</div>`; }
+function curView(){ return VIEWS.find(v => !$("#v-" + v).hidden) || "home"; }
+function rerender(){ const v = curView(); ({home:renderHome, cards:renderCards, maps:renderMaps, act:renderAct, hypos:renderHypos, escape:renderEscape})[v](); }
+const inTopic = t => S.pref.topic === "all" || t === S.pref.topic;
+const pct = (c, a) => a ? Math.round(100 * c / a) : 0;
+
+// ---------- weakness map (rule-level mastery, fed by every mode) ----------
+const RT_SPECIAL = {"106":"hs","806":"imp","Huddleston":"char","Upjohn":"priv","Zolin":"priv","Trammel":"priv","Jaffee":"priv","Gray":"conf","6A":"conf"};
+function ruleTopic(k){
+  if (RT_SPECIAL[k]) return RT_SPECIAL[k]; if (CONF_CASES.has(k)) return "conf";
+  const n = parseInt(k, 10); if (!n) return null;
+  if ((n >= 104 && n <= 106) || (n >= 401 && n <= 403) || (n >= 407 && n <= 411)) return "rel";
+  if ((n >= 404 && n <= 406) || (n >= 412 && n <= 415)) return "char";
+  if (n >= 501 && n <= 502) return "priv"; if (n >= 607 && n <= 613) return "imp"; if (n >= 801 && n <= 807) return "hs"; return null;
+}
+const normKey = k => { const f = findRule(k); return f ? f.k : String(k); };
+function mastery(){
+  const m = {};
+  const add = key => m[key] || (m[key] = {k:key, t:ruleTopic(key), c:0, a:0, h:0});
+  Object.entries(S.rl).forEach(([k, e]) => { const r = add(normKey(k)); r.c += e.c; r.a += e.a; r.h += e.h || 0; });
+  CARDS.forEach(c => add(normKey(c[0])));
+  return Object.values(m).filter(r => r.t).map(r => {
+    const p = r.a ? r.c / r.a : null;
+    r.st = !r.a ? "none" : p < 0.6 ? "weak" : (p < 0.8 || r.a < 3 || r.h / r.a > 0.5) ? "shaky" : "solid"; r.p = p; return r;
+  });
+}
+const ST_LABEL = {weak:"Weak", shaky:"Shaky", solid:"Solid", none:"Untested"};
+const ruleLabel = k => /^\d/.test(k) ? k : k === "6A" ? "6th Am." : k;
+function sortRule(a, b){ const na = parseInt(a.k, 10), nb = parseInt(b.k, 10); if (na && nb) return na - nb || a.k.localeCompare(b.k); if (na) return -1; if (nb) return 1; return a.k.localeCompare(b.k); }
+function weakMapHTML(){
+  const rows = mastery().filter(r => inTopic(r.t));
+  const weak = rows.filter(r => r.a).sort((a, b) => a.p - b.p || b.a - a.a).filter(r => r.st !== "solid").slice(0, 3);
+  const groups = TKEYS.filter(inTopic).map(t => {
+    const rs = rows.filter(r => r.t === t).sort(sortRule), a = acc(t);
+    return `<div class="wgroup"><div class="row spread"><b class="wname">${TOPICS[t].n}</b><span class="mono muted" style="font-size:12px">${a.p === null ? "no attempts" : a.p + "% · " + a.a + (a.a === 1 ? " attempt" : " attempts")}</span></div>
+      <div class="wtiles">${rs.map(r => `<button class="wtile ${r.st}" data-wk="${esc(r.k)}" title="${esc(ruleLabel(r.k))}: ${ST_LABEL[r.st]}${r.a ? ` (${r.c}/${r.a})` : ""}"><span>${esc(ruleLabel(r.k))}</span>${r.a ? `<i>${Math.round(100 * r.p)}%</i>` : ""}</button>`).join("")}</div></div>`;
+  }).join("");
+  return `<div class="panel" style="display:grid;gap:14px">
+    <div class="row spread"><span class="eyebrow">Weakness map · by rule, from every mode</span>
+      <div class="legend"><span><b class="dot weak"></b>Weak</span><span><b class="dot shaky"></b>Shaky</span><span><b class="dot solid"></b>Solid</span><span><b class="dot none"></b>Untested</span></div></div>
+    ${weak.length ? `<div class="worknext"><span class="eyebrow">Work on next</span>${weak.map(r => `<button class="btn small" data-wk="${esc(r.k)}">${esc(ruleLabel(r.k))} · ${Math.round(100 * r.p)}%</button>`).join("")}</div>` : `<p class="muted" style="margin:0;font-size:14px">Your weak rules will rise here as you study. Every flashcard, journey-map step, activity ruling, and escape-room lock is logged by rule.</p>`}
+    <div class="wgrid">${groups}</div>
+    <span class="muted" style="font-size:12px">Tap a rule for its text and a way to practice it. A rule counts as solid at 80% or better over at least 3 attempts without leaning on hints.</span></div>`;
+}
+function openWeak(k){
+  const r = mastery().find(x => x.k === k) || {k, t:ruleTopic(k), c:0, a:0, st:"none"};
+  const card = CARDS.find(c => normKey(c[0]) === k);
+  openWhy(ruleLabel(k), r.a ? `${ST_LABEL[r.st]}: ${r.c} of ${r.a} right across all modes${r.h ? `, ${r.h} with a concept hint` : ""}.` : "No attempts logged yet.", [k]);
+  const acts = [card ? `<button class="btn primary small" data-fc-focus="${esc(card[0])}">Study the flashcard</button>` : "",
+    r.t ? `<button class="btn small" data-go-map="${mapFor(r.t)}">Journey map: ${TOPICS[r.t].n}</button>` : "",
+    r.t ? `<button class="btn small" data-act-topic="${r.t}">Activities: ${TOPICS[r.t].n}</button>` : ""].join("");
+  $("#why-body").insertAdjacentHTML("beforeend", `<div class="row" style="border-top:1px dashed var(--line);padding-top:12px">${acts}</div>`);
+}
+
+// ---------- HOME ----------
+function fcStats(){
+  const now = Date.now(), cards = CARDS.filter(c => inTopic(c[2]));
+  const due = cards.filter(c => S.fc[c[0]] && S.fc[c[0]].due <= now).length, fresh = cards.filter(c => !S.fc[c[0]]).length, learned = cards.filter(c => S.fc[c[0]] && S.fc[c[0]].b >= 3).length;
+  return {due, fresh, learned, total:cards.length};
+}
+function homeProgress(){
+  const fc = fcStats();
+  const jd = JD().filter(d => d.t.some(inTopic)), jClean = jd.filter(d => cleanOf(d.id)).length;
+  const trs = TRANSCRIPTS.filter(x => inTopic(x.t)), wis = WHATIF.filter(x => inTopic(x.t));
+  const actDone = trs.filter(x => S.act.tr[x.id]).length + wis.filter(x => S.act.wi[x.id]).length + (S.act.trial.best !== undefined ? 1 : 0);
+  const actTotal = trs.length + wis.length + 1;
+  const hy = HYPOS.filter(h => h.t.some(inTopic)), hyOk = hy.filter(h => S.hs[h.id] === 1).length;
+  const rooms = ROOMS.filter(r => S.esc.done && S.esc.done[r.id]).length;
+  return {fc, jd:jd.length, jClean, actDone, actTotal, hy:hy.length, hyOk, rooms};
+}
+const MODES = [
+  {k:"cards", n:1, name:"Flashcards", line:"Memorize the rules: rule number, key language, and what it means.", icon:"cards"},
+  {k:"maps", n:2, name:"Journey Map", line:"Practice the step-by-step analysis, one decision and supporting fact at a time.", icon:"map"},
+  {k:"act", n:3, name:"Interactive Activities", line:"Apply the rules in realistic scenarios: transcripts, what-ifs, rapid rulings, a full trial.", icon:"act"},
+  {k:"escape", n:4, name:"Escape Room", line:"Put it all together under pressure, room by room, ending in the Courtroom.", icon:"door"}
+];
+function modeIcon(k){
+  const p = {cards:`<rect x="6" y="9" width="22" height="16" rx="2"/><rect x="11" y="5" width="22" height="16" rx="2" fill="var(--card)"/><path d="M15 11h12M15 15h8"/>`,
+    map:`<circle cx="9" cy="8" r="3"/><circle cx="27" cy="16" r="3"/><circle cx="12" cy="28" r="3"/><path d="M11 10l13 5M24 18l-10 8"/>`,
+    act:`<path d="M6 8h24v14H16l-6 5v-5H6z"/><path d="M11 13h14M11 17h9"/>`,
+    door:`<rect x="10" y="5" width="16" height="27"/><circle cx="22" cy="19" r="1.6" fill="currentColor"/><path d="M5 32h26"/>`}[k];
+  return `<svg viewBox="0 0 36 36" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">${p}</svg>`;
+}
+function renderHome(){
+  const r = rank(S.pts), rp = r.next ? Math.round(100 * (S.pts - r.at) / (r.next[0] - r.at)) : 100, P = homeProgress();
+  const modeStat = {cards:`${P.fc.due} due · ${P.fc.fresh} new · ${P.fc.learned}/${P.fc.total} learned`, maps:`${P.jClean} of ${P.jd} cases clean`, act:`${P.actDone} of ${P.actTotal} activities done · ${P.hyOk}/${P.hy} hypos right`, escape:`${P.rooms} of ${ROOMS.length} rooms escaped`};
+  const meter = (label, c, a, note) => `<div class="pm"><div class="row spread"><span>${label}</span><span class="mono muted">${note || `${c}/${a}`}</span></div><div class="meter"><i style="width:${pct(c, a)}%"></i></div></div>`;
+  $("#v-home").innerHTML = `
+  <div><span class="eyebrow">Evidence · Fall 2026 · FRE 401–807 (not 701–706) + the Confrontation Clause</span>
+    <h2 style="margin-top:6px">How do you want to study?</h2>
+    <p class="lede">Four ways in, one record. Every mode feeds the same progress and weakness map, so you can pick a mode by what you need to work on.</p></div>
+  ${topicBar("Filters every mode")}
+  <div class="modes">${MODES.map(m => `<a class="mode" href="#${m.k}"><span class="micon">${modeIcon(m.icon)}</span><span class="mbody"><span class="eyebrow">Mode ${m.n}</span><span class="mname">${m.name}</span><span class="mline">${m.line}</span><span class="mstat mono">${modeStat[m.k]}</span></span><span class="marrow" aria-hidden="true">→</span></a>`).join("")}</div>
+  <div class="grid2">
+    <div class="panel rankbar"><span class="eyebrow">Overall progress${S.pref.topic !== "all" ? " · " + TOPICS[S.pref.topic].n : ""}</span>
+      <div class="row spread"><h3>${r.name}</h3><span class="mono muted">${r.next ? `${S.pts} / ${r.next[0]} pts to ${r.next[1]}` : `${S.pts} pts · top rank`}</span></div>
+      <div class="meter"><i style="width:${rp}%"></i></div>
+      <div class="pms">${meter("Flashcards learned", P.fc.learned, P.fc.total)}${meter("Journey-map cases clean", P.jClean, P.jd)}${meter("Activities completed", P.actDone, P.actTotal)}${meter("Escape rooms escaped", P.rooms, ROOMS.length)}</div></div>
+    <div class="panel" style="display:grid;gap:10px;align-content:start"><span class="eyebrow">The exam order from your notes</span>
+      <div class="chain"><span>Charges</span><em>→</em><span>Defense</span><em>→</em><span>Contested evidence</span><em>→</em><span>401/402</span><em>→</em><span>403</span><em>→</em><span>404 · bad act?</span><em>→</em><span>105</span><em>→</em><span>Hearsay</span><em>→</em><span>6th Am.</span></div>
+      <span class="muted" style="font-size:14px">Your professor grades the reasoning, not the conclusion: IRAC, and argue both sides. Every explanation in every mode follows this order.</span></div>
+  </div>
+  ${weakMapHTML()}
+  <div class="panel" style="display:grid;gap:12px"><span class="eyebrow">Margin notes · where your outline and the current FRE differ</span>
+    <ul class="flags">${FLAGS.map(f => `<li><b>${esc(f[0])}</b><p>${esc(f[1])}</p></li>`).join("")}</ul></div>
+  <div class="row spread">
+    <span class="muted" style="font-size:13px">${CARDS.length} flashcards · ${JD().length} journey maps · ${HYPOS.length} hypos · ${TRANSCRIPTS.length} transcripts · ${WHATIF.length} what-if sets · ${RULINGS.length} rapid rulings · ${ROOMS.length} escape rooms. Progress is saved in this browser.</span>
+    <div class="confirm" id="resetbox">${confirmReset ? `<span class="muted" style="font-size:14px">Erase all points and history?</span><button class="btn small" id="resetYes">Erase</button><button class="btn small ghost" id="resetNo">Keep</button>` : `<button class="btn small ghost" id="resetAsk">Reset progress</button>`}</div>
+  </div>`;
+}
+
+// ---------- MODE 1: FLASHCARDS (Leitner spaced repetition across sessions) ----------
+const FC_IV = [10 * 60e3, 864e5, 3 * 864e5, 7 * 864e5, 16 * 864e5, 35 * 864e5]; // box → interval
+const FC_NEW = 12;
+const FC = {dir:"rule", q:null, flip:false, n:0, focus:null, ahead:false};
+const DIRS = {rule:"Rule → language", concept:"Concept → rule", lang:"Language → rule", mix:"Mixed"};
+function fcQueue(){
+  const now = Date.now(), cards = CARDS.filter(c => inTopic(c[2]));
+  let due = cards.filter(c => S.fc[c[0]] && (FC.ahead || S.fc[c[0]].due <= now)).sort((a, b) => S.fc[a[0]].due - S.fc[b[0]].due);
+  let fresh = shuffle(cards.filter(c => !S.fc[c[0]])).slice(0, FC_NEW);
+  let q = due.concat(fresh).map(c => ({c, d: FC.dir === "mix" ? ["rule","concept","lang"][Math.floor(Math.random() * 3)] : FC.dir}));
+  if (FC.focus){ const c = CARDS.find(x => x[0] === FC.focus); q = q.filter(x => x.c[0] !== FC.focus); if (c) q.unshift({c, d:FC.dir === "mix" ? "rule" : FC.dir}); FC.focus = null; }
+  FC.q = q; FC.flip = false; FC.n = 0;
+}
+function fcText(c){ const f = findRule(c[0]); return f && f.r.q.length ? f.r.q.slice(0, 3) : []; }
+function fcLabel(c){ return isFRE(c[0]) ? bare(c[0]) : c[0]; }
+function fcFace(item){
+  const c = item.c, meta = FC_META[c[0]] || ["", c[1]], txt = fcText(c), lang = txt.length ? txt : [meta[1]];
+  const verb = txt.length ? `<div class="fcsec"><span class="eyebrow">${isFRE(c[0]) ? "Rule text · verbatim excerpt" : "Holding"}</span><blockquote>${txt.map(x => `<p>“${esc(x)}”</p>`).join("")}</blockquote></div>` : (isFRE(c[0]) ? "" : `<div class="fcsec"><span class="eyebrow">Holding (paraphrase)</span><p>${esc(findRule(c[0]) ? findRule(c[0]).r.s : c[1])}</p></div>`);
+  const plain = `<div class="fcsec"><span class="eyebrow">In plain English</span><p class="plain">${esc(meta[1])}</p></div>`;
+  const big = `<div class="fcbig">${esc(fcLabel(c))}</div>`;
+  if (!FC.flip){
+    if (item.d === "rule") return {front:true, html:`${big}<p class="fcprompt">What does it say, and what does it mean?</p>`};
+    if (item.d === "concept") return {front:true, html:`<p class="fcq">${esc(meta[0])}</p><p class="fcprompt">Name the rule and its key language.</p>`};
+    return {front:true, html:`<blockquote class="fclang">${lang.slice(0, 2).map(x => `<p>“${esc(x)}”</p>`).join("")}</blockquote><p class="fcprompt">Which rule is this?</p>`};
+  }
+  return {front:false, html:`${item.d !== "rule" ? big : `<div class="fcbig sm">${esc(fcLabel(c))}</div>`}${item.d === "concept" ? `<p class="muted" style="margin:0">${esc(meta[0])}</p>` : ""}${verb}${plain}`};
+}
+function renderCards(){
+  if (!FC.q) fcQueue();
+  const st = fcStats(), item = FC.q[0];
+  const nextDue = Object.entries(S.fc).filter(([k]) => CARDS.some(c => c[0] === k && inTopic(c[2]))).map(([, v]) => v.due).filter(t => t > Date.now()).sort((a, b) => a - b)[0];
+  const when = t => { const m = Math.round((t - Date.now()) / 6e4); return m < 60 ? `${Math.max(1, m)} min` : m < 1440 ? `${Math.round(m / 60)} h` : `${Math.round(m / 1440)} d`; };
+  let body;
+  if (!item){
+    body = `<div class="panel" style="display:grid;gap:10px;justify-items:start"><span class="stamp ok">Caught up</span><h3>Nothing due${S.pref.topic !== "all" ? " in " + TOPICS[S.pref.topic].n : ""}.</h3>
+      <p class="muted" style="margin:0">${FC.n ? `You reviewed ${FC.n} cards this session. ` : ""}${nextDue ? `Next card comes due in ${when(nextDue)}.` : ""} Missed cards come back sooner; cards you know space out to 1, 3, 7, 16, then 35 days.</p>
+      <div class="row"><button class="btn primary" id="fcAhead">Review early</button><a class="btn" href="#act" data-act-sub="sprint">Run the rule sprint</a></div></div>`;
+  } else {
+    const face = fcFace(item), box = S.fc[item.c[0]];
+    body = `<div class="fcwrap"><button class="fcard2 ${face.front ? "" : "back"}" id="fcFlip" aria-label="${face.front ? "Show the answer" : "Show the question"}">${face.html}
+        <span class="fchint">${face.front ? "Tap or press Space to flip" : "Tap to see the front again"} · ${TOPICS[item.c[2]].n}</span></button>
+      <div class="row spread"><span class="mono muted" style="font-size:12px">${box ? `Box ${box.b} of 5` : "New card"} · ${FC.q.length} left in this session</span>
+        ${face.front ? `<button class="btn primary" id="fcShow">Show answer</button>` : `<div class="row"><button class="btn" data-fcg="0">Missed it</button><button class="btn" data-fcg="1">Hard</button><button class="btn primary" data-fcg="2">Got it</button></div>`}</div>
+      ${!face.front && isFRE(item.c[0]) ? `<a class="cornell" href="${CORNELL(bare(item.c[0]).match(/^\d+/)[0])}" target="_blank" rel="noopener">Full text on Cornell LII ↗</a>` : ""}</div>`;
+  }
+  $("#v-cards").innerHTML = `<div><span class="eyebrow">Mode 1 · Spaced repetition</span><h2 style="margin-top:6px">Flashcards</h2>
+    <p class="lede">Rule numbers, key language, and what they mean. Rule text is verbatim from the FRE (checked against Cornell LII). Missed cards come back within minutes; known cards space out over days, across sessions.</p></div>
+    ${topicBar()}
+    <div class="panel" style="padding:12px 16px;display:grid;gap:10px">
+      <div class="filters"><span class="eyebrow lbl">Front</span>${Object.entries(DIRS).map(([k, v]) => `<button class="pill" data-fcdir="${k}" aria-pressed="${FC.dir === k}">${v}</button>`).join("")}</div>
+      <div class="fcstats mono"><span>Due <b>${st.due}</b></span><span>New <b>${st.fresh}</b></span><span>Learned <b>${st.learned}/${st.total}</b></span></div></div>
+    ${body}`;
+}
+function fcGrade(g){
+  const item = FC.q.shift(), id = item.c[0], now = Date.now();
+  const e = S.fc[id] || {b:0, due:now, n:0, lapse:0}; e.n++;
+  if (g === 0){ e.b = 0; e.lapse++; e.due = now + FC_IV[0]; FC.q.splice(Math.min(3, FC.q.length), 0, {c:item.c, d:item.d}); }
+  else if (g === 1){ e.b = Math.max(1, e.b); e.due = now + FC_IV[e.b] / 2; }
+  else { e.b = Math.min(5, e.b + 1); e.due = now + FC_IV[e.b]; S.pts += 1; renderStats(); }
+  S.fc[id] = e; logRule(normKey(id), g > 0); delete S.known[id]; if (e.b >= 3) S.known[id] = 1;
+  save(); FC.n++; FC.flip = false; renderCards();
+}
+
+// ---------- MODE 3: INTERACTIVE ACTIVITIES ----------
+const A = {sub:null, tr:null, wi:null, rr:null, trial:null};
+const SUBS = [
+  {k:"hypos", name:"Practice hypos", line:"Cite the rule, rule on the objection, highlight the deciding fact, and write your analysis.", href:"#hypos"},
+  {k:"tr", name:"Click-to-object transcripts", line:"Read a trial transcript and object when you hear a problem. The judge rules on your ground."},
+  {k:"wi", name:"What-if toggles", line:"Change one fact and predict the new ruling, then spot the change that flips a case."},
+  {k:"rr", name:"Rapid ruling rounds", line:"Sustained or overruled? Ten objections, eight seconds each."},
+  {k:"trial", name:"Choose-your-own-trial", line:"Defend State v. Reyes. Every move is an evidence call that shapes what the jury hears."},
+  {k:"sprint", name:"Rule-number sprint", line:"Sixty seconds to match rule language to rule numbers."}
+];
+function actStat(k){
+  if (k === "hypos"){ const hy = HYPOS.filter(h => h.t.some(inTopic)); return `${hy.filter(h => S.hs[h.id] === 1).length}/${hy.length} right`; }
+  if (k === "tr"){ const l = TRANSCRIPTS.filter(x => inTopic(x.t)); return `${l.filter(x => S.act.tr[x.id]).length}/${l.length} done`; }
+  if (k === "wi"){ const l = WHATIF.filter(x => inTopic(x.t)); return `${l.filter(x => S.act.wi[x.id]).length}/${l.length} done`; }
+  if (k === "rr") return `best ${S.act.rrBest}/10`;
+  if (k === "trial") return S.act.trial.best !== undefined ? `best ${S.act.trial.best}%` : "not tried";
+  return `best ${S.sprint}`;
+}
+function renderAct(){
+  const v = $("#v-act");
+  if (A.sub === "tr") return renderTranscript(v);
+  if (A.sub === "wi") return renderWhatIf(v);
+  if (A.sub === "rr") return renderRapid(v);
+  if (A.sub === "trial") return renderTrial(v);
+  if (A.sub === "sprint"){ v.innerHTML = `${backAct("Rule-number sprint")}<div id="rbody"></div>`; return renderSprint(); }
+  v.innerHTML = `<div><span class="eyebrow">Mode 3</span><h2 style="margin-top:6px">Interactive Activities</h2>
+    <p class="lede">Apply the rules the way a trial lawyer does. Pick an activity; the topic filter narrows each one.</p></div>
+    ${topicBar()}
+    <div class="subs">${SUBS.map(s => s.href ? `<a class="sub" href="${s.href}"><span class="sname">${s.name}</span><span class="sline">${s.line}</span><span class="mono muted sstat">${actStat(s.k)}</span></a>`
+      : `<button class="sub" data-act-sub="${s.k}"><span class="sname">${s.name}</span><span class="sline">${s.line}</span><span class="mono muted sstat">${actStat(s.k)}</span></button>`).join("")}</div>`;
+}
+const backAct = (title, eyebrow) => `<div class="row spread"><button class="btn ghost small" data-act-sub="">← Activities</button><span class="sticker">${esc(eyebrow || "Activity")}</span></div><div><h2>${esc(title)}</h2></div>`;
+const judgeHints = (arr, used, id) => arr && arr.length ? `<div class="judge"><button class="btn small ghost" id="${id}" ${used >= arr.length ? "disabled" : ""}>Ask the Judge (${arr.length - used} left · costs points)</button>${arr.slice(0, used).map(h => `<p class="bench"><span class="eyebrow">The Judge</span>${esc(h)}</p>`).join("")}</div>` : "";
+function actLog(t, k, ok){ if (S.t[t]){ S.t[t].aa = (S.t[t].aa || 0) + 1; if (ok) S.t[t].ac = (S.t[t].ac || 0) + 1; } [].concat(k || []).forEach(x => logRule(normKey(x), ok)); }
+
+// ---- transcripts ----
+const isObj = l => l.r && Object.values(l.r).some(v => v[0] === "S");
+const ruleFor = (l, g) => (l.r && l.r[g]) ? {v:l.r[g], spec:true} : {v:l.d || ["O", "Overruled. Nothing objectionable here."], spec:false};
+function renderTranscript(v){
+  if (!A.tr){
+    const list = TRANSCRIPTS.filter(x => inTopic(x.t));
+    v.innerHTML = `${backAct("Click-to-object transcripts")}<p class="lede" style="margin-top:-8px">Tap any answer to object, then pick your ground. Object only when the rules give you a winning ground: a losing objection costs credibility (no points), and a missed one is waived.</p>
+      ${topicBar()}<div class="sclist">${list.map(x => { const b = S.act.tr[x.id]; return `<button class="scrow" data-tr="${x.id}"><span class="sticker">${TOPICS[x.t].n}</span><span>${esc(x.title)}</span><span class="st" style="color:${b ? (b.best === 100 ? "var(--ok)" : "var(--route)") : "var(--muted)"}">${b ? `best ${b.best}%` : "Open"}</span></button>`; }).join("") || `<div class="panel">No transcript for this topic.</div>`}</div>`;
+    return;
+  }
+  const T = A.tr, x = T.x;
+  const lines = x.lines.map((l, i) => {
+    if (!l.d && !l.r) return `<div class="tl q"><span class="who">${esc(l.w)}</span><span>${esc(l.s)}</span></div>`;
+    const p = T.picks[i], miss = T.done && !p && isObj(l);
+    let out = "";
+    if (p){ const ru = ruleFor(l, p.g); out = `<div class="ruling ${ru.v[0] === "S" ? (ru.spec ? "ok" : "half") : "bad"}"><span class="stamp sm ${ru.v[0] === "S" ? "ok" : "no"}">${ru.v[0] === "S" ? "Sustained" : "Overruled"}</span><div><span class="eyebrow">Your objection: ${esc(GROUNDS[p.g])}</span><p>${esc(ru.v[1])}</p>${whyBtn(`data-why-keys="${esc(l.k.join("|"))}" data-why-title="Rule text"`, "Rule text")}</div></div>`; }
+    else if (miss){ const g = Object.keys(l.r).find(k => l.r[k][0] === "S"); out = `<div class="ruling bad"><span class="stamp sm no">Waived</span><div><span class="eyebrow">You didn’t object · winning ground: ${esc(GROUNDS[g])}</span><p>${esc(l.r[g][1])}</p>${whyBtn(`data-why-keys="${esc(l.k.join("|"))}" data-why-title="Rule text"`, "Rule text")}</div></div>`; }
+    else if (T.done && l.r){ out = `<div class="ruling ok quiet"><span class="eyebrow">Correctly left alone</span><p>${esc((Object.values(l.r)[0] || l.d)[1])}</p></div>`; }
+    const picker = T.open === i && !p ? `<div class="grounds"><span class="eyebrow">Objection! Your ground:</span><div class="gbtns">${Object.entries(GROUNDS).map(([k, g]) => `<button class="pill" data-tg="${k}">${esc(g)}</button>`).join("")}</div><button class="btn small ghost" data-tg="">Withdraw</button></div>` : "";
+    return `<div class="tl a ${p ? "ruled" : ""}"><span class="who">${esc(l.w)}</span><button class="tline" data-tl="${i}" ${p || T.done ? "disabled" : ""} aria-expanded="${T.open === i}">${esc(l.s)}</button></div>${picker}${out}`;
+  }).join("");
+  const res = T.done ? trScore(T) : null;
+  v.innerHTML = `<div class="row spread"><button class="btn ghost small" data-tr="">← All transcripts</button><span class="sticker">${TOPICS[x.t].n} · transcript</span></div>
+    <article class="casefile"><div class="cf-head"><h3>${esc(x.title)}</h3></div><div class="cf-body"><p class="facts">${esc(x.setup)}</p>${T.done ? "" : judgeHints(x.hint, T.hints, "trHint")}</div></article>
+    <div class="transcript">${lines}</div>
+    ${T.done ? `<div class="panel result"><div class="${res.clean ? "oncourse" : "offcourse"}"><b>${res.ok} of ${res.obj} objections won</b>${res.part ? ` · ${res.part} on a weaker ground` : ""} · ${res.bad} losing objection${res.bad === 1 ? "" : "s"} · ${res.missed} waived. +${res.pts} pts</div>
+      <div class="row"><button class="btn primary" data-tr="">Next transcript</button><button class="btn" data-tr="${x.id}">Retry</button></div></div>`
+      : `<div class="row"><button class="btn primary" id="trRest">The witness is excused: finish</button><span class="muted" style="font-size:13px">Unchallenged problems are waived when you finish.</span></div>`}`;
+}
+function trScore(T){
+  let ok = 0, part = 0, bad = 0, missed = 0, obj = 0;
+  T.x.lines.forEach((l, i) => { const p = T.picks[i]; if (isObj(l)) obj++;
+    if (p){ const ru = ruleFor(l, p.g); if (ru.v[0] === "S"){ if (ru.spec) ok++; else part++; } else bad++; }
+    else if (isObj(l)) missed++; });
+  const mult = Math.max(0, 1 - 0.2 * T.hints), pts = Math.round((ok * 5 + part * 2) * mult) + (ok === obj && !bad ? 10 : 0);
+  return {ok, part, bad, missed, obj, pts, clean: ok === obj && !bad && !part};
+}
+function trPick(g){
+  const T = A.tr, i = T.open, l = T.x.lines[i]; T.open = null; if (!g){ renderAct(); return; }
+  T.picks[i] = {g}; const ru = ruleFor(l, g), win = ru.v[0] === "S" && ru.spec;
+  actLog(T.x.t, l.k, win); save();
+  toast(ru.v[0] === "S" ? (ru.spec ? "Sustained" : "Sustained, on another ground") : "Overruled"); renderAct();
+}
+function trFinish(){
+  const T = A.tr; T.done = true;
+  T.x.lines.forEach((l, i) => { if (!T.picks[i] && isObj(l)) actLog(T.x.t, l.k, false); else if (!T.picks[i] && l.r) l.k.forEach(k => logRule(normKey(k), true)); });
+  const r = trScore(T), pctv = Math.round(100 * r.ok / Math.max(1, r.obj + r.bad));
+  const prev = S.act.tr[T.x.id]; S.act.tr[T.x.id] = {best:Math.max(prev ? prev.best : 0, pctv), n:(prev ? prev.n : 0) + 1};
+  S.hints += T.hints; award(r.pts, r.clean); renderAct();
+}
+
+// ---- what-if toggles + spot the change ----
+function renderWhatIf(v){
+  if (!A.wi){
+    const list = WHATIF.filter(x => inTopic(x.t));
+    v.innerHTML = `${backAct("What-if toggles")}<p class="lede" style="margin-top:-8px">Start from a settled ruling. Change one fact at a time and predict the new ruling. Then find the one change, among several, that actually flips the case.</p>
+      ${topicBar()}<div class="sclist">${list.map(x => { const b = S.act.wi[x.id]; return `<button class="scrow" data-wi="${x.id}"><span class="sticker">${TOPICS[x.t].n}</span><span>${esc(x.title)}</span><span class="st" style="color:${b ? (b.best === 100 ? "var(--ok)" : "var(--route)") : "var(--muted)"}">${b ? `best ${b.best}%` : "Open"}</span></button>`; }).join("")}</div>`;
+    return;
+  }
+  const W2 = A.wi, x = W2.x, n = x.toggles.length;
+  const base = `<article class="casefile"><div class="cf-head"><h3>${esc(x.title)}</h3><span class="lv">Base case</span></div><div class="cf-body"><p class="facts">${esc(x.base)}</p><p class="oncourse" style="margin:0"><b>Ruling:</b> ${esc(x.ruling)}</p>
+    <div class="row">${W2.hint ? `<div class="defbox" style="width:100%"><span class="eyebrow">Hint · the rule</span>${x.k.map(k => ruleBlock(k)).join("")}<span class="muted" style="font-size:12px">Hint used: this set earns half points.</span></div>` : `<button class="hint-btn" id="wiHint">Hint: show the rule text</button>`}</div></div></article>`;
+  const done = W2.ans.map((a, i) => { const tg = x.toggles[i], ok = a === tg.a;
+    return `<div class="wirow ${ok ? "ok" : "bad"}"><span class="eyebrow">What if ${i + 1} of ${n}</span><p class="ask">${esc(tg.label)}</p><p class="youans">You said: <b>${esc(tg.o[a])}</b>${ok ? " ✓" : ""}</p>${ok ? "" : `<p>Correct: <b>${esc(tg.o[tg.a])}</b></p>`}<p class="muted">${esc(tg.why)}</p>${whyBtn(`data-why-keys="${esc(tg.k.join("|"))}" data-why-title="Rule text"`, "Rule text")}</div>`; }).join("");
+  let cur = "";
+  if (W2.step < n){
+    const tg = x.toggles[W2.step];
+    cur = `<div class="stepq"><span class="n">What if ${W2.step + 1} of ${n}</span><p class="ask">${esc(tg.label)}</p><div style="display:grid;gap:8px">${tg.o.map((o, i) => `<button class="choice" data-wia="${i}">${esc(o)}</button>`).join("")}</div></div>`;
+  } else if (W2.spot === null){
+    const ss = sentences(x.spot.text);
+    cur = `<div class="stepq seq"><span class="n">Spot the change</span><p class="ask">This version reaches a different ruling. Several details changed, but only one matters legally. Tap the sentence that flips the ruling.</p>
+      <div class="hl-facts" style="outline:none">${ss.map(([a, b], i) => `<button class="sent" data-wis="${i}">${esc(x.spot.text.slice(a, b))}</button> `).join("")}</div></div>`;
+  } else {
+    const ss = sentences(x.spot.text), ok = W2.spot === x.spot.key, kr = ss[x.spot.key];
+    const sc = Math.round(100 * (W2.ans.filter((a, i) => a === x.toggles[i].a).length + (ok ? 1 : 0)) / (n + 1));
+    cur = `<div class="wirow ${ok ? "ok" : "bad"}"><span class="eyebrow">Spot the change</span><p class="facts">${markedFacts(x.spot.text, [kr], ok ? [] : [ss[W2.spot]])}</p>
+      <p><b>${ok ? "Right." : "Not that one."}</b> ${esc(x.spot.why)}</p><p><b>New ruling:</b> ${esc(x.spot.ruling)}</p></div>
+      <div class="panel result"><div class="${sc === 100 ? "oncourse" : "offcourse"}"><b>${sc}% on this set</b> · +${W2.pts} pts</div><div class="row"><button class="btn primary" data-wi="">Next set</button><button class="btn" data-wi="${x.id}">Retry</button></div></div>`;
+  }
+  v.innerHTML = `<div class="row spread"><button class="btn ghost small" data-wi="">← All what-if sets</button><span class="sticker">${TOPICS[x.t].n} · what if</span></div>${base}${done}${cur}`;
+}
+function wiAnswer(i){
+  const W2 = A.wi, tg = W2.x.toggles[W2.step], ok = i === tg.a;
+  W2.ans.push(i); W2.step++; actLog(W2.x.t, tg.k, ok && !W2.hint); if (ok) W2.raw += 4; save(); renderAct();
+}
+function wiSpot(i){
+  const W2 = A.wi, ok = i === W2.x.spot.key; W2.spot = i; actLog(W2.x.t, W2.x.k, ok && !W2.hint); if (ok) W2.raw += 6;
+  const n = W2.x.toggles.length, right = W2.ans.filter((a, j) => a === W2.x.toggles[j].a).length + (ok ? 1 : 0), sc = Math.round(100 * right / (n + 1));
+  W2.pts = Math.round(W2.raw * (W2.hint ? 0.5 : 1));
+  const prev = S.act.wi[W2.x.id]; S.act.wi[W2.x.id] = {best:Math.max(prev ? prev.best : 0, sc), n:(prev ? prev.n : 0) + 1};
+  award(W2.pts, sc === 100); renderAct();
+}
+
+// ---- rapid ruling rounds ----
+const RR_SECS = 8;
+function renderRapid(v){
+  const R2 = A.rr;
+  if (!R2 || R2.over){
+    const missed = R2 ? R2.log.filter(l => !l.ok) : [];
+    v.innerHTML = `${backAct("Rapid ruling rounds")}${topicBar()}
+      <div class="panel" style="display:grid;gap:12px"><span class="eyebrow">${RR_SECS} seconds per objection · ${Math.min(10, RULINGS.filter(r => inTopic(r.t)).length)} per round</span>
+      <h3>${R2 ? `Round over: ${R2.score} of ${R2.items.length} right${R2.score === S.act.rrBest && R2.score > 0 ? " (best)" : ""}` : "Sustained or overruled?"}</h3>
+      <p class="muted" style="margin:0">Each correct ruling is worth 2 points. A miss or a timeout shows the answer, and the round keeps going. Keys: S = sustained, O = overruled.</p>
+      ${missed.length ? `<div><span class="eyebrow">Review your misses</span><ul class="report">${missed.map(l => `<li><b>${esc(l.it.q)}</b><br>${l.it.a === "S" ? "Sustained" : "Overruled"}: ${esc(l.it.why)} ${whyBtn(`data-rule="${esc(l.it.k)}"`, "Rule text")}</li>`).join("")}</ul></div>` : ""}
+      <div class="row"><button class="btn primary" id="rrGo">${R2 ? "Another round" : "Start the round"}</button></div></div>`;
+    return;
+  }
+  const it = R2.items[R2.i], p = R2.picked;
+  v.innerHTML = `${backAct("Rapid ruling rounds")}<div class="panel rr" style="display:grid;gap:14px">
+    <div class="row spread"><span class="mono">Ruling ${R2.i + 1} of ${R2.items.length}</span><span class="mono">Score <b>${R2.score}</b></span></div>
+    <div class="rrbar"><i id="rrBar" style="width:${100 * R2.left / RR_SECS}%"></i></div>
+    <span class="eyebrow">${TOPICS[it.t].n} · Objection!</span><p class="rrq">${esc(it.q)}</p>
+    <div class="rrbtns"><button class="btn ${p ? (it.a === "S" ? "right" : p === "S" ? "wrong" : "") : ""}" data-rr="S" ${p ? "disabled" : ""}>Sustained</button><button class="btn ${p ? (it.a === "O" ? "right" : p === "O" ? "wrong" : "") : ""}" data-rr="O" ${p ? "disabled" : ""}>Overruled</button></div>
+    ${p ? `<p class="${p === it.a ? "oncourse" : "offcourse"}" style="margin:0"><b>${p === "T" ? "Time." : p === it.a ? "Right." : "No."} ${it.a === "S" ? "Sustained" : "Overruled"}.</b> ${esc(it.why)}</p><div class="row"><button class="btn small" id="rrNext">Next →</button></div>` : ""}</div>`;
+}
+function rrStart(){
+  clearInterval(A.rr && A.rr.tm);
+  const pool = RULINGS.filter(r => inTopic(r.t));
+  A.rr = {items:shuffle(pool).slice(0, 10), i:0, score:0, left:RR_SECS, picked:null, log:[], over:false};
+  rrTick(); renderAct();
+}
+function rrTick(){
+  clearInterval(A.rr.tm);
+  A.rr.tm = setInterval(() => { const R2 = A.rr; if (!R2 || R2.over || R2.picked) return; if ($("#v-act").hidden || A.sub !== "rr"){ clearInterval(R2.tm); return; }
+    R2.left -= 0.1; const b = $("#rrBar"); if (b) b.style.width = Math.max(0, 100 * R2.left / RR_SECS) + "%"; if (R2.left <= 0) rrPick("T"); }, 100);
+}
+function rrPick(p){
+  const R2 = A.rr; if (!R2 || R2.picked) return; const it = R2.items[R2.i], ok = p === it.a;
+  R2.picked = p; R2.log.push({it, ok}); if (ok) R2.score++; actLog(it.t, it.k, ok); save(); renderAct();
+  clearTimeout(R2.adv); R2.adv = setTimeout(() => { if (A.rr === R2 && R2.picked && A.sub === "rr" && !$("#v-act").hidden) rrNext(); }, ok ? 1600 : 4200);
+}
+function rrNext(){
+  const R2 = A.rr; clearTimeout(R2.adv); R2.i++; R2.picked = null; R2.left = RR_SECS;
+  if (R2.i >= R2.items.length){ R2.over = true; clearInterval(R2.tm); S.act.rrBest = Math.max(S.act.rrBest, R2.score); S.act.rr++; award(R2.score * 2, R2.score === R2.items.length); }
+  renderAct();
+}
+
+// ---- choose-your-own-trial ----
+function renderTrial(v){
+  const T = A.trial;
+  if (!T){
+    const b = S.act.trial.best;
+    v.innerHTML = `${backAct(TRIAL.title, "Choose-your-own-trial")}<article class="casefile"><div class="cf-head"><h3>${esc(TRIAL.role)}</h3><span class="lv">Character · impeachment · hearsay · Confrontation</span></div>
+      <div class="cf-body"><p class="facts">${esc(TRIAL.setup)}</p><p class="muted" style="margin:0">Seven decisions, from a motion in limine to closing objections. Each is a legal call. A bad call doesn’t end the trial; it changes what the jury hears, and the next decision follows from it.${b !== undefined ? ` Your best: ${b}%.` : ""}</p>
+      <div class="row"><button class="btn primary" id="trialGo">Start the trial</button></div></div></article>`;
+    return;
+  }
+  const hist = T.path.map((p, i) => { const nd = TRIAL.nodes[p.node], ch = nd.c[p.c];
+    return `<div class="trow ${["bad","half","ok"][ch.g]}"><span class="eyebrow">${i + 1} · ${esc(nd.h)}</span><p class="youans">Your move: <b>${esc(ch.l)}</b></p><div class="row" style="align-items:flex-start;flex-wrap:nowrap"><span class="stamp sm ${ch.g === 2 ? "ok" : "no"}">${["Costly","Partly","Sound"][ch.g]}</span><p style="margin:0">${esc(ch.res)}</p></div>${whyBtn(`data-why-keys="${esc(ch.k.join("|"))}" data-why-title="${esc(nd.h)}"`, "Rule text")}</div>`; }).join("");
+  let cur;
+  if (T.node === "end"){
+    const pts = T.path.reduce((s, p) => s + TRIAL.nodes[p.node].c[p.c].g, 0), max = T.path.length * 2, sc = Math.round(100 * pts / max);
+    cur = `<div class="panel result"><div class="${sc === 100 ? "oncourse" : "offcourse"}"><span class="stamp ${sc >= 80 ? "ok" : "no"}" style="display:inline-block;margin-bottom:8px">${sc >= 80 ? "Well tried" : "Appeal likely"}</span><br><b>${sc}% sound calls</b> (${pts} of ${max}). +${T.awarded} pts</div>
+      <p class="muted" style="margin:0">Replay and choose differently: the path changes with your character-evidence choice and whether Reyes testifies.</p>
+      <div class="row"><button class="btn primary" id="trialGo">Try the trial again</button><button class="btn" data-act-sub="">Back to activities</button></div></div>`;
+  } else {
+    const nd = TRIAL.nodes[T.node];
+    cur = `<div class="stepq"><span class="n">${T.path.length + 1} · ${esc(nd.h)} · ${TOPICS[nd.t].n}</span><p class="ask">${esc(nd.text)}</p><div style="display:grid;gap:8px">${T.order.map(i => `<button class="choice" data-tc="${i}">${esc(nd.c[i].l)}</button>`).join("")}</div></div>`;
+  }
+  v.innerHTML = `<div class="row spread"><button class="btn ghost small" data-act-sub="">← Activities</button><span class="sticker">Choose-your-own-trial</span></div>
+    <article class="casefile"><div class="cf-head"><h3>${esc(TRIAL.title)}</h3><span class="lv">${esc(TRIAL.role)}</span></div><div class="cf-body"><p class="facts">${esc(TRIAL.setup)}</p></div></article>${hist}${cur}`;
+}
+function trialStart(){ A.trial = {node:TRIAL.start, path:[], flags:{}, awarded:0}; A.trial.order = shuffle(TRIAL.nodes[TRIAL.start].c.map((_, i) => i)); renderAct(); }
+function trialPick(i){
+  const T = A.trial, nd = TRIAL.nodes[T.node], ch = nd.c[i];
+  T.path.push({node:T.node, c:i}); Object.assign(T.flags, ch.set || {}); actLog(nd.t, ch.k, ch.g === 2);
+  T.node = ch.next;
+  if (T.node === "end"){ const pts = T.path.reduce((s, p) => s + TRIAL.nodes[p.node].c[p.c].g, 0), sc = Math.round(100 * pts / (T.path.length * 2));
+    S.act.trial.best = Math.max(S.act.trial.best || 0, sc); S.act.trial.n = (S.act.trial.n || 0) + 1; T.awarded = pts * 3; award(T.awarded, sc === 100); }
+  else { T.order = shuffle(TRIAL.nodes[T.node].c.map((_, j) => j)); save(); }
+  renderAct(); const last = document.querySelectorAll(".trow"); if (last.length) last[last.length - 1].scrollIntoView({block:"start", behavior:"smooth"});
+}
+
+// ---------- portal events ----------
+document.addEventListener("click", e => {
+  const t = e.target.closest("button, a"); if (!t) return; const d = t.dataset;
+  if (d.topic !== undefined){ setTopic(d.topic); rerender(); return; }
+  if (d.wk){ openWeak(d.wk); return; }
+  if (d.fcFocus){ closeWhy(); FC.focus = d.fcFocus; FC.q = null; FC.flip = false; location.hash = "#cards"; if (curView() === "cards") renderCards(); return; }
+  if (d.actTopic){ closeWhy(); setTopic(d.actTopic); A.sub = null; location.hash = "#act"; if (curView() === "act") renderAct(); return; }
+  if (d.fcdir){ FC.dir = d.fcdir; FC.q = null; renderCards(); return; }
+  if (t.id === "fcFlip" || t.id === "fcShow"){ FC.flip = !FC.flip; renderCards(); const c = $("#fcFlip"); if (c) c.focus(); return; }
+  if (d.fcg !== undefined){ fcGrade(+d.fcg); return; }
+  if (t.id === "fcAhead"){ FC.ahead = true; fcQueue(); FC.ahead = false; renderCards(); return; }
+  if (d.actSub !== undefined){ if (A.sub === "sprint" && R.sp){ clearInterval(R.sp.timer); R.sp = null; } A.sub = d.actSub || null; if (t.tagName === "A"){ return; } renderAct(); window.scrollTo(0, 0); return; }
+  if (d.tr !== undefined){ A.tr = d.tr ? {x:TRANSCRIPTS.find(x => x.id === d.tr), picks:{}, open:null, hints:0, done:false} : null; renderAct(); window.scrollTo(0, 0); return; }
+  if (d.tl !== undefined){ A.tr.open = A.tr.open === +d.tl ? null : +d.tl; renderAct(); return; }
+  if (d.tg !== undefined){ trPick(d.tg); return; }
+  if (t.id === "trHint"){ if (A.tr.hints < A.tr.x.hint.length){ A.tr.hints++; renderAct(); } return; }
+  if (t.id === "trRest"){ trFinish(); return; }
+  if (d.wi !== undefined){ A.wi = d.wi ? {x:WHATIF.find(x => x.id === d.wi), step:0, ans:[], spot:null, hint:false, raw:0, pts:0} : null; renderAct(); window.scrollTo(0, 0); return; }
+  if (d.wia !== undefined){ wiAnswer(+d.wia); return; }
+  if (d.wis !== undefined){ wiSpot(+d.wis); return; }
+  if (t.id === "wiHint"){ A.wi.hint = true; S.hints++; save(); renderAct(); return; }
+  if (t.id === "rrGo"){ rrStart(); return; }
+  if (d.rr){ rrPick(d.rr); return; }
+  if (t.id === "rrNext"){ rrNext(); return; }
+  if (t.id === "trialGo"){ trialStart(); return; }
+  if (d.tc !== undefined){ trialPick(+d.tc); return; }
+});
+document.addEventListener("keydown", e => {
+  if (e.target.matches && e.target.matches("input,textarea")) return;
+  if (!$("#v-cards").hidden && FC.q && FC.q[0]){
+    if (e.key === " " ){ e.preventDefault(); FC.flip = !FC.flip; renderCards(); }
+    else if (FC.flip && ["1","2","3"].includes(e.key)) fcGrade(+e.key - 1);
+  }
+  if (!$("#v-act").hidden && A.sub === "rr" && A.rr && !A.rr.over && !A.rr.picked && /^[so]$/i.test(e.key)) rrPick(e.key.toUpperCase());
+});
+// ===== MODE 4: ESCAPE ROOM (six rooms on top of the journey-map engine; progress lives in the shared record S.esc) =====
+let ACTIVE = null, LOCKMSG = "", ROOMID = null;
+const roomOf = id => ROOMS.find(r => r.id === id);
+const CUR = () => roomOf(ROOMID);
+function freshRoom(r){ const objs = {}; r.objs.forEach(o => objs[o.id] = {solved:false, open:false, tries:0, clean:false, p0:false, c0:false, carry:null}); return {started:false, timed:false, timeLeft:r.minutes * 60, elapsed:0, mistakes:0, hints:0, objs, escaped:false, overtime:false, practice:false}; }
+function RS(id){ id = id || ROOMID; const r = roomOf(id); let s = S.esc.rooms[id]; if (!s || !s.objs){ s = S.esc.rooms[id] = freshRoom(r); } r.objs.forEach(o => { if (!s.objs[o.id]) s.objs[o.id] = freshRoom(r).objs[o.id]; }); return s; }
+const objOf = id => CUR().objs.find(o => o.id === id);
+const keysHeld = () => CUR().objs.filter(o => RS().objs[o.id].open).length;
+const fmtTime = s => { const neg = s < 0; s = Math.abs(Math.round(s)); return (neg ? "−" : "") + Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+const escaped = id => !!(S.esc.done && S.esc.done[id]);  // seals are permanent; replaying a room never takes one away
+const sealsHeld = () => ROOMS.filter(r => !r.final && escaped(r.id)).length;
+function unlocked(r){ if (r.n === 1) return true; if (r.final) return sealsHeld() === ROOMS.length - 1; return escaped(ROOMS[r.n - 2].id); }
+function ESC_ON(){ return ACTIVE !== null && !$("#case").hidden; }
+function escLeave(){ $("#case").hidden = true; if (ACTIVE !== null){ ACTIVE = null; D.sc = null; W = null; } }
+
+// ---- mistakes cost time (timed) or are logged on the report; they never lock the student out ----
+function penalty(){
+  const s = RS(); s.mistakes++;
+  if (s.timed){ s.timeLeft -= CUR().penalty; toast(`−${CUR().penalty} s · read the explanation, then keep going`); }
+  save(); updateHUD();
+}
+["pickAnswer","pickReason","submitFact","submitId","pickCheck"].forEach(name => {
+  const orig = window[name];
+  window[name] = function(){ const r = orig.apply(this, arguments); if (ESC_ON() && W && /fb$/.test(W.stage)) penalty(); return r; };
+});
+function escOnFinish(){
+  const o = objOf(ACTIVE); if (!o) return; const st = RS().objs[o.id];
+  RS().hints += W.defs.size + D.hints;
+  if (o.drills){
+    if (W.sc.id === o.drills[0]){ st.p0 = true; st.c0 = W.clean; st.carry = W.idRec.range; }
+    else { st.solved = true; st.clean = st.c0 && W.clean; }
+  } else { st.solved = true; st.clean = W.clean; }
+  save();
+}
+function escRenderDrill(){
+  const o = objOf(ACTIVE); if (!o || !W) return;
+  const part = o.drills ? o.drills.indexOf(W.sc.id) : -1;
+  const head = `<div class="vhead"><div><span class="eyebrow">${esc(o.name)} · ${esc(o.item)}${part >= 0 ? ` · part ${part + 1} of 2: ${part ? "Confrontation Clause" : "hearsay rules"}` : ""}</span><h3>${esc(W.sc.title)}</h3></div>
+    <button class="btn small" id="erClose">Back to the room</button></div>
+    <article class="casefile"><div class="cf-body">${factsBlock()}</div></article>`;
+  const body = $("#case-body");
+  if (!W.done){ body.innerHTML = head + `<div class="walkgrid"><div class="wmain">${stageCard()}</div>${liveMap()}</div>`; return; }
+  const result = drillResult().replace(/<div class="row"><button class="btn primary" id="dNext">[\s\S]*?<\/div><\/div>$/, "</div>");
+  const next = part === 0 ? `<div class="lockbox"><span class="eyebrow">Part 2 of 2</span><p class="ask" style="margin:0">The hearsay analysis is done. This is a criminal trial, so the statement must also survive the Sixth Amendment.</p>
+    <div class="row"><button class="btn primary" id="erPart2">Run the Confrontation Clause analysis →</button></div></div>` : lockPanel(o);
+  body.innerHTML = head + result + next;
+}
+function lockPanel(o){
+  const st = RS().objs[o.id], R0 = CUR();
+  if (st.open) return `<div class="lockbox open"><span class="eyebrow">${esc(o.lock)} · ${o.drills ? "entered" : "open"}</span>
+    <div class="keyrow"><span class="keyart" aria-hidden="true">${o.drills ? gavelSVG() : keySVG()}</span><div><b>${esc(o.key)}${o.drills ? ": " + esc(RULING_OPTS[o.ruling]) : " collected."}</b>${o.drills ? "" : ` Engraved: <span class="mono">${esc(bare(o.accept[0]))}</span>`}
+    <br><span class="muted">${keysHeld()} of ${R0.objs.length} ${o.drills ? "rulings" : "keys"}. ${keysHeld() === R0.objs.length ? "The door is ready." : "Find the rest."}</span></div></div>
+    <div class="row"><button class="btn primary" id="erClose">Back to the room</button></div></div>`;
+  if (o.drills) return `<div class="lockbox"><span class="eyebrow">Rule on Exhibit ${esc(o.label)}</span><p class="ask" style="margin:0">Based on both analyses, how does the court rule?</p>
+    <div style="display:grid;gap:8px">${RULING_OPTS.map((x, i) => `<button class="choice" data-erule="${i}">${esc(x)}</button>`).join("")}</div>
+    ${LOCKMSG ? `<p class="citeres miss" style="margin:0">${LOCKMSG}</p>` : ""}</div>`;
+  const nd = nodeOf(o.decisive);
+  return `<div class="lockbox"><span class="eyebrow">Lock · ${esc(o.lock)}</span><p class="ask" style="margin:0">${esc(o.prompt)}</p>
+    <div class="cite-row"><label class="sr" for="lockIn">Rule number or case name</label><input id="lockIn" class="cite-in" placeholder="e.g. 803(4) or a case name" autocomplete="off">
+    <button class="btn primary" id="lockGo">Try the lock</button></div>
+    ${LOCKMSG ? `<p class="citeres miss" style="margin:0">${LOCKMSG}</p>` : ""}
+    ${st.tries >= 2 ? `<p class="bench" style="margin:0"><span class="eyebrow">The Judge</span>Look at the step “${esc(nd.s)}” in your model answer. The lock wants the ${/^\d/.test(bare(o.accept[0])) ? "exact subdivision of " + esc(nd.rule) : "case"} that did the work.</p>` : ""}</div>`;
+}
+function lockDone(o){ const st = RS().objs[o.id]; st.open = true; LOCKMSG = ""; save(); toast(`${o.key} ${o.drills ? "entered" : "collected"} (${keysHeld()} of ${CUR().objs.length})`); renderDrill(); updateHUD(); }
+function tryLock(){
+  const o = objOf(ACTIVE), v = ($("#lockIn") || {}).value || ""; if (!v.trim()) return;
+  const g = gradeCite(v, o.accept), st = RS().objs[o.id];
+  logRule(normKey(o.accept[0]), g.score === 1 && !st.tries);
+  if (g.score === 1) return lockDone(o);
+  st.tries++; penalty();
+  LOCKMSG = g.label === "general" ? "Close: right rule, but the lock needs the specific subdivision." : g.label === "near" ? "Right rule number, wrong subdivision." : "That didn’t decide it. Check your model answer: which step admitted, excluded, or protected the evidence?";
+  renderDrill(); const i = $("#lockIn"); if (i) i.focus();
+}
+function tryRuling(i){
+  const o = objOf(ACTIVE), st = RS().objs[o.id], ok = i === o.ruling;
+  logRule(o.id === "exC" ? "Crawford" : o.id === "exA" ? "Davis" : "801(d)(2)(A)", ok && !st.tries);
+  if (ok) return lockDone(o);
+  st.tries++; penalty();
+  LOCKMSG = `Not the ruling your analysis supports. Where did the hearsay map end, and where did the Confrontation map end? Evidence comes in only if it clears both.`;
+  renderDrill();
+}
+
+// ---- scenes ----
+function keySVG(){ return `<svg viewBox="0 0 64 28" width="56" height="24"><circle cx="12" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="4"/><path d="M21 14h38M48 14v8M56 14v6" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`; }
+function gavelSVG(){ return `<svg viewBox="0 0 64 40" width="52" height="32"><rect x="8" y="6" width="26" height="14" rx="3" transform="rotate(-25 21 13)" fill="currentColor"/><path d="M28 18l24 16" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><rect x="4" y="32" width="30" height="6" rx="2" fill="currentColor"/></svg>`; }
+const SLOTS = [[48,62,150,104,44,30],[372,276,120,58,360,248],[508,282,62,52,488,258],[708,300,104,52,690,274]];
+const COURT_SLOTS = [[56,236,110,124,52,206],[192,236,110,124,188,206],[742,236,90,124,724,206]];
+const GLYPHS = {
+  monitor:[138,98,`<rect class="device" x="0" y="0" width="138" height="88" rx="6"/><rect class="screen" x="10" y="9" width="118" height="68" rx="3"/>${[0,1,2,3,4,5].map(i => `<line class="scan" x1="12" y1="${14 + i * 11}" x2="126" y2="${14 + i * 11}"/>`).join("")}<text class="rec" x="18" y="24">● REC 14:10</text>`],
+  letter:[100,52,`<g transform="rotate(-6 50 26)"><rect class="paper" x="4" y="8" width="92" height="40"/>${[0,1,2].map(i => `<line class="ink" x1="14" y1="${18 + i * 9}" x2="84" y2="${16 + i * 9}"/>`).join("")}</g>`],
+  phone:[62,46,`<rect class="bag" x="0" y="6" width="62" height="40" rx="4"/><rect class="device" x="18" y="12" width="26" height="30" rx="4"/><rect class="screen" x="22" y="16" width="18" height="20" rx="2"/>`],
+  machine:[92,40,`<rect class="device" x="0" y="4" width="92" height="36" rx="5"/><rect class="screen" x="10" y="12" width="40" height="18" rx="2"/><circle class="blink" cx="74" cy="21" r="6"/>`],
+  folder:[110,56,`<path class="folder" d="M2 10h34l6-8h30v8h36v44H2z"/><rect class="folder2" x="6" y="18" width="100" height="36" rx="2"/><line class="ink" x1="16" y1="32" x2="70" y2="32"/>`],
+  binder:[100,62,`<rect class="binder" x="0" y="4" width="100" height="56" rx="4"/><rect class="paper" x="14" y="12" width="78" height="40"/>${[0,1,2].map(i => `<circle class="ring2" cx="8" cy="${18 + i * 14}" r="4"/>`).join("")}${[0,1,2].map(i => `<line class="ink" x1="24" y1="${22 + i * 9}" x2="82" y2="${22 + i * 9}"/>`).join("")}`],
+  bag:[90,60,`<rect class="bag" x="0" y="4" width="90" height="56" rx="4"/><rect class="seal" x="0" y="4" width="90" height="10"/><path class="zip" d="M16 40c8-14 16 14 24 0s16 14 24 0 12 10 14 4"/>`],
+  box:[110,60,`<rect class="box" x="0" y="12" width="110" height="48" rx="2"/><rect class="lid" x="-4" y="4" width="118" height="12" rx="2"/><rect class="device" x="42" y="28" width="26" height="8" rx="4"/><rect class="paper" x="10" y="40" width="40" height="14"/>`],
+  exhibit:[100,120,`<line class="easel" x1="20" y1="40" x2="6" y2="120"/><line class="easel" x1="80" y1="40" x2="94" y2="120"/><line class="easel" x1="50" y1="40" x2="50" y2="118"/><rect class="exboard" x="4" y="0" width="92" height="80" rx="3"/><rect class="sticker2" x="14" y="10" width="72" height="22" rx="2"/>`]
+};
+function glyph(o, slot){
+  const [x, y, w, h] = slot, g = GLYPHS[o.glyph], s = Math.min(w / g[0], h / g[1], 1.15), gx = x + (w - g[0] * s) / 2, gy = y + (h - g[1] * s);
+  const lab = o.glyph === "exhibit" ? `<text class="exlab" x="50" y="26" text-anchor="middle">EXHIBIT ${esc(o.label)}</text><text class="exbig" x="50" y="66" text-anchor="middle">${esc(o.label)}</text>` : "";
+  return `<g transform="translate(${gx.toFixed(1)},${gy.toFixed(1)}) scale(${s.toFixed(3)})">${g[2]}${lab}</g>`;
+}
+function decor(kind){
+  const base = `<rect class="wall" x="0" y="0" width="1000" height="410"/>${[0,1,2,3,4,5,6,7].map(i => `<rect class="panel-line" x="${30 + i * 120}" y="300" width="100" height="90" rx="2"/>`).join("")}<rect class="rail" x="0" y="285" width="1000" height="10"/><rect class="floor" x="0" y="410" width="1000" height="150"/>${[0,1,2,3,4,5,6,7,8,9].map(i => `<line class="board" x1="${i * 110}" y1="410" x2="${i * 110 - 60}" y2="560"/>`).join("")}`;
+  const shelf = `<rect class="shelf" x="30" y="160" width="190" height="10"/>`;
+  const desk = `<rect class="desk" x="330" y="330" width="330" height="22" rx="3"/><rect class="desk" x="345" y="352" width="22" height="90"/><rect class="desk" x="623" y="352" width="22" height="90"/>`;
+  const table = `<rect class="desk" x="700" y="350" width="120" height="14" rx="2"/><rect class="desk" x="752" y="364" width="16" height="66"/>`;
+  const lamp = `<rect class="lamp" x="600" y="250" width="8" height="80"/><path class="shade" d="M575 250 L633 250 L620 222 L588 222 Z"/>`;
+  const cab = x => `<rect class="cab" x="${x}" y="250" width="120" height="160"/><rect class="drawer" x="${x + 12}" y="262" width="96" height="40"/><rect class="drawer" x="${x + 12}" y="310" width="96" height="40"/><rect class="drawer" x="${x + 12}" y="358" width="96" height="40"/>`;
+  if (kind === "court") return base + `<rect class="desk" x="370" y="160" width="260" height="170" rx="4"/><rect class="rail" x="360" y="150" width="280" height="14"/><circle class="seal2" cx="500" cy="235" r="34"/><text class="exit" x="500" y="240" text-anchor="middle">SEAL</text>
+    <rect class="desk" x="650" y="250" width="70" height="80"/><rect class="rail" x="644" y="242" width="82" height="10"/>
+    <rect class="desk" x="300" y="450" width="400" height="18" rx="3"/><rect class="desk" x="320" y="468" width="16" height="70"/><rect class="desk" x="664" y="468" width="16" height="70"/>`;
+  const extra = {
+    intake: cab(40) + `<text class="walltext" x="500" y="150" text-anchor="middle">EVIDENCE INTAKE</text>`,
+    detective: cab(40) + `<rect class="cork" x="250" y="60" width="200" height="140" rx="3"/>${[[280,90],[400,84],[330,160],[420,170],[300,130]].map(([a, b]) => `<circle class="pin" cx="${a}" cy="${b}" r="5"/>`).join("")}<path class="string" d="M280 90L400 84L330 160L420 170M300 130L400 84"/>`,
+    witness: `${[40,100,160].map(x => `<rect class="desk" x="${x}" y="330" width="46" height="10"/><rect class="desk" x="${x}" y="290" width="8" height="50"/><rect class="desk" x="${x + 4}" y="340" width="6" height="70"/><rect class="desk" x="${x + 36}" y="340" width="6" height="70"/>`).join("")}<text class="walltext" x="500" y="150" text-anchor="middle">WITNESSES WAIT HERE</text>`,
+    counsel: `<rect class="cab" x="40" y="220" width="160" height="190"/>${[0,1,2].map(r => [0,1,2,3,4,5,6,7,8,9].map(i => `<rect class="spine s${(i + r) % 4}" x="${48 + i * 15}" y="${232 + r * 60}" width="12" height="48"/>`).join("")).join("")}`,
+    records: cab(40)
+  }[kind] || "";
+  return base + extra + shelf + desk + table + lamp;
+}
+function sceneSVG(){
+  const R0 = CUR(), s = id => RS().objs[id].open ? "done" : (RS().objs[id].solved || RS().objs[id].p0) ? "solved" : "open";
+  const ready = keysHeld() === R0.objs.length, slots = R0.final ? COURT_SLOTS : SLOTS;
+  const objs = R0.objs.map(o => { const sl = slots[o.slot === 3 && R0.final ? 2 : o.slot], st = s(o.id), label = o.name, tw = label.length * 7.4 + 34;
+    return `<g class="obj ${st}" data-obj="${o.id}" tabindex="0" role="button" aria-label="${esc(o.name)}: ${esc(o.item)}"><rect class="hit" x="${sl[0] - 6}" y="${sl[1] - 6}" width="${sl[2] + 12}" height="${sl[3] + 12}"/>${glyph(o, sl)}</g>
+      <g class="tag ${st}" transform="translate(${Math.min(sl[4], 834 - tw)},${sl[5]})"><rect x="0" y="0" rx="3" width="${tw}" height="22"/><text x="8" y="15">${st === "done" ? "✓ " : ""}${esc(label)}</text></g>`; }).join("");
+  const nextName = R0.final ? "EXIT · CASE CLOSED" : "TO " + (ROOMS[R0.n] ? ROOMS[R0.n].name.toUpperCase() : "THE COURTROOM");
+  return `<svg class="scene" viewBox="0 0 1000 560" role="group" aria-label="${esc(R0.name)}">${decor(R0.decor)}
+  ${R0.final ? "" : `<g class="clock"><circle cx="500" cy="80" r="36"/><text x="500" y="86" text-anchor="middle" id="clockText">${RS().timed ? fmtTime(RS().timeLeft) : "—:—"}</text></g>`}
+  ${objs}
+  <g class="obj door ${ready ? "ready" : ""} ${RS().escaped ? "done" : ""}" data-obj="door" tabindex="0" role="button" aria-label="Door: ${keysHeld()} of ${R0.objs.length}">
+    <rect class="frame" x="840" y="120" width="130" height="290"/><rect class="leaf" x="852" y="132" width="106" height="278"/><rect class="lockplate" x="866" y="212" width="78" height="96" rx="4"/>
+    ${R0.objs.map((o, i) => `<g transform="translate(${880 + (i % 2) * 36},${226 + Math.floor(i / 2) * 40})"><circle class="hole ${RS().objs[o.id].open ? "filled" : ""}" cx="9" cy="11" r="9"/><rect class="hole ${RS().objs[o.id].open ? "filled" : ""}" x="6" y="16" width="6" height="12"/></g>`).join("")}
+    <circle class="knob" cx="944" cy="330" r="7"/><text class="exit" x="905" y="112" text-anchor="middle">${esc(nextName.length > 24 ? nextName.slice(0, 24) + "…" : nextName)}</text></g></svg>`;
+}
+function updateHUD(){
+  const h = $("#hud"); if (!h || !ROOMID) return; const s = RS(), R0 = CUR();
+  h.innerHTML = `<span class="chip">${R0.final ? "Rulings" : "Keys"} <b>${keysHeld()}/${R0.objs.length}</b></span>
+    <span class="chip">${s.timed ? `Clock <b id="hudClock">${fmtTime(s.timeLeft)}</b>` : `Time <b id="hudClock">${fmtTime(s.elapsed)}</b>`}</span>
+    <span class="chip">Mistakes <b>${s.mistakes}</b></span><span class="chip">Hints <b>${s.hints}</b></span>`;
+  const c = $("#clockText"); if (c) c.textContent = s.timed ? fmtTime(s.timeLeft) : "—:—";
+}
+
+// ---- corridor (room select) and rooms ----
+function renderEscape(){
+  ROOMID = S.esc.cur && roomOf(S.esc.cur) ? S.esc.cur : null;
+  if (ROOMID) return renderRoom();
+  const v = $("#v-escape"), tp = S.pref.topic;
+  v.innerHTML = `<div><span class="eyebrow">Mode 4 · Put it all together</span><h2 style="margin-top:6px">Escape Room</h2>
+    <p class="lede">Six rooms, one per topic, in course order. In each room, the evidence opens as a journey-map case. Analyze it, then enter the rule that decided it to unlock its key. Each room you escape earns a seal; all five seals open the Courtroom, where one trial pulls the hearsay rules and the Confrontation Clause together.</p></div>
+    ${topicBar("Highlights that topic’s room")}
+    <div class="panel" style="padding:12px 16px"><div class="row spread"><span class="eyebrow">Seals</span><div class="seals">${ROOMS.filter(r => !r.final).map(r => `<span class="seal ${escaped(r.id) ? "on" : ""}" title="${esc(r.seal)}">${esc(TOPICS[r.topic].n)}</span>`).join("")}</div></div></div>
+    <div class="corridor">${ROOMS.map(r => { const s = S.esc.rooms[r.id], ok = unlocked(r), on = tp !== "all" && r.topic === tp;
+      const best = S.esc.done && S.esc.done[r.id], status = s && s.started && !s.escaped ? "In progress" : best ? "Escaped" : ok ? "Open" : "Locked";
+      const why = r.final ? `Needs all five seals (${sealsHeld()}/5).` : `Escape Room ${r.n - 1} to unlock it, or skip ahead to practice.`;
+      return `<div class="rdoor ${status.toLowerCase().replace(" ", "")} ${on ? "focus" : ""}"><span class="eyebrow">Room ${r.n} · ${TOPICS[r.topic].n}</span><h3>${esc(r.name)}</h3>
+        <span class="mono muted" style="font-size:12px">${r.objs.length} ${r.final ? "exhibits" : "pieces of evidence"} · ${status}${best ? ` · best: ${fmtTime(best.elapsed)}, ${best.mistakes} mistakes` : ""}</span>
+        ${ok || (s && s.started) ? `<button class="btn ${status === "Escaped" ? "" : "primary"} small" data-room="${r.id}">${status === "Escaped" ? "Replay" : status === "In progress" ? "Continue" : "Enter"}</button>`
+          : `<span class="muted" style="font-size:13px">${why}</span>${r.final ? "" : `<button class="btn small" data-room="${r.id}" data-practice="1">Skip ahead</button>`}`}</div>`; }).join("")}</div>`;
+}
+function renderRoom(){
+  const v = $("#v-escape"), R0 = CUR(), s = RS();
+  if (s.escaped){ v.innerHTML = transitionHTML(); return; }
+  v.innerHTML = `<div class="row spread"><button class="btn ghost small" id="erCorridor">← All rooms</button>${s.practice ? `<span class="sticker">Skipped ahead · practice</span>` : ""}</div>
+    <div class="roomhead"><div><span class="eyebrow">Room ${R0.n} of ${ROOMS.length} · ${TOPICS[R0.topic].n}</span><h2>${esc(R0.name)}</h2></div><div class="stats" id="hud"></div></div>
+    <div class="scenebox">${sceneSVG()}</div>
+    <div class="grid2">
+      <div class="panel" style="display:grid;gap:10px"><span class="eyebrow">${R0.final ? "Exhibits" : "Evidence in this room"}</span>
+        <div class="evlist">${R0.objs.map(o => { const st = s.objs[o.id]; return `<button class="evrow ${st.open ? "done" : ""}" data-obj="${o.id}"><span class="sticker ${st.open ? "blue" : ""}">${st.open ? (o.drills ? "Ruled" : "Key taken") : st.solved ? (o.drills ? "Ruling due" : "Lock waiting") : st.p0 ? "Part 2 due" : "Sealed"}</span><span><b>${esc(o.name)}</b><br><span class="muted" style="font-size:13px">${esc(o.item)}${o.drills ? " · hearsay → Confrontation" : " · " + esc(o.lock)}</span></span></button>`; }).join("")}</div></div>
+      <div class="panel" style="display:grid;gap:10px"><span class="eyebrow">${R0.final ? "Rulings" : "Key ring"}</span>
+        <div class="ring">${R0.objs.map(o => s.objs[o.id].open ? `<div class="keytag"><span class="keyart">${o.drills ? gavelSVG() : keySVG()}</span><span><b>${esc(o.key)}</b><br><span class="mono">${o.drills ? esc(RULING_OPTS[o.ruling].split(":")[0]) : esc(bare(o.accept[0]))}</span></span></div>` : `<div class="keytag empty"><span class="keyart">${o.drills ? gavelSVG() : keySVG()}</span><span class="muted">Not yet</span></div>`).join("")}</div>
+        <button class="btn ${keysHeld() === R0.objs.length ? "primary" : ""}" data-obj="door">${keysHeld() === R0.objs.length ? (R0.final ? "Close the case →" : "Unlock the door →") : `Door locked: ${keysHeld()} of ${R0.objs.length}`}</button>
+        <button class="btn ghost small" id="erReset">Restart this room</button></div>
+    </div>`;
+  updateHUD();
+  if (!s.started) showIntro();
+}
+function showIntro(){
+  const R0 = CUR(), s = RS(), maps = {rel:"relevance", char:"character", imp:"impeachment", priv:"privilege", hs:"hearsay", conf:"hearsay, then Confrontation"}[R0.topic];
+  $("#case-body").innerHTML = `<div class="intro"><span class="eyebrow">Room ${R0.n} of ${ROOMS.length} · ${TOPICS[R0.topic].n}</span><h2>${esc(R0.name)}</h2>
+    <p>${esc(R0.brief)}</p>
+    <ul class="rules"><li>Each ${R0.final ? "exhibit" : "piece of evidence"} opens as a ${maps} journey map: find the evidence, make each call, highlight the fact that supports it.</li>
+      <li>${R0.final ? "After both analyses, you rule on the exhibit: admitted, or excluded and why." : "Locks open only with the rule (or case) that decided the evidence. No riddles."}</li>
+      <li>Wrong answers never lock you out. You see the explanation and keep going${s.timed ? `; each mistake costs ${R0.penalty} seconds` : ""}.</li>
+      <li>Concept hints and Ask the Judge work as they do in the Journey Map: they cost points and are logged.</li></ul>
+    <label class="toggle"><input type="checkbox" id="erTimed" ${s.timed ? "checked" : ""}> Exam pressure: ${R0.minutes}-minute clock, −${R0.penalty} s per mistake</label>
+    <div class="row"><button class="btn primary" id="erStart">Enter the room</button><button class="btn ghost" id="erCorridor">Not now</button></div></div>`;
+  $("#case").hidden = false;
+}
+function openObject(id){
+  if (id === "door") return tryDoor();
+  if (!RS().started) return;
+  const o = objOf(id), st = RS().objs[id]; ACTIVE = id; LOCKMSG = "";
+  $("#case").hidden = false;
+  if (o.drills){
+    if (st.p0 && !st.solved) return startDrill(o.drills[1], st.carry);
+    if (st.solved && W && W.sc && W.sc.id === o.drills[1]) return renderDrill();
+    return startDrill(o.drills[0]);
+  }
+  if (st.open && W && W.sc && W.sc.id === o.drill) return renderDrill();
+  startDrill(o.drill);
+}
+function closeCase(){ $("#case").hidden = true; ACTIVE = null; D.sc = null; W = null; renderRoom(); }
+function tryDoor(){
+  const R0 = CUR();
+  if (keysHeld() < R0.objs.length){ toast(`The door needs ${R0.objs.length} ${R0.final ? "rulings" : "keys"}. You have ${keysHeld()}.`); const d = document.querySelector(".obj.door"); if (d){ d.classList.remove("shake"); void d.getBBox(); d.classList.add("shake"); } return; }
+  const s = RS(), first = !escaped(R0.id); s.escaped = true;
+  const clean = R0.objs.every(o => s.objs[o.id].clean) && !s.mistakes;
+  S.esc.done = S.esc.done || {}; const prev = S.esc.done[R0.id];
+  if (!prev || s.mistakes < prev.mistakes) S.esc.done[R0.id] = {elapsed:s.elapsed, mistakes:s.mistakes, hints:s.hints, clean, practice:!!s.practice};
+  award(first ? 25 + (clean ? 15 : 0) + (R0.final ? 25 : 0) : (clean ? 10 : 0), clean);
+  save(); $("#case").hidden = true; renderRoom(); window.scrollTo(0, 0);
+}
+function transitionHTML(){
+  const R0 = CUR(), s = RS(), next = ROOMS[R0.n];
+  const rows = R0.objs.map(o => { const st = s.objs[o.id]; return `<li><b>${esc(o.item)}</b> · <span class="mono">${o.drills ? esc(RULING_OPTS[o.ruling].split(":")[0]) : esc(bare(o.accept[0]))}</span> · ${st.clean ? `<span style="color:var(--ok)">clean analysis</span>` : `<span style="color:var(--route)">solved with corrections</span>`}${st.tries ? ` · ${st.tries} wrong ${o.drills ? "ruling" : "lock"} ${st.tries === 1 ? "try" : "tries"}` : ""}</li>`; }).join("");
+  const all = R0.final ? `<div class="panel"><span class="eyebrow">All six rooms</span><ul class="report">${ROOMS.map(r => { const x = S.esc.rooms[r.id]; const x2 = S.esc.done && S.esc.done[r.id]; return `<li><b>${esc(r.name)}</b> · ${x2 ? `best: ${fmtTime(x2.elapsed)} · ${x2.mistakes} mistakes · ${x2.hints} hints` : "not escaped"}</li>`; }).join("")}</ul></div>` : "";
+  return `<div class="row"><button class="btn ghost small" id="erCorridor">← All rooms</button></div><div class="transition">
+    <div class="doorway" aria-hidden="true"><div class="beam"></div></div>
+    <span class="eyebrow">Room ${R0.n} of ${ROOMS.length} cleared${R0.final ? "" : ` · ${esc(R0.seal)} earned`}</span><h2>${R0.final ? "Case closed. You escaped the Evidence Locker." : "The door swings open."}</h2>
+    <p class="lede">${R0.final ? "Exhibit A came in: an emergency 911 call is nontestimonial. Exhibit B came in: Cole can’t confront himself. Exhibit C stayed out: it may fit 804(b)(3), but a testimonial statement from a witness Cole never cross-examined is barred. That’s Crawford." : `You analyzed every piece of evidence in ${esc(R0.name)} and earned all ${R0.objs.length} keys.`}</p>
+    <div class="grid2">
+      <div class="panel"><span class="eyebrow">Escape report</span>
+        <div class="stats" style="margin:10px 0"><span class="chip dark">Time <b>${fmtTime(s.elapsed)}</b></span>${s.timed ? `<span class="chip dark">Clock left <b>${fmtTime(s.timeLeft)}</b></span>` : ""}<span class="chip dark">Mistakes <b>${s.mistakes}</b></span><span class="chip dark">Hints <b>${s.hints}</b></span></div>
+        ${s.overtime ? `<p class="muted" style="margin:0 0 8px">You ran past the clock and kept going. That counts as an escape, marked overtime.</p>` : ""}
+        <ul class="report">${rows}</ul></div>
+      ${next ? `<div class="panel nextroom"><span class="eyebrow">Next · Room ${next.n} of ${ROOMS.length}</span><h3>${esc(next.name)}: ${TOPICS[next.topic].n}</h3><p>${esc(next.brief)}</p>
+        ${unlocked(next) ? `<button class="btn primary" data-room="${next.id}">Enter ${esc(next.name)} →</button>` : `<p class="muted">${next.final ? `The Courtroom needs all five seals. You have ${sealsHeld()}.` : "Locked."}</p><button class="btn" id="erCorridor">See all rooms</button>`}</div>` : all}
+    </div>
+    <div class="row"><button class="btn ghost" id="erReset">Replay ${esc(R0.name)}</button></div></div>`;
+}
+// ---- timer: only the room on screen runs ----
+setInterval(() => {
+  if (!ROOMID || $("#v-escape").hidden || document.hidden) return; const s = RS();
+  if (!s.started || s.escaped) return;
+  s.elapsed++;
+  if (s.timed){ s.timeLeft--; if (s.timeLeft === 0 && !s.overtime){ s.overtime = true; toast("Time’s up. Keep going: the room stays open, and your report will show overtime."); } }
+  const c = $("#hudClock"); if (c) c.textContent = fmtTime(s.timed ? s.timeLeft : s.elapsed);
+  const cc = $("#clockText"); if (cc && s.timed) cc.textContent = fmtTime(s.timeLeft);
+  if (s.elapsed % 5 === 0) save();
+}, 1000);
+// ---- events (capture phase so the room handles its own buttons first) ----
+document.addEventListener("click", e => {
+  const t = e.target.closest("button, a, [data-obj]"); if (!t) return; const d = t.dataset;
+  const stop = () => { e.stopPropagation(); e.preventDefault(); };
+  if (d.room){ const r = roomOf(d.room), s = RS(d.room); if (d.practice) s.practice = true; if (s.escaped) S.esc.rooms[d.room] = freshRoom(r);
+    S.esc.cur = d.room; save(); $("#case").hidden = true; ACTIVE = null; renderEscape(); window.scrollTo(0, 0); stop(); return; }
+  if (t.id === "erCorridor"){ $("#case").hidden = true; ACTIVE = null; D.sc = null; W = null; S.esc.cur = null; save(); renderEscape(); window.scrollTo(0, 0); stop(); return; }
+  if (t.id === "erStart"){ const s = RS(); s.started = true; s.timed = !!($("#erTimed") || {}).checked; s.timeLeft = CUR().minutes * 60; save(); $("#case").hidden = true; renderRoom(); stop(); return; }
+  if (t.id === "erClose"){ closeCase(); stop(); return; }
+  if (t.id === "erPart2"){ const o = objOf(ACTIVE), st = RS().objs[o.id]; startDrill(o.drills[1], st.carry); $("#case").scrollTop = 0; stop(); return; }
+  if (t.id === "lockGo"){ tryLock(); stop(); return; }
+  if (d.erule !== undefined){ tryRuling(+d.erule); stop(); return; }
+  if (t.id === "erReset"){ S.esc.rooms[ROOMID] = freshRoom(CUR()); save(); ACTIVE = null; D.sc = null; W = null; renderRoom(); window.scrollTo(0, 0); stop(); return; }
+  if (d.obj && ROOMID && !$("#v-escape").hidden){ openObject(d.obj); stop(); return; }
+}, true);
+document.addEventListener("keydown", e => {
+  if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("g[data-obj]")){ e.preventDefault(); openObject(e.target.dataset.obj); }
+  if (e.key === "Enter" && e.target.id === "lockIn"){ e.preventDefault(); tryLock(); }
+  if (e.key === "Escape" && !$("#case").hidden && $("#why").hidden && ROOMID && RS().started){ closeCase(); }
+}, true);
+
+// ---- start (runs last, after every module has loaded) ----
 save(); renderStats(); route();
 </script>
-</body></html>
