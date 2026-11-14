@@ -2101,6 +2101,59 @@ const HYPO_FACTS = {
  cf11:["Curly wasn’t a party to Moe’s trial and had no lawyer there."],
  cf12:["The trial court rules that Darrell “opened the door” by blaming Morris."]
 };
+// ===== BALANCING-TEST WORDING (Rule 403 and the two 609 balances) =====
+// Each balancing step states the test in the rule's own direction, and every answer button says what happens next.
+// 403 favors admission: "Yes" (substantially outweighed) means the court may exclude; "No" means the evidence stays in.
+// 609(a)(1)(B) and 609(b) run the other way: the conviction comes in only if the answer is "Yes".
+(function(){
+  const Q403 = "Is the probative value substantially outweighed by a danger of unfair prejudice (or another 403 danger: confusing the issues, misleading the jury, undue delay, wasting time, or needlessly cumulative evidence)?";
+  const YES403 = "Yes: a 403 danger substantially outweighs its value, so the court may exclude it";
+  const NO403 = "No: the danger doesn’t substantially outweigh its value, so it stays in";
+  const HELP403 = "403 favors admission: evidence comes in unless a listed danger substantially outweighs its probative value. “Yes” means the court may exclude it; “No” means it stays in.";
+  [["relevance","r_403"],["character","k_403"],["impeach","J_403"],["hearsay","x_403"]].forEach(([m, n]) => {
+    const nd = MAPS[m] && MAPS[m].nodes[n]; if (!nd) return;
+    nd.q = Q403; nd.s = "Rule 403 balance"; nd.o[0][0] = YES403; nd.o[1][0] = NO403;
+    if (STEP_HELP[n]) STEP_HELP[n][1] = HELP403;
+    if (DEFS[n]) DEFS[n][1] = "Unfair prejudice is an undue tendency to suggest a decision on an improper basis, often an emotional one. Evidence that hurts because it proves a lot isn’t unfairly prejudicial. 403 favors admission: the court may exclude only when a listed danger substantially outweighs probative value.";
+  });
+  const bal = MAPS.impeach.nodes.i_bal;
+  bal.q = "Under 609(a)(1)(B), does the conviction’s probative value outweigh its prejudicial effect to the defendant? (This test runs the opposite way from 403: the conviction comes in only if the answer is yes.)";
+  bal.o[0][0] = "Yes: probative value outweighs the prejudice, so the conviction comes in";
+  bal.o[1][0] = "No: it doesn’t, so the conviction is excluded";
+  STEP_HELP.i_bal[1] = "This test runs opposite to 403: the accused’s conviction comes in only if its probative value outweighs the prejudice to him.";
+  const old = MAPS.impeach.nodes.i_old;
+  old.q = "Under 609(b), does the conviction’s probative value, supported by specific facts, substantially outweigh its prejudicial effect, and did the proponent give reasonable written notice? (Also the opposite way from 403: it comes in only if both are yes.)";
+  old.o[0][0] = "Yes to both: the old conviction comes in";
+  old.o[1][0] = "No: it stays out";
+  const pol = MAPS.relevance.nodes.r_pol;
+  pol.o[0][0] = "No: no policy rule bars it for this purpose";
+  pol.o[1][0] = "Yes: a policy rule (407–411) bars it for this purpose";
+  // explanations that state the outcome in the same terms as the answer key
+  const NOTES = {
+    d_rl1:{r_403:"No, it stays in. Lawfully buying a gun isn’t inflammatory, so there’s little unfair prejudice to weigh against its real probative value."},
+    d_rl2:{r_403:"Yes, the court may exclude it. Flight proves little here (three weeks passed, and the separate warrant gives another reason to run), and the jury may overweight it as proof of this robbery. That danger substantially outweighs the little it proves."},
+    d_rl5:{r_403:"Yes, the court may exclude it. The inputs are invented and the traits weren’t shown to be independent, so the number proves little, and its false precision may lead the jury to swap arithmetic for reasonable doubt."},
+    d_rl6:{r_403:"No, it stays in. The text is damaging because it strongly proves speeding, not because it invites a decision on an improper basis. Damaging isn’t unfair."},
+    d_ch2:{k_403:"No, it stays in. The distinctive signature gives high probative value on identity, and the propensity risk doesn’t substantially outweigh it. Give a 105 limiting instruction (and 404(b)(3) notice)."},
+    d_ch3:{k_403:"No, it stays in. Reputation testimony the defendant chose to offer carries no unfair prejudice that substantially outweighs its value."},
+    d_ch5:{k_403:"No, it stays in. 413 evidence is still subject to 403, but the similarity and reliable proof give it real probative value, and the risk doesn’t substantially outweigh it."},
+    d_ch6:{k_403:"No, it stays in. Routine-practice evidence is probative and not inflammatory."},
+    d_im2:{i_bal:"No, so it’s excluded. The near-identical crime creates a serious propensity risk, and drug crimes say little about truthfulness, so probative value doesn’t outweigh the prejudice to Marcus. Most courts exclude. Argue both sides."},
+    d_im5:{J_403:"No, it stays in. The grand jury testimony goes to the central dispute, and nothing unfairly prejudicial substantially outweighs it."},
+    d_im6:{i_old:"No, so it stays out. There was no written notice, and nothing shows specific facts giving it high probative value."},
+    d_hs3:{x_403:"No, it stays in. Notice is highly relevant, and a 105 instruction limits the jury to that purpose, so the risk of misuse doesn’t substantially outweigh it."},
+    d_hs4:{x_403:"No, it stays in. The coconspirator’s words are central proof of the deal, and nothing unfairly prejudicial substantially outweighs that."},
+    d_hs6:{x_403:"No, it stays in. The captain’s conduct is probative of seaworthiness and not inflammatory."},
+    d_hs8:{x_403:"No, it stays in. A confession is damaging because it’s probative, not because it invites an improper basis."},
+    d_hs9:{x_403:"No, it stays in. The patient’s account of her symptoms is probative and not inflammatory."},
+    d_hs10:{x_403:"No, it stays in. The deposition was tested by cross-examination and goes to the heart of the case."},
+    er_notice:{x_403:"No, it stays in. Notice is highly relevant, and a 105 instruction limits the jury to that purpose, so the risk of misuse doesn’t substantially outweigh it."},
+    er_text:{x_403:"No, it stays in. The text is highly probative of the burglary; damaging isn’t unfair."},
+    er_voicemail:{x_403:"No, it stays in. It goes directly to fault, and nothing unfairly prejudicial substantially outweighs it."},
+    er_letter:{x_403:"No, it stays in. Leo’s confession is central to Ana’s defense, and nothing unfairly prejudicial substantially outweighs it. (Confrontation doesn’t apply: the accused is the one offering it.)"}
+  };
+  Object.entries(NOTES).forEach(([id, n]) => { const d = DRILLS.find(x => x.id === id); if (d) Object.assign(d.n, n); });
+})();
 // ===== APP =====
 const TOPICS = {
   rel:{n:"Relevance",r:"401–403 · 407–411"},
